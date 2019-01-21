@@ -1,0 +1,17 @@
+label {
+  color: white;
+}
+
+span {
+  color: white;
+}
+
+.form-group {
+  font-size: 13px;
+  margin-bottom: 9px;
+}
+
+.form-control {
+  font-size: 13px;
+  line-height: 1.2;
+}

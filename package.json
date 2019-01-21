@@ -1,5 +1,5 @@
 {
-  "name": "pixie-highcharts",
+  "name": "pixie-highcharts-angular",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -8,7 +8,10 @@
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "packagr": "ng-packagr -p lib/package.json",
+    "pack": "npm i lib/dist && ng serve",
+    "install": "npm run packagr && npm run pack"
   },
   "private": true,
   "dependencies": {
@@ -22,7 +25,12 @@
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
     "core-js": "^2.4.1",
+    "highcharts": "^7.0.1",
+    "highcharts-angular": "^2.4.0",
+    "ng-packagr": "^4.6.0",
+    "pixie-highcharts": "file:lib/dist",
     "rxjs": "^5.5.6",
+    "underscore": "^1.9.1",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
@@ -40,9 +48,9 @@
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
-    "protractor": "~5.1.2",
+    "protractor": "^5.4.2",
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",
-    "typescript": "~2.5.3"
+    "typescript": "^2.9.2"
   }
 }
