@@ -11,7 +11,7 @@
     "e2e": "ng e2e",
     "packagr": "ng-packagr -p lib/package.json",
     "pack": "npm i lib/dist && ng serve",
-    "install": "npm run packagr && npm run pack"
+    "package": "npm run packagr && npm run pack"
   },
   "private": true,
   "dependencies": {
