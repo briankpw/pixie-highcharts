@@ -3,7 +3,7 @@ import * as _ from 'underscore';
 import { FormBuilder, FormGroup } from '@angular/forms';
 declare var require: any;
 const locales = require('../../../lib/src/pixie-highcharts/lib/locale.json');
-import { LocaleService } from 'pixie-highcharts';
+// import { LocaleService } from 'pixie-highcharts';
 
 @Component({
   selector: 'pixie-app-configure',
@@ -12,7 +12,7 @@ import { LocaleService } from 'pixie-highcharts';
 })
 export class ConfigureComponent implements OnInit {
   public formGroupChart: FormGroup;
-  type = 'scatter';
+  type = 'bar';
   zoomType = 'x';
   datas = [
     { name: 'OMAK-1', data: [{ x: 0, y: 983 }] },
@@ -92,8 +92,8 @@ export class ConfigureComponent implements OnInit {
   isGap = true;
   isUTC = false;
   isBoost = false;
-
-  constructor(private formBuilder: FormBuilder, private pixieHighchartsLocaleService: LocaleService) {}
+  // , private pixieHighchartsLocaleService: LocaleService
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.formGroupChart = this.formBuilder.group({
@@ -151,7 +151,7 @@ export class ConfigureComponent implements OnInit {
       this.config = JSON.parse(d);
     });
     this.formGroupChart.controls['localeModel'].valueChanges.subscribe(d => {
-      this.pixieHighchartsLocaleService.setLocale(d);
+      // this.pixieHighchartsLocaleService.setLocale(d);
     });
   }
 

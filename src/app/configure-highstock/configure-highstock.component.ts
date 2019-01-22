@@ -1068,8 +1068,8 @@ export class ConfigureHighstockComponent implements OnInit {
     shared: true,
     useHTML: true
   };
-
-  export = { title: 'Volume', filename: 'Volume', scale: 3 };
+  // filename: 'Volume',
+  export = { title: 'Volume',  scale: 3 };
   config = {
     legend: { borderWidth: 0, borderRadius: 0, itemMarginTop: 0, padding: 0 }
   };
@@ -1090,7 +1090,7 @@ export class ConfigureHighstockComponent implements OnInit {
   isRangeInput = true;
   isXScrollbar = true;
   isYScrollbar = false;
-
+  // private pixieHighchartsLocaleService: LocaleService
   constructor(private formBuilder: FormBuilder, private pixieHighchartsLocaleService: LocaleService) {}
 
   ngOnInit() {

@@ -1,10 +1,10 @@
 import { Directive, Output, EventEmitter } from '@angular/core';
-import { ChartEvent } from './ChartEvent';
+import { ChartEvent } from './chart.model';
 
 @Directive({
-    selector: 'yAxis'
+    selector: 'zAxis'
 })
-export class ChartYAxisComponent {
+export class ChartZAxisComponent {
     @Output() afterBreaks = new EventEmitter<ChartEvent>();
     @Output() afterSetExtremes = new EventEmitter<ChartEvent>();
     @Output() pointBreak = new EventEmitter<ChartEvent>();

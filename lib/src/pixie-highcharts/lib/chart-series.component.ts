@@ -1,7 +1,6 @@
 import { Directive, Output, EventEmitter, ContentChild } from '@angular/core';
-import { ChartPointComponent } from './ChartPointComponent';
-import { ChartEvent } from './ChartEvent';
-
+import { ChartPointComponent } from './chart-point.component';
+import { ChartEvent } from './chart.model';
 @Directive({
     selector: 'series'
 })

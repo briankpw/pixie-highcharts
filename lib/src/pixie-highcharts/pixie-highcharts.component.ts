@@ -1,43 +1,27 @@
-/******************************************************************************
- * Purpose
- *   Chart Plugin for Key-Chart[HighChart]
- *
- * Modifications
- * 02/01/2018 Brian Koh Created
- * 02/07/2018 Brian Koh Output Event
- * 04/28/2018 Brian Koh Boost Feature
- * 05/21/2018 Brian Koh Locale i18n Integrated
- * 06/10/2018 Brian Koh Export Chart Integrated
- * 07/25/2018 Brian Koh Stock Chart Integrated
- * 08/06/2018 Brian Koh Stock Chart Navigator Data
- * 09/05/2018 Brian Koh Color Axis Implemented
- * 10/11/2018 Brian Koh Highcharts Library Output
- *
- * MMM DD, YYYY (${user}) TODO: put change log here
- *
- * Copyright (c) 2018 Keysight Technologies.  All rights reserved.
- *
- ******************************************************************************/
-
 import { Component, ElementRef, Input, Output, ContentChild, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import * as Highcharts from 'highcharts';
-// import { KeyHighConfig } from '../high-util/keyHighConfig';
-import { Export, Title } from './lib/ChartModel';
-import { ChartSeriesComponent } from './lib/ChartSeriesComponent';
-import { ChartXAxisComponent } from './lib/ChartXAxisComponent';
-import { ChartYAxisComponent } from './lib/ChartYAxisComponent';
-import { ChartZAxisComponent } from './lib/ChartZAxisComponent';
-import { ChartEvent } from './lib/ChartEvent';
+
+import { Export } from './lib/chart.model';
+import { ChartSeriesComponent } from './lib/chart-series.component';
+import { ChartXAxisComponent } from './lib/chart-xAxis.component';
+import { ChartYAxisComponent } from './lib/chart-yAxis.component';
+import { ChartZAxisComponent } from './lib/chart-zAxis.component';
+import { ChartEvent } from './lib/chart.model';
+
 import { createBaseOpts } from './lib/createBaseOpts';
 import { deepAssign } from './lib/deepAssign';
-import { LocaleService } from './lib/locale.service';
 import { prefixConversion } from './lib/prefixConversion';
 import { event } from './lib/event';
+import { config } from './lib/config';
+
+import { HighchartsService } from './lib/highcharts.service';
+import { LocaleService } from './lib/locale.service';
 
 @Component({
   selector: 'pixie-highcharts',
   templateUrl: './pixie-highcharts.component.html',
-  styleUrls: ['./pixie-highcharts.component.scss']
+  styleUrls: ['./pixie-highcharts.component.scss'],
+  providers: [HighchartsService, LocaleService]
 })
 export class PixieHighChartsComponent implements OnInit, OnChanges {
   @Input() type: string;
@@ -93,7 +77,6 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   @Input() isYScrollbar: Boolean = false;
 
   // Event
-  // @Output() onLoads = new EventEmitter<ChartEvent>();
   @Output() addSeries = new EventEmitter<ChartEvent>();
   @Output() afterPrint = new EventEmitter<ChartEvent>();
   @Output() beforePrint = new EventEmitter<ChartEvent>();
@@ -118,11 +101,12 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   public updateFlag: Boolean = false;
 
   private element: ElementRef;
+  private globalPXH: any;
   private i18nNoDataAvailable = 'No Data Available';
-  // constructor() {}
-  constructor(element: ElementRef, localeService: LocaleService) {
+
+  constructor(element: ElementRef, highchartsService: HighchartsService, localeService: LocaleService) {
     this.element = element;
-    this.Highcharts = this.highchartsFactory();
+    this.Highcharts = highchartsService.getHighchartsStatic();
 
     localeService.getLocale().subscribe(d => {
       this.i18nNoDataAvailable = d.noDataAvailable === '' ? 'No Data Available' : d.noDataAvailable;
@@ -154,8 +138,6 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   }
 
   async ngOnInit() {
-    // Highcharts.setOptions(KeyHighConfig.keysightTheme);
-
     this.initCustomHighCharts();
     const opts: Object = this.plotOptionConfigure();
     opts['exporting'] = this.exportingConfigure(this.export);
@@ -169,8 +151,6 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       opts['chart']['type'] = 'line';
     }
 
-    opts['chart']['selectionMarkerFill'] = 'rgba(255, 255, 255, 0.3)';
-
     if (this.isLegend) {
       opts['chart']['spacingTop'] = 0;
     }
@@ -181,16 +161,6 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
 
     opts['chart']['panning'] = true;
     opts['chart']['panKey'] = 'ctrl';
-
-    opts['chart']['resetZoomButton'] = {
-      position: { x: 0, y: 1 },
-      theme: {
-        fill: 'rgba(60,61,68, 0.2)',
-        stroke: '#4c8eff',
-        style: { color: 'white' },
-        states: { hover: { fill: 'rgb(60,61,60)', style: { color: 'white' } } }
-      }
-    };
 
     if (this.isStock) {
       this.constructorType = 'stockChart';
@@ -246,8 +216,8 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     if (this.isBoost) {
       opts['chart']['animation'] = false;
       opts['boost'] = {};
-      // opts['chart']['boost']['useGPUTranslations'] = true;
       opts['boost']['usePreAllocated'] = true;
+      // opts['chart']['boost']['useGPUTranslations'] = true;
       // opts['boost'] = {};
       // opts['boost']['useGPUTranslations'] = true;
       // opts['boost']['usePreAllocated'] = true;
@@ -311,7 +281,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
           if (d.hasOwnProperty('type')) {
             if (d['type'] === 'datetime') {
               if (!d.hasOwnProperty('dateTimeLabelFormats')) {
-                // d['dateTimeLabelFormats'] = KeyHighConfig.dateTimeLabelFormats;
+                d['dateTimeLabelFormats'] = this.globalPXH.dateTimeLabelFormats;
               }
             }
           }
@@ -327,7 +297,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         if (this.xAxis.hasOwnProperty('type')) {
           if (this.xAxis['type'] === 'datetime') {
             if (!this.xAxis.hasOwnProperty('dateTimeLabelFormats')) {
-              // this.xAxis['dateTimeLabelFormats'] = KeyHighConfig.dateTimeLabelFormats;
+              this.xAxis['dateTimeLabelFormats'] = this.globalPXH.dateTimeLabelFormats;
             }
           }
         }
@@ -406,7 +376,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       opts['tooltip'] = this.tooltip;
       opts['tooltip']['followPointer'] = true;
     } else {
-      // opts['tooltip'] = KeyHighConfig.standardTooltipDesign;
+      opts['tooltip'] = this.globalPXH.standardTooltipDesign;
       opts['tooltip']['followPointer'] = true;
     }
 
@@ -424,7 +394,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     if (typeof this.footer !== 'undefined') {
       opts['credits'] = {};
       opts['credits']['text'] = this.footer;
-      // opts['credits']['href'] = KeyHighConfig.footerURL;
+      opts['credits']['href'] = this.globalPXH.footerURL;
     } else {
       opts['credits'] = {};
       opts['credits']['enabled'] = false;
@@ -461,13 +431,13 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
 
     this.options = deepAssign({}, opts, eventOption);
 
-    console.log(this.options);
-    console.log(JSON.stringify(this.options));
+    // console.log(this.options);
+    // console.log(JSON.stringify(this.options));
   }
 
   ngOnChanges(changes: SimpleChanges) {
     // try {
-    console.log(changes);
+    // console.log(changes);
     // console.log(JSON.stringify(changes));
     let redraw: Boolean = false;
     const updateOption: any = {};
@@ -676,8 +646,8 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     if (redraw) {
       this.options = updateOption;
       this.updateFlag = redraw;
-      console.log(updateOption);
-      console.log(JSON.stringify(updateOption));
+      // console.log(updateOption);
+      // console.log(JSON.stringify(updateOption));
     }
     // } catch (e) {
     //   // console.log('Error: ' + e);
@@ -707,10 +677,10 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         column: { grouping: false, groupPadding: 0, pointPadding: 0.2, borderWidth: 0, turboThreshold: 0 },
         line: { marker: { symbol: 'circle' }, turboThreshold: 0 },
         spline: { marker: { symbol: 'circle' }, turboThreshold: 0 },
-        boxplot: { fillColor: 'rgb(100,100,100)', turboThreshold: 0 },
+        boxplot: { turboThreshold: 0 },
         pie: { allowPointSelect: true, cursor: 'pointer', dataLabels: { enabled: false }, showInLegend: true },
         scatter: {
-          marker: { symbol: 'circle', radius: 2, states: { hover: { enabled: true, lineColor: 'rgb(100,100,100)' } } },
+          marker: { symbol: 'circle', radius: 2, states: { hover: { enabled: true } } },
           states: { hover: { marker: { enabled: false } } },
           turboThreshold: 0,
           stickyTracking: false
@@ -747,10 +717,6 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     if (this.isGap) {
       plotOption['plotOptions'][this.type]['gapSize'] = this.gapSize;
       plotOption['plotOptions'][this.type]['gapUnit'] = this.gapUnit;
-      // plotOption['plotOptions']['line']['marker']['enabled'] = true;
-      // if (this.isStock) {
-      //   plotOption['plotOptions']['line']['marker']['enabled'] = true;
-      // }
     } else {
       if (update) {
         plotOption['plotOptions'][this.type]['gapSize'] = 0;
@@ -776,6 +742,38 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   }
 
   initCustomHighCharts() {
+    // try {
+    const Highchart = this.Highcharts;
+    if (Highchart.hasOwnProperty('globalPXH')) {
+      this.globalPXH = Highchart['globalPXH'];
+
+      if (!this.globalPXH.hasOwnProperty('footerURL')) {
+        this.globalPXH.footerURL = config.url;
+      }
+
+      if (!this.globalPXH.hasOwnProperty('standardTooltipDesign')) {
+        this.globalPXH.standardTooltipDesign = config.standardTooltipDesign;
+      }
+
+      if (!this.globalPXH.hasOwnProperty('dateTimeLabelFormats')) {
+        this.globalPXH.dateTimeLabelFormats = config.dateTimeLabelFormats;
+      }
+
+      if (!this.globalPXH.hasOwnProperty('filename')) {
+        this.globalPXH.filename = config.filename;
+      }
+    } else {
+      this.globalPXH = {};
+      this.globalPXH.footerURL = config.url;
+      this.globalPXH.standardTooltipDesign = config.standardTooltipDesign;
+      this.globalPXH.dateTimeLabelFormats = config.dateTimeLabelFormats;
+      this.globalPXH.filename = config.filename;
+    }
+    // } catch (e) {
+    // this.globalPXH = {};
+    //   console.log('error');
+    // }
+
     Highcharts['SVGRenderer'].prototype.symbols['cross'] = function(x, y, w, h) {
       return ['M', x, y, 'L', x + w, y + h, 'M', x + w, y, 'L', x, y + h, 'z'];
     };
@@ -794,39 +792,12 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       sourceWidth: 800,
       chartOptions: {
         chart: {
-          backgroundColor: '#23232A',
-          spacingTop: 10,
-          style: { fontFamily: 'Arial', color: '##FFF' },
           events: { load: function() {} }
         },
-        title: { text: null, style: { color: '#FFF', fontFamily: 'Arial' } },
-        subtitle: { text: null, style: { color: '#FFF' } },
-        xAxis: {
-          labels: { style: { color: '#FFF', font: 'Arial' } },
-          title: {
-            style: {
-              // color: '#333',
-              fontFamily: 'Arial'
-            }
-          }
-        },
-        yAxis: {
-          labels: { style: { color: '#FFF', font: 'Arial' } },
-          title: {
-            style: {
-              // color: '#333',
-              fontFamily: 'Arial'
-            }
-          }
-        },
-        legend: {
-          itemStyle: { color: '#FFF', font: 'Arial' },
-          maxHeight: null
-          // adjustChartSize: true,
-          // maxHeight: undefined
-        }
+        title: {},
+        subtitle: {}
       },
-      filename: 'PathWave_Manufacturing_Analytics'
+      filename: this.globalPXH.filename
     };
 
     if (update) {
@@ -854,10 +825,16 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         standard.filename = `${standard.filename}_${this.getCurrentDate()}`;
       }
 
+      if (typeof exportParam.enabled !== 'undefined') {
+        standard.enabled = exportParam.enabled;
+      }
+
+      if (typeof exportParam.fallbackToExportServer !== 'undefined') {
+        standard.fallbackToExportServer = exportParam.fallbackToExportServer;
+      }
+
       if (typeof exportParam.customExport !== 'undefined') {
         standard.customExport = exportParam.customExport;
-      } else {
-        standard.customExport = false;
       }
 
       if (typeof exportParam.scale !== 'undefined') {
@@ -891,13 +868,13 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         standard.sourceWidth = exportParam.width;
       }
     } else {
-      standard.filename = `PathWave_Manufacturing_Analytics_${this.getCurrentDate()}`;
+      standard.filename = `${standard.filename}_${this.getCurrentDate()}`;
     }
     return standard;
   }
 
   // Util
-  validateSeries(updateOption, isSubtitle = false) {
+  private validateSeries(updateOption, isSubtitle = false) {
     try {
       const subtitle: any = { text: this.i18nNoDataAvailable };
       let xAxis = false;
@@ -966,7 +943,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     }
   }
 
-  complexOptionAssignment(updateOption, pixieKey, option) {
+  private complexOptionAssignment(updateOption, pixieKey, option) {
     let isArray = false;
     let currentArray;
 
@@ -997,7 +974,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     });
   }
 
-  arrayObjectAssignment(obj, option) {
+  private arrayObjectAssignment(obj, option) {
     for (const key of Object.keys(option)) {
       const value = option[key];
       if (typeof value === 'object') {
@@ -1009,41 +986,12 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     }
   }
 
-  getCurrentDate() {
+  private getCurrentDate() {
     const date = new Date();
     const year = `0000${date.getFullYear()}`;
     const month = `0${date.getMonth() + 1}`;
     const day = `0${date.getDate()}`;
     const today = `${year.substr(-4)}_${month.substr(-2)}_${day.substr(-2)}`;
     return `_${today}`;
-  }
-
-  highchartsFactory() {
-    const hc = require('highcharts');
-
-    if (!hc.keyHighLoaded) {
-      const hs = require('highcharts/modules/stock');
-      const hm = require('highcharts/modules/map');
-      const hcm = require('highcharts/highcharts-more');
-      const dd = require('highcharts/modules/drilldown');
-      const dde = require('highcharts/modules/exporting');
-      const hhm = require('highcharts/modules/heatmap');
-      const tm = require('highcharts/modules/treemap');
-      const ed = require('highcharts/modules/export-data');
-      const oe = require('highcharts/modules/offline-exporting');
-      const bst = require('highcharts/modules/boost');
-      hs(hc);
-      hm(hc);
-      hcm(hc);
-      dd(hc);
-      dde(hc);
-      hhm(hc);
-      tm(hc);
-      ed(hc);
-      oe(hc);
-      bst(hc);
-      hc.keyHighLoaded = true;
-    }
-    return hc;
   }
 }

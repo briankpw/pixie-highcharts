@@ -1,4 +1,4 @@
-import { ChartEvent } from './ChartEvent';
+import { ChartEvent } from './chart.model';
 
 const chartEvents = [
   'addSeries',

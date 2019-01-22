@@ -1,9 +1,9 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs/Rx';
 
 @Injectable()
 export class LocaleService {
-  currentLocale: Subject<any> = new Subject<any>();
+  static currentLocale: Subject<any> = new Subject<any>();
   private locales = {
     'am-et': {
       resetZoom: '',
@@ -335,19 +335,19 @@ export class LocaleService {
     }
   };
 
-  constructor(@Inject('config') private config) {}
+  constructor() {}
 
   getLocale(): Observable<any> {
-    return this.currentLocale.asObservable();
+    return LocaleService.currentLocale.asObservable();
   }
 
-  setLocale(locale?) {
-    // this.currentLocale = new Subject<any>();
-    let selectedLocale = this.locales['en'];
+  setLocale(locale?: string) {
+    let selectedLocale: any;
     if (locale && this.locales.hasOwnProperty(locale)) {
-      // User given locale
       selectedLocale = this.locales[locale];
+    } else {
+      selectedLocale = this.locales['en'];
     }
-    this.currentLocale.next(selectedLocale);
+    LocaleService.currentLocale.next(selectedLocale);
   }
 }

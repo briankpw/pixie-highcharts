@@ -6,7 +6,6 @@
   "peerDependencies": {
     "@angular/core": ">=5.0.0",
     "@angular/common": ">=5.0.0",
-    "@angular/compiler": "^5.2.0",
     "highcharts-angular": "^2.4.0",
     "underscore": "^1.9.1"
   },

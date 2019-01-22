@@ -1,8 +1,8 @@
 <div class="row">
   <div class="col-lg-6">
-    <!-- [gapSize]="1" [pointRange]="1"  -->
+    <!-- [gapSize]="1" [pointRange]="1" [colorAxis]="colorAxis"  -->
     <pixie-highcharts [title]="title" [type]="type" [zoomType]="zoomType" [data]="data" [xAxis]="xAxis" [yAxis]="yAxis"
-      [footer]="footer" [colors]="color" [colorAxis]="colorAxis" [tooltip]="tooltip" [export]="export" [config]="config"
+      [footer]="footer" [colors]="color" [tooltip]="tooltip" [export]="export" [config]="config"
       [isLegend]="isLegend" [isAxisPrefix]="isAxisPrefix" [axisPrefixFloat]="axisPrefixFloat" [isGroup]="isGroup"
       [isUTC]="isUTC" [isBoost]="isBoost" [isStacked]="isStacked" [isPointRange]="isPointRange" [isGap]="isGap" (load)="onLoad($event)"
       (chartClick)="onEventClick($event,'chart@click')" (addSeries)="onEventClick($event,'chart@addSeries')"
