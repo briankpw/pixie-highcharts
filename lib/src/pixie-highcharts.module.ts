@@ -20,7 +20,7 @@ const ChartDeclaration: any[] = [ChartSeriesComponent, ChartPointComponent, Char
   imports: [CommonModule, HighchartsChartModule],
   declarations: [PixieHighChartsComponent, ChartDeclaration],
   exports: [PixieHighChartsComponent, ChartDeclaration],
-  providers: [LocaleService]
+  providers: [LocaleService, HighchartsStatic]
 })
 export class PixieHighchartsModule {
   public static forRoot(highchartsStatic: HighchartsStatic, ...highchartsModules: Array<Function>): ModuleWithProviders {

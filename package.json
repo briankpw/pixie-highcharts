@@ -9,9 +9,10 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "packagr": "ng-packagr test -p lib/package.json",
+    "packagr": "ng-packagr -p lib/package.json",
     "pack": "npm i lib/dist && npm start",
-    "package": "npm run packagr && npm run pack"
+    "package": "npm run packagr && npm run pack",
+    "cover": "ng test --code-coverage"
   },
   "private": true,
   "dependencies": {
@@ -30,7 +31,7 @@
     "pixie-highcharts": "file:lib/dist",
     "rxjs": "^5.5.6",
     "underscore": "^1.9.1",
-    "zone.js": "^0.8.19"
+    "zone.js": "^0.8.29"
   },
   "devDependencies": {
     "@angular/cli": "~1.7.4",
@@ -40,14 +41,16 @@
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
     "codelyzer": "^4.0.1",
+    "coveralls": "^3.0.2",
     "jasmine-core": "~2.8.0",
     "jasmine-spec-reporter": "~4.2.1",
-    "ng-packagr": "^3.0.6",
     "karma": "~2.0.0",
     "karma-chrome-launcher": "~2.2.0",
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "mocha": "^5.2.0",
+    "ng-packagr": "^3.0.6",
     "protractor": "^5.4.2",
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",

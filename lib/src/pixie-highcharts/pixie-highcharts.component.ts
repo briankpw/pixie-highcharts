@@ -149,6 +149,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     } else {
       opts['chart'] = {};
       opts['chart']['type'] = 'line';
+      this.type = 'line';
     }
 
     if (this.isLegend) {

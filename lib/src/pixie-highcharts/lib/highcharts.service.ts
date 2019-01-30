@@ -8,7 +8,6 @@ export class HighchartsService {
   private highchartsStatice: HighchartsStatic;
 
   constructor(highchartsStatic: HighchartsStatic) {
-    console.log(highchartsStatic);
     this.highchartsStatice = highchartsStatic;
   }
 
