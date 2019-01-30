@@ -1,0 +1,19 @@
+language: node_js
+cache:
+  directories:
+    - node_modules
+notifications:
+  email: false
+node_js:
+  - stable
+install:
+  - npm install
+script:
+  - npm run build
+# - npm run cover
+after_success:
+  - npm run travis-deploy-once
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/
+# Send coverage data to Coveralls

@@ -5,15 +5,33 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4300",
-    "build": "ng build --prod",
+    "build": "npm run packagr",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "packagr": "ng-packagr -p lib/package.json",
     "pack": "npm i lib/dist && npm start",
     "package": "npm run packagr && npm run pack",
-    "cover": "ng test --code-coverage"
+    "cover": "ng test --code-coverage",
+    "travis-deploy-once": "travis-deploy-once --pro"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/briankpw/pixie-highcharts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/briankpw/pixie-highcharts/issues"
+  },
+  "readme": "README.md",
+  "homepage": "https://github.com/briankpw/pixie-highcharts#readme",
+  "keywords": [
+    "pixie",
+    "highcharts",
+    "visualization",
+    "dataset",
+    "tool"
+  ],
+  "author": "Brian Koh Ping Weng <briankpw@gmail.com>",
   "private": true,
   "dependencies": {
     "@angular/animations": "^5.2.0",
@@ -52,6 +70,8 @@
     "mocha": "^5.2.0",
     "ng-packagr": "^3.0.6",
     "protractor": "^5.4.2",
+    "semantic-release": "^15.13.3",
+    "travis-deploy-once": "^5.0.11",
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",
     "typescript": "^2.9.2"

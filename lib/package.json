@@ -1,8 +1,24 @@
 {
   "name": "pixie-highcharts",
   "version": "0.0.1",
-  "author": "Brian Koh Ping Weng",
+  "author": "Brian Koh Ping Weng <briankpw@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/briankpw/pixie-highcharts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/briankpw/pixie-highcharts/issues"
+  },
+  "readme": "README.md",
+  "homepage": "https://github.com/briankpw/pixie-highcharts#readme",
+  "keywords": [
+    "pixie",
+    "highcharts",
+    "visualization",
+    "dataset",
+    "tool"
+  ],
   "peerDependencies": {
     "@angular/core": ">=5.0.0",
     "@angular/common": ">=5.0.0",
