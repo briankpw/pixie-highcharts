@@ -55,48 +55,13 @@ export class AppComponent {
         theme: {
           fill: 'rgba(60,61,68, 0.2)',
           stroke: '#4c8eff',
-          style: { color: 'white' }
-          // states: { hover: { fill: 'rgb(60,61,60)', style: { color: 'white' } } }
+          style: { color: 'white' },
+          states: { hover: { fill: 'rgb(60,61,60)', style: { color: 'white' } } }
         }
       }
     },
     global: {
       useUTC: false
-    },
-    exporting: {
-      chartOptions: {
-        chart: {
-          backgroundColor: '#23232A',
-          spacingTop: 10,
-          style: { fontFamily: 'Arial', color: '##FFF' }
-        },
-        title: { style: { color: '#FFF', fontFamily: 'Arial' } },
-        subtitle: { style: { color: '#FFF' } },
-        xAxis: {
-          labels: { style: { color: '#FFF', font: 'Arial' } },
-          title: {
-            style: {
-              // color: '#333',
-              fontFamily: 'Arial'
-            }
-          }
-        },
-        yAxis: {
-          labels: { style: { color: '#FFF', font: 'Arial' } },
-          title: {
-            style: {
-              // color: '#333',
-              fontFamily: 'Arial'
-            }
-          }
-        },
-        legend: {
-          itemStyle: { color: '#FFF', font: 'Arial' },
-          maxHeight: null
-          // adjustChartSize: true,
-          // maxHeight: undefined
-        }
-      }
     },
     title: {
       style: {
@@ -183,26 +148,26 @@ export class AppComponent {
     rangeSelector: {
       buttonTheme: {
         fill: '#505053',
-        stroke: '#000000'
-        // style: {
-        //   color: '#CCC'
-        // },
-        // states: {
-        //   hover: {
-        //     fill: '#707073',
-        //     stroke: '#000000',
-        //     style: {
-        //       color: 'white'
-        //     }
-        //   },
-        //   select: {
-        //     fill: '#000003',
-        //     stroke: '#000000',
-        //     style: {
-        //       color: 'white'
-        //     }
-        //   }
-        // }
+        stroke: '#000000',
+        style: {
+          color: '#CCC'
+        },
+        states: {
+          // hover: {
+          //   fill: '#707073',
+          //   stroke: '#000000',
+          //   style: {
+          //     color: 'white'
+          //   }
+          // },
+          // select: {
+          //   fill: '#000003',
+          //   stroke: '#000000',
+          //   style: {
+          //     color: 'white'
+          //   }
+          // }
+        }
       },
       inputBoxBorderColor: '#505053',
       inputStyle: {
@@ -265,4 +230,9 @@ declare module 'highcharts' {
     // states: Highcharts.CSSObject;
   }
   // }
+
+  interface SVGAttributes {
+    states: Highcharts.CSSObject;
+  }
+
 }

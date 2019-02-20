@@ -5,13 +5,13 @@ export class HighchartsStatic {}
 
 @Injectable()
 export class HighchartsService {
-  private highchartsStatice: HighchartsStatic;
+  private _highchartsStatice: HighchartsStatic;
 
   constructor(highchartsStatic: HighchartsStatic) {
-    this.highchartsStatice = highchartsStatic;
+    this._highchartsStatice = highchartsStatic;
   }
 
   getHighchartsStatic() {
-    return this.highchartsStatice;
+    return this._highchartsStatice;
   }
 }

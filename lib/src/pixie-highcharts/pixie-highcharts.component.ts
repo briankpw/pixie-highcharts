@@ -6,6 +6,8 @@ import { ChartSeriesComponent } from './lib/chart-series.component';
 import { ChartXAxisComponent } from './lib/chart-xAxis.component';
 import { ChartYAxisComponent } from './lib/chart-yAxis.component';
 import { ChartZAxisComponent } from './lib/chart-zAxis.component';
+import { ChartColorAxisComponent } from './lib/chart-colorAxis.component';
+import { ChartNavigationComponent } from './lib/chart-navigation.component';
 import { ChartEvent } from './lib/chart.model';
 
 import { createBaseOpts } from './lib/createBaseOpts';
@@ -24,6 +26,7 @@ import { LocaleService } from './lib/locale.service';
   providers: [HighchartsService, LocaleService]
 })
 export class PixieHighChartsComponent implements OnInit, OnChanges {
+  @Input() id: string;
   @Input() type: string;
   @Input() zoomType: string;
   @Input() title: Object;
@@ -93,6 +96,8 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   @ContentChild(ChartXAxisComponent) chartXAxisComponent: ChartXAxisComponent;
   @ContentChild(ChartYAxisComponent) chartYAxisComponent: ChartYAxisComponent;
   @ContentChild(ChartZAxisComponent) chartZAxisComponent: ChartZAxisComponent;
+  @ContentChild(ChartColorAxisComponent) chartColorAxisComponent: ChartColorAxisComponent;
+  @ContentChild(ChartNavigationComponent) chartNavigationComponent: ChartNavigationComponent;
 
   public Highcharts;
   public constructorType = 'chart';
@@ -107,6 +112,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   constructor(element: ElementRef, highchartsService: HighchartsService, localeService: LocaleService) {
     this.element = element;
     this.Highcharts = highchartsService.getHighchartsStatic();
+    this.initCustomHighCharts();
 
     localeService.getLocale().subscribe(d => {
       this.i18nNoDataAvailable = d.noDataAvailable === '' ? 'No Data Available' : d.noDataAvailable;
@@ -138,10 +144,12 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   }
 
   async ngOnInit() {
-    this.initCustomHighCharts();
     const opts: Object = this.plotOptionConfigure();
     opts['exporting'] = this.exportingConfigure(this.export);
 
+    if (this.id === undefined) {
+      this.id = this.generateID();
+    }
     if (typeof this.type !== 'undefined') {
       // Type : column(Vertical Bar), bar(Horizontal Bar), line, area, pie, scatter and etc.
       opts['chart'] = {};
@@ -262,7 +270,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     }
 
     if (typeof this.zoomType !== 'undefined') {
-      // X Y Xy
+      // X Y XY
       opts['chart']['zoomType'] = this.zoomType;
     }
 
@@ -427,238 +435,259 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       this.chartXAxisComponent,
       this.chartYAxisComponent,
       this.chartZAxisComponent,
+      this.chartColorAxisComponent,
+      this.chartNavigationComponent,
       this.element.nativeElement
     );
 
     this.options = deepAssign({}, opts, eventOption);
 
-    // console.log(this.options);
-    // console.log(JSON.stringify(this.options));
+    if (this.globalPXH.debug) {
+      console.log(`---${this.type}#${this.id}---`);
+      console.log('Option: ', this.options);
+    }
+    if (this.globalPXH.debugStringify) {
+      console.log('Option [S]: ', JSON.stringify(this.options));
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // try {
-    // console.log(changes);
-    // console.log(JSON.stringify(changes));
-    let redraw: Boolean = false;
-    const updateOption: any = {};
-
-    if (typeof changes.type !== 'undefined' && !changes.type.firstChange) {
-      if (!updateOption.hasOwnProperty('chart')) {
-        updateOption.chart = {};
+    try {
+      if (this.globalPXH.debug) {
+        console.log(`---${this.type}#${this.id}---`);
+        console.log('Changes: ', changes);
       }
-      updateOption.chart.type = changes.type.currentValue;
-      redraw = true;
-    }
-
-    if (typeof changes.zoomType !== 'undefined' && !changes.zoomType.firstChange) {
-      if (!updateOption.hasOwnProperty('chart')) {
-        updateOption.chart = {};
-      }
-      updateOption.chart.zoomType = changes.zoomType.currentValue;
-      redraw = true;
-    }
-
-    if (typeof changes.data !== 'undefined' && !changes.data.firstChange) {
-      updateOption.series = changes.data.currentValue;
-      redraw = true;
-    }
-
-    if (typeof changes.title !== 'undefined' && !changes.title.firstChange) {
-      const title = { title: { text: null }, subtitle: { text: null } };
-      if (changes.title.currentValue.hasOwnProperty('title')) {
-        title.title.text = changes.title.currentValue.title;
+      if (this.globalPXH.debugStringify) {
+        console.log('Changes [S]: ', JSON.stringify(changes));
       }
 
-      if (changes.title.currentValue.hasOwnProperty('subtitle')) {
-        title.subtitle.text = changes.title.currentValue.subtitle;
-      }
-      updateOption.title = title.title;
-      updateOption.subtitle = title.subtitle;
-      redraw = true;
-    }
+      let redraw: Boolean = false;
+      const updateOption: any = {};
 
-    if (typeof changes.xAxis !== 'undefined' && !changes.xAxis.firstChange) {
-      updateOption.xAxis = changes.xAxis.currentValue;
-      redraw = true;
-    }
-
-    if (typeof changes.yAxis !== 'undefined' && !changes.yAxis.firstChange) {
-      updateOption.yAxis = changes.yAxis.currentValue;
-      redraw = true;
-    }
-
-    if (typeof changes.zAxis !== 'undefined' && !changes.zAxis.firstChange) {
-      updateOption.zAxis = changes.zAxis.currentValue;
-      redraw = true;
-    }
-
-    if (typeof changes.tooltip !== 'undefined' && !changes.tooltip.firstChange) {
-      updateOption.tooltip = changes.tooltip.currentValue;
-      redraw = true;
-    }
-
-    if (typeof changes.footer !== 'undefined' && !changes.footer.firstChange) {
-      updateOption.credits = { text: changes.footer.currentValue };
-      redraw = true;
-    }
-
-    if (typeof changes.colors !== 'undefined' && !changes.colors.firstChange) {
-      updateOption.colors = changes.colors.currentValue;
-      redraw = true;
-    }
-
-    if (typeof changes.colorAxis !== 'undefined' && !changes.colorAxis.firstChange) {
-      updateOption.colorAxis = changes.colorAxis.currentValue;
-      redraw = true;
-    }
-
-    if (typeof changes.navigator !== 'undefined' && !changes.navigator.firstChange) {
-      const navigator: any = changes.navigator.currentValue;
-      if (!navigator.hasOwnProperty('height')) {
-        navigator.height = 20;
-      }
-      updateOption.navigator = navigator;
-      redraw = true;
-    }
-
-    if (typeof changes.navigatorData !== 'undefined' && !changes.navigatorData.firstChange) {
-      if (!updateOption.hasOwnProperty('navigator')) {
-        updateOption.navigator = {};
-      }
-      updateOption.navigator.series = changes.navigatorData.currentValue;
-      redraw = true;
-    }
-
-    if (typeof changes.isLegend !== 'undefined' && !changes.isLegend.firstChange) {
-      if (!updateOption.hasOwnProperty('chart')) {
-        updateOption.chart = {};
+      if (typeof changes.type !== 'undefined' && !changes.type.firstChange) {
+        if (!updateOption.hasOwnProperty('chart')) {
+          updateOption.chart = {};
+        }
+        updateOption.chart.type = changes.type.currentValue;
+        redraw = true;
       }
 
-      if (changes.isLegend.currentValue) {
-        updateOption.chart.spacingTop = 10;
-      } else {
-        updateOption.chart.spacingTop = 0;
+      if (typeof changes.zoomType !== 'undefined' && !changes.zoomType.firstChange) {
+        if (!updateOption.hasOwnProperty('chart')) {
+          updateOption.chart = {};
+        }
+        updateOption.chart.zoomType = changes.zoomType.currentValue;
+        redraw = true;
       }
 
-      updateOption.legend = {};
-      updateOption.legend.enabled = changes.isLegend.currentValue;
-      redraw = true;
-    }
+      if (typeof changes.data !== 'undefined' && !changes.data.firstChange) {
+        updateOption.series = changes.data.currentValue;
+        redraw = true;
+      }
 
-    if (typeof changes.isUTC !== 'undefined' && !changes.isUTC.firstChange) {
-      updateOption.time = {};
-      updateOption.time.useUTC = changes.isUTC.currentValue;
-      redraw = true;
-    }
+      if (typeof changes.title !== 'undefined' && !changes.title.firstChange) {
+        const title = { title: { text: null }, subtitle: { text: null } };
+        if (changes.title.currentValue.hasOwnProperty('title')) {
+          title.title.text = changes.title.currentValue.title;
+        }
 
-    if (
-      (typeof changes.isAxisPrefix !== 'undefined' && !changes.isAxisPrefix.firstChange) ||
-      (typeof changes.axisPrefixFloat !== 'undefined' && !changes.axisPrefixFloat.firstChange)
-    ) {
-      const axisFloat = this.axisPrefixFloat;
-      if (this.isAxisPrefix) {
-        this.complexOptionAssignment(updateOption, 'yAxis', {
-          labels: {
-            formatter: function() {
-              return prefixConversion(this.value, axisFloat);
+        if (changes.title.currentValue.hasOwnProperty('subtitle')) {
+          title.subtitle.text = changes.title.currentValue.subtitle;
+        }
+        updateOption.title = title.title;
+        updateOption.subtitle = title.subtitle;
+        redraw = true;
+      }
+
+      if (typeof changes.xAxis !== 'undefined' && !changes.xAxis.firstChange) {
+        updateOption.xAxis = changes.xAxis.currentValue;
+        redraw = true;
+      }
+
+      if (typeof changes.yAxis !== 'undefined' && !changes.yAxis.firstChange) {
+        updateOption.yAxis = changes.yAxis.currentValue;
+        redraw = true;
+      }
+
+      if (typeof changes.zAxis !== 'undefined' && !changes.zAxis.firstChange) {
+        updateOption.zAxis = changes.zAxis.currentValue;
+        redraw = true;
+      }
+
+      if (typeof changes.tooltip !== 'undefined' && !changes.tooltip.firstChange) {
+        updateOption.tooltip = changes.tooltip.currentValue;
+        redraw = true;
+      }
+
+      if (typeof changes.footer !== 'undefined' && !changes.footer.firstChange) {
+        updateOption.credits = { text: changes.footer.currentValue };
+        redraw = true;
+      }
+
+      if (typeof changes.colors !== 'undefined' && !changes.colors.firstChange) {
+        updateOption.colors = changes.colors.currentValue;
+        redraw = true;
+      }
+
+      if (typeof changes.colorAxis !== 'undefined' && !changes.colorAxis.firstChange) {
+        updateOption.colorAxis = changes.colorAxis.currentValue;
+        redraw = true;
+      }
+
+      if (typeof changes.navigator !== 'undefined' && !changes.navigator.firstChange) {
+        const navigator: any = changes.navigator.currentValue;
+        if (!navigator.hasOwnProperty('height')) {
+          navigator.height = 20;
+        }
+        updateOption.navigator = navigator;
+        redraw = true;
+      }
+
+      if (typeof changes.navigatorData !== 'undefined' && !changes.navigatorData.firstChange) {
+        if (!updateOption.hasOwnProperty('navigator')) {
+          updateOption.navigator = {};
+        }
+        updateOption.navigator.series = changes.navigatorData.currentValue;
+        redraw = true;
+      }
+
+      if (typeof changes.isLegend !== 'undefined' && !changes.isLegend.firstChange) {
+        if (!updateOption.hasOwnProperty('chart')) {
+          updateOption.chart = {};
+        }
+
+        if (changes.isLegend.currentValue) {
+          updateOption.chart.spacingTop = 10;
+        } else {
+          updateOption.chart.spacingTop = 0;
+        }
+
+        updateOption.legend = {};
+        updateOption.legend.enabled = changes.isLegend.currentValue;
+        redraw = true;
+      }
+
+      if (typeof changes.isUTC !== 'undefined' && !changes.isUTC.firstChange) {
+        updateOption.time = {};
+        updateOption.time.useUTC = changes.isUTC.currentValue;
+        redraw = true;
+      }
+
+      if (
+        (typeof changes.isAxisPrefix !== 'undefined' && !changes.isAxisPrefix.firstChange) ||
+        (typeof changes.axisPrefixFloat !== 'undefined' && !changes.axisPrefixFloat.firstChange)
+      ) {
+        const axisFloat = this.axisPrefixFloat;
+        if (this.isAxisPrefix) {
+          this.complexOptionAssignment(updateOption, 'yAxis', {
+            labels: {
+              formatter: function() {
+                return prefixConversion(this.value, axisFloat);
+              }
             }
-          }
-        });
-      } else {
-        this.complexOptionAssignment(updateOption, 'yAxis', { labels: { formatter: undefined } });
+          });
+        } else {
+          this.complexOptionAssignment(updateOption, 'yAxis', { labels: { formatter: undefined } });
+        }
+
+        redraw = true;
       }
 
-      redraw = true;
-    }
-
-    // #plotOption - Redraw
-    if (
-      (typeof changes.isStacked !== 'undefined' && !changes.isStacked.firstChange) ||
-      (typeof changes.isGroup !== 'undefined' && !changes.isGroup.firstChange) ||
-      (typeof changes.isPointRange !== 'undefined' && !changes.isPointRange.firstChange) ||
-      (typeof changes.isGap !== 'undefined' && !changes.isGap.firstChange) ||
-      (typeof changes.isBoost !== 'undefined' && !changes.isBoost.firstChange)
-    ) {
-      updateOption.plotOptions = this.plotOptionConfigure(true)['plotOptions'];
-      redraw = true;
-    }
-
-    if (typeof changes.export !== 'undefined' && !changes.export.firstChange) {
-      updateOption.exporting = this.exportingConfigure(changes.export.currentValue, true);
-      redraw = true;
-    }
-
-    // #Stock
-    if (typeof changes.isRangeSelector !== 'undefined' && !changes.isRangeSelector.firstChange) {
-      if (!updateOption.hasOwnProperty('rangeSelector')) {
-        updateOption.rangeSelector = {};
+      // #plotOption - Redraw
+      if (
+        (typeof changes.isStacked !== 'undefined' && !changes.isStacked.firstChange) ||
+        (typeof changes.isGroup !== 'undefined' && !changes.isGroup.firstChange) ||
+        (typeof changes.isPointRange !== 'undefined' && !changes.isPointRange.firstChange) ||
+        (typeof changes.isGap !== 'undefined' && !changes.isGap.firstChange) ||
+        (typeof changes.isBoost !== 'undefined' && !changes.isBoost.firstChange)
+      ) {
+        updateOption.plotOptions = this.plotOptionConfigure(true)['plotOptions'];
+        redraw = true;
       }
 
-      updateOption.rangeSelector.enabled = changes.isRangeSelector.currentValue;
-      redraw = true;
-    }
-
-    if (typeof changes.isRangeInput !== 'undefined' && !changes.isRangeInput.firstChange) {
-      if (!updateOption.hasOwnProperty('rangeSelector')) {
-        updateOption.rangeSelector = {};
+      if (typeof changes.export !== 'undefined' && !changes.export.firstChange) {
+        updateOption.exporting = this.exportingConfigure(changes.export.currentValue, true);
+        redraw = true;
       }
 
-      updateOption.rangeSelector.inputEnabled = changes.isRangeInput.currentValue;
-      redraw = true;
-    }
+      // #Stock
+      if (typeof changes.isRangeSelector !== 'undefined' && !changes.isRangeSelector.firstChange) {
+        if (!updateOption.hasOwnProperty('rangeSelector')) {
+          updateOption.rangeSelector = {};
+        }
 
-    if (typeof changes.config !== 'undefined' && !changes.config.firstChange) {
-      const allKey = Object.keys(changes.config.currentValue);
-      for (const key of allKey) {
-        updateOption[key] = deepAssign({}, updateOption[key], changes.config.currentValue[key]);
-      }
-      redraw = true;
-    }
-
-    if (
-      (typeof changes.isXScrollbar !== 'undefined' && !changes.isXScrollbar.firstChange) ||
-      (typeof changes.isYScrollbar !== 'undefined' && !changes.isYScrollbar.firstChange)
-    ) {
-      event.removeMouseWheel(this.chart);
-
-      if (this.isXScrollbar) {
-        event.addXScrollMouseWheel(this.chart);
+        updateOption.rangeSelector.enabled = changes.isRangeSelector.currentValue;
+        redraw = true;
       }
 
-      if (this.isYScrollbar) {
-        event.addYScrollMouseWheel(this.chart);
-      }
-    }
+      if (typeof changes.isRangeInput !== 'undefined' && !changes.isRangeInput.firstChange) {
+        if (!updateOption.hasOwnProperty('rangeSelector')) {
+          updateOption.rangeSelector = {};
+        }
 
-    // # Data Validation
-    if (typeof this.title === 'undefined') {
-      this.validateSeries(updateOption);
-      redraw = true;
-    } else {
-      if (this.title.hasOwnProperty('subtitle')) {
-        this.validateSeries(updateOption, true);
-      } else {
+        updateOption.rangeSelector.inputEnabled = changes.isRangeInput.currentValue;
+        redraw = true;
+      }
+
+      if (typeof changes.config !== 'undefined' && !changes.config.firstChange) {
+        const allKey = Object.keys(changes.config.currentValue);
+        for (const key of allKey) {
+          updateOption[key] = deepAssign({}, updateOption[key], changes.config.currentValue[key]);
+        }
+        redraw = true;
+      }
+
+      if (
+        (typeof changes.isXScrollbar !== 'undefined' && !changes.isXScrollbar.firstChange) ||
+        (typeof changes.isYScrollbar !== 'undefined' && !changes.isYScrollbar.firstChange)
+      ) {
+        event.removeMouseWheel(this.chart);
+
+        if (this.isXScrollbar) {
+          event.addXScrollMouseWheel(this.chart);
+        }
+
+        if (this.isYScrollbar) {
+          event.addYScrollMouseWheel(this.chart);
+        }
+      }
+
+      // # Data Validation
+      if (typeof this.title === 'undefined') {
         this.validateSeries(updateOption);
+        redraw = true;
+      } else {
+        if (this.title.hasOwnProperty('subtitle')) {
+          this.validateSeries(updateOption, true);
+        } else {
+          this.validateSeries(updateOption);
+        }
+        redraw = true;
       }
-      redraw = true;
-    }
 
-    if (redraw) {
-      this.options = updateOption;
-      this.updateFlag = redraw;
-      // console.log(updateOption);
-      // console.log(JSON.stringify(updateOption));
+      if (redraw) {
+        this.options = updateOption;
+        this.updateFlag = redraw;
+
+        if (this.globalPXH.debug) {
+          console.log(`---${this.type}#${this.id}---`);
+          console.log('Updated: ', updateOption);
+        }
+        if (this.globalPXH.debugStringify) {
+          console.log('Updated [S]: ', JSON.stringify(updateOption));
+        }
+      }
+    } catch (e) {
+      console.log(`---${this.type}#${this.id}---`);
+      console.log('Change Error: ', e);
+      if (this.globalPXH.debug) {
+        console.log(e);
+      }
     }
-    // } catch (e) {
-    //   // console.log('Error: ' + e);
-    //   console.log(e);
-    // }
   }
 
   saveInstance(chartInstance) {
     this.chart = chartInstance;
-    // console.log(chartInstance);
     this.load.emit(chartInstance);
 
     if (this.isXScrollbar) {
@@ -743,37 +772,52 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   }
 
   initCustomHighCharts() {
-    // try {
-    const Highchart = this.Highcharts;
-    if (Highchart.hasOwnProperty('globalPXH')) {
-      this.globalPXH = Highchart['globalPXH'];
+    try {
+      const Highchart = this.Highcharts;
+      if (Highchart.hasOwnProperty('globalPXH')) {
+        this.globalPXH = Highchart['globalPXH'];
 
-      if (!this.globalPXH.hasOwnProperty('footerURL')) {
-        this.globalPXH.footerURL = config.url;
-      }
+        if (!this.globalPXH.hasOwnProperty('footerURL')) {
+          this.globalPXH.footerURL = config.url;
+        }
 
-      if (!this.globalPXH.hasOwnProperty('standardTooltipDesign')) {
-        this.globalPXH.standardTooltipDesign = config.standardTooltipDesign;
-      }
+        if (!this.globalPXH.hasOwnProperty('standardTooltipDesign')) {
+          this.globalPXH.standardTooltipDesign = config.standardTooltipDesign;
+        }
 
-      if (!this.globalPXH.hasOwnProperty('dateTimeLabelFormats')) {
-        this.globalPXH.dateTimeLabelFormats = config.dateTimeLabelFormats;
-      }
+        if (!this.globalPXH.hasOwnProperty('dateTimeLabelFormats')) {
+          this.globalPXH.dateTimeLabelFormats = config.dateTimeLabelFormats;
+        }
 
-      if (!this.globalPXH.hasOwnProperty('filename')) {
-        this.globalPXH.filename = config.filename;
+        if (!this.globalPXH.hasOwnProperty('exportTheme')) {
+          this.globalPXH.exportTheme = config.exportTheme;
+        } else {
+          this.globalPXH.exportTheme = deepAssign({}, this.globalPXH.exportTheme, config.exportTheme);
+        }
+
+        if (!this.globalPXH.hasOwnProperty('filename')) {
+          this.globalPXH.filename = config.filename;
+        }
+
+        if (!this.globalPXH.hasOwnProperty('debug')) {
+          this.globalPXH.debug = config.debug;
+        }
+
+        if (!this.globalPXH.hasOwnProperty('debugStringify')) {
+          this.globalPXH.debugStringify = config.debugStringify;
+        }
+      } else {
+        this.declareGlobalPXH();
       }
-    } else {
-      this.globalPXH = {};
-      this.globalPXH.footerURL = config.url;
-      this.globalPXH.standardTooltipDesign = config.standardTooltipDesign;
-      this.globalPXH.dateTimeLabelFormats = config.dateTimeLabelFormats;
-      this.globalPXH.filename = config.filename;
+    } catch (e) {
+      this.declareGlobalPXH();
+
+      console.log('Init Error: ', e);
+      if (this.globalPXH.debug) {
+        console.log(`---${this.type}#${this.id}---`);
+        console.log(e);
+      }
     }
-    // } catch (e) {
-    // this.globalPXH = {};
-    //   console.log('error');
-    // }
 
     Highcharts['SVGRenderer'].prototype.symbols['cross'] = function(x, y, w, h) {
       return ['M', x, y, 'L', x + w, y + h, 'M', x + w, y, 'L', x, y + h, 'z'];
@@ -781,7 +825,13 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
 
     try {
       Highcharts['seriesTypes'][this.type].prototype.drawLegendSymbol = Highcharts['seriesTypes']['column'].prototype.drawLegendSymbol;
-    } catch (e) {}
+    } catch (e) {
+      console.log('DrawLegendSymbol Error: ', e);
+      if (this.globalPXH.debug) {
+        console.log(`---${this.type}#${this.id}---`);
+        console.log(e);
+      }
+    }
   }
 
   exportingConfigure(exportParam: Export, update = false) {
@@ -791,13 +841,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       fallbackToExportServer: false,
       sourceHeight: 600,
       sourceWidth: 800,
-      chartOptions: {
-        chart: {
-          events: { load: function() {} }
-        },
-        title: {},
-        subtitle: {}
-      },
+      chartOptions: this.globalPXH.exportTheme,
       filename: this.globalPXH.filename
     };
 
@@ -940,7 +984,11 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         updateOption.subtitle = subtitle;
       }
     } catch (e) {
-      console.log('Error Validate Series:' + e);
+      console.log('Validate Series Error: ', e);
+      if (this.globalPXH.debug) {
+        console.log(`---${this.type}#${this.id}---`);
+        console.log(e);
+      }
     }
   }
 
@@ -985,6 +1033,28 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         obj[key] = value;
       }
     }
+  }
+
+  private declareGlobalPXH() {
+    this.globalPXH = {};
+    this.globalPXH.footerURL = config.url;
+    this.globalPXH.standardTooltipDesign = config.standardTooltipDesign;
+    this.globalPXH.dateTimeLabelFormats = config.dateTimeLabelFormats;
+    this.globalPXH.filename = config.filename;
+    this.globalPXH.exportTheme = config.exportTheme;
+    this.globalPXH.debug = config.debug;
+    this.globalPXH.debugStringify = config.debugStringify;
+  }
+
+  private generateID() {
+    let text = '';
+    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    for (let i = 0; i < 5; i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+
+    return text;
   }
 
   private getCurrentDate() {

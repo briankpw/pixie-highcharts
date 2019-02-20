@@ -12,43 +12,31 @@ export class MainComponent implements OnInit {
   public groupSelectorChart = '[isGroup]="\'true\'"';
 
   public chartData = [
-    {
-      name: 'General Infromation',
-      route: 'general'
-    },
-
+    // {
+    //   name: 'General Infromation',
+    //   route: 'general'
+    // },
     {
       name: 'Configure',
-      type: 'bar',
+      type: '',
       route: 'configure',
       html: this.basicSelectorChart,
       label: 'Support',
       data: 'Support',
       title: 'Support',
       types: 'Support',
-      yaxisLabelFormatter: 'Not Support [Prefix Added]'
+      yaxisLabelFormatter: ''
     },
     {
       name: 'Configure Highstock',
-      type: 'bar',
+      type: '',
       route: 'configure-stock',
       html: this.basicSelectorChart,
       label: 'Support',
       data: 'Support',
       title: 'Support',
       types: 'Support',
-      yaxisLabelFormatter: 'Not Support [Prefix Added]'
-    },
-    {
-      name: 'Configure Map',
-      type: 'bar',
-      route: 'configure-map',
-      html: this.basicSelectorChart,
-      label: 'Support',
-      data: 'Support',
-      title: 'Support',
-      types: 'Support',
-      yaxisLabelFormatter: 'Not Support [Prefix Added]'
+      yaxisLabelFormatter: ''
     }
   ];
   constructor(private router: Router) {}

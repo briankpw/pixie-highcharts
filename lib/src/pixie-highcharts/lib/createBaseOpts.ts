@@ -19,30 +19,18 @@ const pointEvents = ['click', 'drag', 'dragStart', 'drop', 'mouseOut', 'mouseOve
 const xAxisEvents = ['afterBreaks', 'afterSetExtremes', 'pointBreak', 'pointInBreak', 'setExtremes'];
 const yAxisEvents = ['afterBreaks', 'afterSetExtremes', 'pointBreak', 'pointInBreak', 'setExtremes'];
 const zAxisEvents = ['afterBreaks', 'afterSetExtremes', 'pointBreak', 'pointInBreak', 'setExtremes'];
+const colorAxisEvents = ['afterSetExtremes', 'legendItemClick', 'setExtremes'];
+const navigationEvents = ['deselectButton', 'hidePopup', 'selectButton', 'showPopup'];
 
-export function createBaseOpts(chartCmp, seriesCmp, pointCmp, xAxisCmp, yAxisCmp, zAxisCmp, element) {
+export function createBaseOpts(chartCmp, seriesCmp, pointCmp, xAxisCmp, yAxisCmp, zAxisCmp, colorAxisCmp, navigationCmp, element) {
   const opts = {
-    chart: {
-      renderTo: element,
-      events: {}
-    },
-    plotOptions: {
-      series: {
-        events: {},
-        point: {
-          events: {}
-        }
-      }
-    },
-    xAxis: {
-      events: {}
-    },
-    yAxis: {
-      events: {}
-    },
-    zAxis: {
-      events: {}
-    }
+    chart: { renderTo: element, events: {} },
+    colorAxis: { events: {} },
+    navigation: { events: {} },
+    plotOptions: { series: { events: {}, point: { events: {} } } },
+    xAxis: { events: {} },
+    yAxis: { events: {} },
+    zAxis: { events: {} }
   };
   chartEvents.forEach(function(eventName) {
     opts.chart.events[eventName] =
@@ -73,6 +61,25 @@ export function createBaseOpts(chartCmp, seriesCmp, pointCmp, xAxisCmp, yAxisCmp
         };
     });
   }
+  if (colorAxisCmp) {
+    colorAxisEvents.forEach(function(eventName) {
+      opts.colorAxis.events[eventName] =
+        opts.colorAxis.events[eventName] ||
+        function(event: any) {
+          colorAxisCmp[eventName].emit(new ChartEvent(event, this));
+        };
+    });
+  }
+  if (navigationCmp) {
+    navigationEvents.forEach(function(eventName) {
+      opts.navigation.events[eventName] =
+        opts.navigation.events[eventName] ||
+        function(event: any) {
+          navigationCmp[eventName].emit(new ChartEvent(event, this));
+        };
+    });
+  }
+
   if (xAxisCmp) {
     xAxisEvents.forEach(function(eventName) {
       opts.xAxis.events[eventName] =

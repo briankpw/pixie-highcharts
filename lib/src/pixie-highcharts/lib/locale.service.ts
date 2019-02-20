@@ -4,7 +4,7 @@ import { Observable, Subject } from 'rxjs/Rx';
 @Injectable()
 export class LocaleService {
   static currentLocale: Subject<any> = new Subject<any>();
-  private locales = {
+  private _locales = {
     'am-et': {
       resetZoom: '',
       noDataAvailable: '',
@@ -343,10 +343,10 @@ export class LocaleService {
 
   setLocale(locale?: string) {
     let selectedLocale: any;
-    if (locale && this.locales.hasOwnProperty(locale)) {
-      selectedLocale = this.locales[locale];
+    if (locale && this._locales.hasOwnProperty(locale)) {
+      selectedLocale = this._locales[locale];
     } else {
-      selectedLocale = this.locales['en'];
+      selectedLocale = this._locales['en'];
     }
     LocaleService.currentLocale.next(selectedLocale);
   }

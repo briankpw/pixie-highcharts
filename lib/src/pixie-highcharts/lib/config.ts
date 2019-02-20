@@ -21,8 +21,11 @@ const dateTimeLabelFormats = {
 const config = {
   standardTooltipDesign: standardTooltipDesign,
   dateTimeLabelFormats: dateTimeLabelFormats,
-  url: 'https://www.highcharts.cossm?credits',
-  filename: 'Pixie_Highcharts'
+  url: 'https://www.highcharts.com?credits',
+  filename: 'Pixie_Highcharts',
+  exportTheme: { chart: { events: { load: function() {} } }, title: {}, subtitle: {} },
+  debug: false,
+  debugStringify: false
 };
 
 export { config };

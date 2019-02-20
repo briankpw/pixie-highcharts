@@ -10,8 +10,6 @@ import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';
 import { ConfigureComponent } from './configure/configure.component';
 import { ConfigureHighstockComponent } from './configure-highstock/configure-highstock.component';
-import { ConfigureHighmapsComponent } from './configure-highmaps/configure-highmaps.component';
-
 import { HighchartsStatic } from 'pixie-highcharts';
 
 declare var require: any;
@@ -20,46 +18,54 @@ export function highchartsFactory() {
 
   if (!hc.PixieHighLoaded) {
     const hcm = require('highcharts/highcharts-more');
+    const hs = require('highcharts/modules/stock');
     const dd = require('highcharts/modules/drilldown');
     const dde = require('highcharts/modules/exporting');
     const hm = require('highcharts/modules/heatmap');
     const tm = require('highcharts/modules/treemap');
     const ed = require('highcharts/modules/export-data');
     const oe = require('highcharts/modules/offline-exporting');
-    const hs = require('highcharts/modules/stock');
     const bst = require('highcharts/modules/boost');
 
     hcm(hc);
+    hs(hc);
     dd(hc);
     dde(hc);
     hm(hc);
     tm(hc);
     ed(hc);
     oe(hc);
-    hs(hc);
     bst(hc);
     hc.PixieHighLoaded = true;
 
     hc.globalPXH = {};
     hc.globalPXH.footerURL = 'google.com';
+    hc.globalPXH.exportTheme = {
+      chart: {
+        backgroundColor: '#23232A',
+        spacingTop: 10,
+        style: { fontFamily: 'Arial', color: '##FFF' }
+      },
+      title: { style: { color: '#FFF', fontFamily: 'Arial' } },
+      subtitle: { style: { color: '#FFF' } },
+      xAxis: { labels: { style: { color: '#FFF', font: 'Arial' } }, title: { style: { fontFamily: 'Arial' } } },
+      yAxis: { labels: { style: { color: '#FFF', font: 'Arial' } }, title: { style: { fontFamily: 'Arial' } } },
+      legend: {
+        itemStyle: { color: '#FFF', font: 'Arial' },
+        maxHeight: null
+      }
+    };
     // this.globalPXH.standardTooltipDesign = config.standardTooltipDesign;
     // this.globalPXH.dateTimeLabelFormats = config.dateTimeLabelFormats;
-    hc.globalPXH.filename = 'ss';
+    hc.globalPXH.filename = 'Pixie Highcharts';
+    hc.globalPXH.debug = true;
   }
   return hc;
 }
 
 @NgModule({
-  declarations: [AppComponent, MainComponent, ConfigureComponent, ConfigureHighstockComponent, ConfigureHighmapsComponent],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    PixieHighchartsModule,
-    // PixieHighchartsModule.forRoot(require('highcharts'), require('highcharts/highcharts-more'), require('highcharts/modules/boost'),require('highcharts/modules/exporting')),
-    AppRoutingModule
-  ],
-  // exports: [PixieHighChartsComponent],
+  declarations: [AppComponent, MainComponent, ConfigureComponent, ConfigureHighstockComponent],
+  imports: [BrowserModule, FormsModule, ReactiveFormsModule, PixieHighchartsModule, AppRoutingModule],
   providers: [
     {
       provide: HighchartsStatic,

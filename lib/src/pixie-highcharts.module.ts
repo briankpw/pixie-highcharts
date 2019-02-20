@@ -11,10 +11,20 @@ import { ChartPointComponent } from './pixie-highcharts/lib/chart-point.componen
 import { ChartXAxisComponent } from './pixie-highcharts/lib/chart-xAxis.component';
 import { ChartYAxisComponent } from './pixie-highcharts/lib/chart-yAxis.component';
 import { ChartZAxisComponent } from './pixie-highcharts/lib/chart-zAxis.component';
+import { ChartColorAxisComponent } from './pixie-highcharts/lib/chart-colorAxis.component';
+import { ChartNavigationComponent } from './pixie-highcharts/lib/chart-navigation.component';
 
 import { prefixConversion } from './pixie-highcharts/lib/prefixConversion';
 
-const ChartDeclaration: any[] = [ChartSeriesComponent, ChartPointComponent, ChartXAxisComponent, ChartYAxisComponent, ChartZAxisComponent];
+const ChartDeclaration: any[] = [
+  ChartSeriesComponent,
+  ChartPointComponent,
+  ChartXAxisComponent,
+  ChartYAxisComponent,
+  ChartZAxisComponent,
+  ChartColorAxisComponent,
+  ChartNavigationComponent
+];
 
 @NgModule({
   imports: [CommonModule, HighchartsChartModule],
@@ -44,5 +54,7 @@ export {
   ChartXAxisComponent,
   ChartYAxisComponent,
   ChartZAxisComponent,
+  ChartColorAxisComponent,
+  ChartNavigationComponent,
   prefixConversion
 };

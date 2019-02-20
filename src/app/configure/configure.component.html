@@ -2,13 +2,12 @@
   <div class="col-lg-6">
     <!-- [gapSize]="1" [pointRange]="1" [colorAxis]="colorAxis"  -->
     <pixie-highcharts [title]="title" [type]="type" [zoomType]="zoomType" [data]="data" [xAxis]="xAxis" [yAxis]="yAxis"
-      [footer]="footer" [colors]="color" [tooltip]="tooltip" [export]="export" [config]="config"
-      [isLegend]="isLegend" [isAxisPrefix]="isAxisPrefix" [axisPrefixFloat]="axisPrefixFloat" [isGroup]="isGroup"
-      [isUTC]="isUTC" [isBoost]="isBoost" [isStacked]="isStacked" [isPointRange]="isPointRange" [isGap]="isGap" (load)="onLoad($event)"
-      (chartClick)="onEventClick($event,'chart@click')" (addSeries)="onEventClick($event,'chart@addSeries')"
-      (afterPrint)="onEventClick($event,'chart@afterPrint')" (drilldown)="onEventClick($event,'chart@drilldown')"
-      (drillup)="onEventClick($event,'chart@drillup')" (redraw)="onEventClick($event,'chart@redraw')" (load)="onEventClick($event,'chart@load')"
-      (selection)="onEventClick($event,'chart@selection')">
+      [footer]="footer" [colors]="color" [tooltip]="tooltip" [export]="export" [config]="config" [isLegend]="isLegend"
+      [isAxisPrefix]="isAxisPrefix" [axisPrefixFloat]="axisPrefixFloat" [isGroup]="isGroup" [isUTC]="isUTC" [isBoost]="isBoost"
+      [isStacked]="isStacked" [isPointRange]="isPointRange" [isGap]="isGap" (load)="onLoad($event)" (chartClick)="onEventClick($event,'chart@click')"
+      (addSeries)="onEventClick($event,'chart@addSeries')" (afterPrint)="onEventClick($event,'chart@afterPrint')"
+      (drilldown)="onEventClick($event,'chart@drilldown')" (drillup)="onEventClick($event,'chart@drillup')" (redraw)="onEventClick($event,'chart@redraw')"
+      (load)="onEventClick($event,'chart@load')" (selection)="onEventClick($event,'chart@selection')">
 
       <series (legendItemClick)="onEventClick($event,'series@legendItemClick')" (mouseOut)="onEventClick($event,'series@mouseOut')"
         (mouseOver)="onEventClick($event,'series@mouseOver')" (checkboxClick)="onEventClick($event,'series@checkboxClick')"
@@ -18,12 +17,16 @@
         <point (mouseOut)="onEventClick($event,'point@mouseOut')" (mouseOver)="onEventClick($event,'point@mouseOver')"
           (remove)="onEventClick($event,'point@remove')" (select)="onEventClick($event,'point@select')" (unselect)="onEventClick($event,'point@unselect')"
           (update)="onEventClick($event,'point@update')" (click)="onEventClick($event,'point@click')"></point>
-        <xAxis (afterSetExtremes)="onEventClick($event,'xAxis@afterSetExtremes')"></xAxis>
-        <yAxis (afterSetExtremes)="onEventClick($event,'yAxis@afterSetExtremes')"></yAxis>
-        <zAxis (afterSetExtremes)="onEventClick($event,'zAxis@afterSetExtremes')"></zAxis>
-
       </series>
 
+      <xAxis (afterSetExtremes)="onEventClick($event,'xAxis@afterSetExtremes')"></xAxis>
+      <yAxis (afterSetExtremes)="onEventClick($event,'yAxis@afterSetExtremes')"></yAxis>
+      <zAxis (afterSetExtremes)="onEventClick($event,'zAxis@afterSetExtremes')"></zAxis>
+      <colorAxis (afterSetExtremes)="onEventClick($event,'colorAxis@afterSetExtremes')" (legendItemClick)="onEventClick($event,'colorAxis@legendItemClick')"
+        (setExtremes)="onEventClick($event,'colorAxis@setExtremes')"></colorAxis>
+
+      <navigation (deselectButton)="onEventClick($event,'navigation@deselectButton')" (hidePopup)="onEventClick($event,'navigation@hidePopup')"
+        (selectButton)="onEventClick($event,'navigation@selectButton')" (showPopup)="onEventClick($event,'navigation@showPopup')"></navigation>
     </pixie-highcharts>
   </div>
   <div class="col-lg-6">

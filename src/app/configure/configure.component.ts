@@ -14,7 +14,7 @@ export class ConfigureComponent implements OnInit {
   public formGroupChart: FormGroup;
   type = 'bar';
   zoomType = 'x';
-  datas = [
+  data = [
     { name: 'OMAK-1', data: [{ x: 0, y: 983 }] },
     { name: 'OMAK-2', data: [{ x: 1, y: 70 }] },
     { name: 'OMAK-3', data: [{ x: 2, y: 10 }] },
@@ -22,7 +22,7 @@ export class ConfigureComponent implements OnInit {
     { name: 'OMAK-5', data: [{ x: 1, y: 108 }, { x: 3, y: 108 }] }
   ];
 
-  data = [
+  data2 = [
     {
       name: 'OMAK-C',
       data: [
@@ -35,24 +35,12 @@ export class ConfigureComponent implements OnInit {
     }
   ];
 
-  title = {
-    title: 'Sample Title',
-    subtitle: 'Sample SubTitle'
-  };
+  title = { title: 'Sample Title', subtitle: 'Sample SubTitle' };
 
-  xAxis = {
-    title: {
-      text: 'Sample X-Axis'
-    },
-    // type: 'category'
-    type: 'datetime'
-  };
+  xAxis = { title: { text: 'Sample X-Axis' }, type: 'category' };
+  // type: 'datetime'
 
-  yAxis = {
-    title: {
-      text: 'Sample Y-Axis'
-    }
-  };
+  yAxis = { title: { text: 'Sample Y-Axis' } };
 
   footer = 'Sample Footer';
   color = ['rgb(0, 255, 255)', 'rgb(246, 107, 0)', 'rgb(115, 211, 44)', 'rgb(227, 2, 42)', 'rgb(23,119,25)'];
@@ -76,9 +64,7 @@ export class ConfigureComponent implements OnInit {
   };
 
   export = { title: 'Volume', filename: 'Volume', scale: 3 };
-  config = {
-    legend: { borderWidth: 0, borderRadius: 0, itemMarginTop: 0, padding: 0 }
-  };
+  config = { legend: { borderWidth: 0, borderRadius: 0, itemMarginTop: 0, padding: 0 } };
 
   chart;
   locale = Object.keys(locales);
