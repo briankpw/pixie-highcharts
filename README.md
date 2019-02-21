@@ -179,7 +179,7 @@ ChartEvent is an class which simply wraps original Highcharts events (`chartEven
 
 All the events from the [chart.events](http://api.highcharts.com/highcharts#chart.events) are available as output properties of the `chart` component.
 
-```HTML
+```html
 <pixie-highcharts (selection)="onChartSelection($event)"> </pixie-highcharts>
 ```
 
@@ -197,7 +197,7 @@ onChartSelection (e) {
 To use series events the same way you need to add the `series` component as a child of your pixie-highcharts.
 The only purpose of this auxiliary component is to provide access to [plotOptions.series.events](http://api.highcharts.com/highcharts/plotOptions.series.events) API
 
-```HTML
+```html
 <pixie-highcharts>
     <series (legendItemClick)="onLegendClick($event)"></series>
 </pixie-highcharts>
@@ -216,7 +216,7 @@ onLegendClick (e) {
 
 Similary you can use the `point` to access to [plotOptions.series.point.events](http://api.highcharts.com/highcharts#plotOptions.series.point.events) API.
 
-```HTML
+```html
 <pixie-highcharts>
     <series>
         <point (click)="onPointClick($event)"></point>
@@ -231,7 +231,7 @@ Similary you can use the `point` to access to [plotOptions.series.point.events](
 
 Similary you can use the `xAxis` or `yAxis` or `zAxis` to access to [xAxis.events](http://api.highcharts.com/highcharts/xAxis.events) or [yAxis.events](http://api.highcharts.com/highcharts/yAxis.events) or [zAxis.events](http://api.highcharts.com/highcharts/zAxis.events) API.
 
-```HTML
+```html
 <pixie-highcharts>
      <xAxis (afterSetExtremes)="onAfterSetExtremesX($event)"></xAxis>
      <yAxis (afterSetExtremes)="onAfterSetExtremesY($event)"></yAxis>
@@ -263,7 +263,7 @@ onAfterSetExtremesZ (e) {
 
 Similary you can use the `colorAxis` to access to [colorAxis.events](https://api.highcharts.com/highcharts/colorAxis.events) API.
 
-```HTML
+```html
 <pixie-highcharts>
     <colorAxis (legendItemClick)="onLegendClick($event)"></colorAxis>
 </pixie-highcharts>
@@ -276,7 +276,7 @@ Similary you can use the `colorAxis` to access to [colorAxis.events](https://api
 
 Chart instance. You can call load methods to get the instance. [Highcharts.Chart](https://api.highcharts.com/class-reference/Highcharts.Chart)
 
-```HTML
+```html
 <pixie-highcharts (load)="onLoad($event)"> </pixie-highcharts>
 ```
 
@@ -368,7 +368,7 @@ const defaultDateTime = {
 
 ## Highstock
 
-```HTML
+```html
 <pixie-highcharts [isStock]="true"></pixie-highcharts>
 ```
 
@@ -389,7 +389,7 @@ Don't forget, You need to update @NgModule in app.module.ts
 
 ## Highmaps
 
-```HTML
+```html
 <pixie-highcharts [isMap]="true"></pixie-highcharts>
 ```
 
