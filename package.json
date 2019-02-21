@@ -1,6 +1,6 @@
 {
   "name": "pixie-highcharts-angular",
-  "version": "0.0.0",
+  "version": "0.0.0-development",
   "description": "Pixie Highcharts is a wrapper of the highcharts and apply two-way data-binding of the option like series, tooltip, color, xAxis, yAxis, navigator, range selector, and etc. pixie-highcharts is breaking down the option into data, type, xAxis, colors, navigator, tooltips as Input and events as EventEmitter.",
   "license": "MIT",
   "scripts": {
@@ -10,11 +10,15 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "cp": "cp README.md lib",
+    "copy": "copy README.md lib",
+    "publish": "npm publish lib/dist --access=public",
     "packagr": "ng-packagr -p lib/package.json",
     "pack": "npm i lib/dist && npm start",
     "package": "npm run packagr && npm run pack",
     "cover": "ng test --code-coverage",
-    "travis-deploy-once": "travis-deploy-once --pro"
+    "travis-deploy-once": "travis-deploy-once --pro",
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
@@ -29,11 +33,16 @@
     "pixie",
     "highcharts",
     "visualization",
+    "chart",
     "dataset",
-    "tool"
+    "tool",
+    "pixie-transformer",
+    "angular2-highcharts"
   ],
   "author": "Brian Koh Ping Weng <briankpw@gmail.com>",
-  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@angular/animations": "^5.2.0",
     "@angular/common": "^5.2.0",
@@ -47,6 +56,7 @@
     "core-js": "^2.4.1",
     "highcharts": "^7.0.3",
     "highcharts-angular": "^2.4.0",
+    "pixie-highcharts": "^0.0.1",
     "pixie-transformer": "^1.1.5",
     "rxjs": "^5.5.6",
     "underscore": "^1.9.1",

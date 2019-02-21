@@ -789,6 +789,10 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
           this.globalPXH.dateTimeLabelFormats = config.dateTimeLabelFormats;
         }
 
+        if (!this.globalPXH.hasOwnProperty('sameLegendSymbol')) {
+          this.globalPXH.sameLegendSymbol = config.sameLegendSymbol;
+        }
+
         if (!this.globalPXH.hasOwnProperty('exportTheme')) {
           this.globalPXH.exportTheme = config.exportTheme;
         } else {
@@ -824,7 +828,9 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     };
 
     try {
-      Highcharts['seriesTypes'][this.type].prototype.drawLegendSymbol = Highcharts['seriesTypes']['column'].prototype.drawLegendSymbol;
+      if (this.globalPXH.sameLegendSymbol) {
+        Highcharts['seriesTypes'][this.type].prototype.drawLegendSymbol = Highcharts['seriesTypes']['column'].prototype.drawLegendSymbol;
+      }
     } catch (e) {
       console.log('DrawLegendSymbol Error: ', e);
       if (this.globalPXH.debug) {

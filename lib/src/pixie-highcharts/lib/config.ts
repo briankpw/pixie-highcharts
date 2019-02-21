@@ -4,7 +4,8 @@ const standardTooltipDesign = {
     '<tr><td style="color:{series.color};padding:0">{series.name}</td>' +
     '<td style="padding:0"> : </td>' +
     '<td style="padding:0"><b>{point.y}</b></td></tr>',
-  footerFormat: '</table>'
+  footerFormat: '</table>',
+  useHTML: true
 };
 
 const dateTimeLabelFormats = {
@@ -24,6 +25,7 @@ const config = {
   url: 'https://www.highcharts.com?credits',
   filename: 'Pixie_Highcharts',
   exportTheme: { chart: { events: { load: function() {} } }, title: {}, subtitle: {} },
+  sameLegendSymbol: false,
   debug: false,
   debugStringify: false
 };

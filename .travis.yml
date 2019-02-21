@@ -1,4 +1,7 @@
 language: node_js
+cache:
+  directories:
+    - node_modules
 notifications:
   email: false
 node_js:
@@ -6,10 +9,13 @@ node_js:
 install:
   - npm install
 script:
+  - npm run cp
   - npm run build
+  - npm run publish
 # - npm run cover
 after_success:
   - npm run travis-deploy-once
+  - npm run semantic-release
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/

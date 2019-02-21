@@ -2,6 +2,7 @@
   "name": "pixie-highcharts",
   "version": "0.0.1",
   "author": "Brian Koh Ping Weng <briankpw@gmail.com>",
+  "description": "Pixie Highcharts is a wrapper of the highcharts and apply two-way data-binding of the option like series, tooltip, color, xAxis, yAxis, navigator, range selector, and etc. pixie-highcharts is breaking down the option into data, type, xAxis, colors, navigator, tooltips as Input and events as EventEmitter.",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -22,17 +23,22 @@
     "pixie-transformer",
     "angular2-highcharts"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "highcharts-angular": "^2.4.0"
+  },
   "peerDependencies": {
     "@angular/core": ">=5.0.0",
-    "@angular/common": ">=5.0.0",
-    "highcharts-angular": "^2.4.0",
-    "underscore": "^1.9.1"
+    "@angular/common": ">=5.0.0"
   },
   "ngPackage": {
     "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
     "lib": {
       "entryFile": "public_api.ts"
     },
-    "dest": "dist"
+    "dest": "dist",
+    "whitelistedNonPeerDependencies": ["highcharts-angular"]
   }
 }

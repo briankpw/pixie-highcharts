@@ -23,15 +23,11 @@ const colorAxisEvents = ['afterSetExtremes', 'legendItemClick', 'setExtremes'];
 const navigationEvents = ['deselectButton', 'hidePopup', 'selectButton', 'showPopup'];
 
 export function createBaseOpts(chartCmp, seriesCmp, pointCmp, xAxisCmp, yAxisCmp, zAxisCmp, colorAxisCmp, navigationCmp, element) {
-  const opts = {
+  const opts: any = {
     chart: { renderTo: element, events: {} },
-    colorAxis: { events: {} },
-    navigation: { events: {} },
-    plotOptions: { series: { events: {}, point: { events: {} } } },
-    xAxis: { events: {} },
-    yAxis: { events: {} },
-    zAxis: { events: {} }
+    plotOptions: { series: { events: {}, point: { events: {} } } }
   };
+
   chartEvents.forEach(function(eventName) {
     opts.chart.events[eventName] =
       opts.chart.events[eventName] ||
@@ -62,6 +58,7 @@ export function createBaseOpts(chartCmp, seriesCmp, pointCmp, xAxisCmp, yAxisCmp
     });
   }
   if (colorAxisCmp) {
+    opts.colorAxis = { events: {} };
     colorAxisEvents.forEach(function(eventName) {
       opts.colorAxis.events[eventName] =
         opts.colorAxis.events[eventName] ||
@@ -71,6 +68,7 @@ export function createBaseOpts(chartCmp, seriesCmp, pointCmp, xAxisCmp, yAxisCmp
     });
   }
   if (navigationCmp) {
+    opts.navigation = { events: {} };
     navigationEvents.forEach(function(eventName) {
       opts.navigation.events[eventName] =
         opts.navigation.events[eventName] ||
@@ -81,6 +79,7 @@ export function createBaseOpts(chartCmp, seriesCmp, pointCmp, xAxisCmp, yAxisCmp
   }
 
   if (xAxisCmp) {
+    opts.xAxis = { events: {} };
     xAxisEvents.forEach(function(eventName) {
       opts.xAxis.events[eventName] =
         opts.xAxis.events[eventName] ||
@@ -90,6 +89,7 @@ export function createBaseOpts(chartCmp, seriesCmp, pointCmp, xAxisCmp, yAxisCmp
     });
   }
   if (yAxisCmp) {
+    opts.yAxis = { events: {} };
     yAxisEvents.forEach(function(eventName) {
       opts.yAxis.events[eventName] =
         opts.yAxis.events[eventName] ||
@@ -99,6 +99,7 @@ export function createBaseOpts(chartCmp, seriesCmp, pointCmp, xAxisCmp, yAxisCmp
     });
   }
   if (zAxisCmp) {
+    opts.zAxis = { events: {} };
     zAxisEvents.forEach(function(eventName) {
       opts.zAxis.events[eventName] =
         opts.zAxis.events[eventName] ||

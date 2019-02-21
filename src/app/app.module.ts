@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-// import { PixieHighchartsModule } from 'pixie-highcharts';
-import { PixieHighchartsModule } from '../../lib/dist';
+import { PixieHighchartsModule } from 'pixie-highcharts';
+// import { PixieHighchartsModule } from '../../lib/dist';
 import { AppRoutingModule } from './app-routing.module';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
