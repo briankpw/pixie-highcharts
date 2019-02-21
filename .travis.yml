@@ -13,7 +13,9 @@ script:
   - npm run build
 after_success:
   - npm run travis-deploy-once
-  - npm run semantic-release
+  - npm run semantic-release-pre
+  - npm run publish
+  - npm run semantic-release-post
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/

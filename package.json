@@ -18,7 +18,9 @@
     "package": "npm run packagr && npm run pack",
     "cover": "ng test --code-coverage",
     "travis-deploy-once": "travis-deploy-once --pro",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "semantic-release-pre": "semantic-release pre",
+    "semantic-release-post": "semantic-release post"
   },
   "repository": {
     "type": "git",
