@@ -14,7 +14,7 @@ script:
 after_success:
   - npm run travis-deploy-once
   - npm run semantic-release-pre
-  - npm run publish
+  - npm run-script publish
   - npm run semantic-release-post
 branches:
   except:

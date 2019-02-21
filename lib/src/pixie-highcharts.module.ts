@@ -35,11 +35,9 @@ const ChartDeclaration: any[] = [
 export class PixieHighchartsModule {
   public static forRoot(highchartsStatic: HighchartsStatic, ...highchartsModules: Array<Function>): ModuleWithProviders {
     highchartsModules.forEach(module => {
-      console.log(module);
       module(highchartsStatic);
     });
 
-    console.log(highchartsStatic);
     return {
       ngModule: PixieHighchartsModule,
       providers: [{ provide: HighchartsStatic, useValue: highchartsStatic }]

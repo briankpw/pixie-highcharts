@@ -336,6 +336,7 @@ hc.globalPXH.debug = true;
 | standardTooltipDesign | Object  | `Below defaultTooltip`  |                                                                                          |
 | dateTimeLabelFormats  | Object  | `Below defaultDateTime` | [dateTimeLabelFormats](https://api.highcharts.com/highcharts/xAxis.dateTimeLabelFormats) |
 | sameLegendSymbol      | Boolean | False                   | T-All legend will fixed column legend symbol                                             |
+| legendPosition        | String  | top                     | [verticalAlign](https://api.highcharts.com/highcharts/legend.verticalAlign)              |
 | url                   | String  |                         | Footer URL                                                                               |
 | exportTheme           | Object  |                         | [Chart Options](https://api.highcharts.com/highcharts/exporting.chartOptions)            |
 | filename              | String  |                         | Default exporting file name for all the chart                                            |

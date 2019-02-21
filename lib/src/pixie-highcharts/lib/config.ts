@@ -26,6 +26,7 @@ const config = {
   filename: 'Pixie_Highcharts',
   exportTheme: { chart: { events: { load: function() {} } }, title: {}, subtitle: {} },
   sameLegendSymbol: false,
+  legendPosition: 'top',
   debug: false,
   debugStringify: false
 };

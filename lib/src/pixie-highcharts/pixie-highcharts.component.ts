@@ -160,10 +160,6 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       this.type = 'line';
     }
 
-    if (this.isLegend) {
-      opts['chart']['spacingTop'] = 0;
-    }
-
     if (this.isPolar) {
       opts['chart']['polar'] = true;
     }
@@ -409,7 +405,13 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       opts['credits']['enabled'] = false;
     }
 
-    if (!this.isLegend) {
+    if (this.isLegend) {
+      opts['legend'] = {};
+      opts['legend']['verticalAlign'] = this.globalPXH.legendPosition;
+      if (this.globalPXH.legendPosition === 'top') {
+        opts['chart']['spacingTop'] = 0;
+      }
+    } else {
       opts['legend'] = {};
       opts['legend']['enabled'] = false;
     }
@@ -777,8 +779,8 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       if (Highchart.hasOwnProperty('globalPXH')) {
         this.globalPXH = Highchart['globalPXH'];
 
-        if (!this.globalPXH.hasOwnProperty('footerURL')) {
-          this.globalPXH.footerURL = config.url;
+        if (!this.globalPXH.hasOwnProperty('url')) {
+          this.globalPXH.url = config.url;
         }
 
         if (!this.globalPXH.hasOwnProperty('standardTooltipDesign')) {
@@ -791,6 +793,10 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
 
         if (!this.globalPXH.hasOwnProperty('sameLegendSymbol')) {
           this.globalPXH.sameLegendSymbol = config.sameLegendSymbol;
+        }
+
+        if (!this.globalPXH.hasOwnProperty('legendPosition')) {
+          this.globalPXH.legendPosition = config.legendPosition;
         }
 
         if (!this.globalPXH.hasOwnProperty('exportTheme')) {
@@ -1043,11 +1049,13 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
 
   private declareGlobalPXH() {
     this.globalPXH = {};
-    this.globalPXH.footerURL = config.url;
     this.globalPXH.standardTooltipDesign = config.standardTooltipDesign;
     this.globalPXH.dateTimeLabelFormats = config.dateTimeLabelFormats;
+    this.globalPXH.url = config.url;
     this.globalPXH.filename = config.filename;
     this.globalPXH.exportTheme = config.exportTheme;
+    this.globalPXH.sameLegendSymbol = config.sameLegendSymbol;
+    this.globalPXH.legendPosition = config.legendPosition;
     this.globalPXH.debug = config.debug;
     this.globalPXH.debugStringify = config.debugStringify;
   }

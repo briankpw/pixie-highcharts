@@ -16,6 +16,18 @@ export interface Export {
   customExport?: boolean;
 }
 
+export interface GlobalPXH {
+  standardTooltipDesign?: Object;
+  dateTimeLabelFormats?: Object;
+  url?: string;
+  filename?: string;
+  exportTheme?: Object;
+  sameLegendSymbol?: boolean;
+  legendPosition?: string;
+  debug?: boolean;
+  debugStringify?: boolean;
+}
+
 export class ChartEvent {
   originalEvent: Event;
   context: any;

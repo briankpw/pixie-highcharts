@@ -1,11 +1,6 @@
 [![Build Status](https://travis-ci.com/briankpw/pixie-highcharts.svg?branch=master)](https://travis-ci.com/briankpw/pixie-highcharts)
-
-<!-- [![Coverage Status](https://coveralls.io/repos/github/briankpw/pixie/badge.svg)](https://coveralls.io/github/briankpw/pixie) -->
-
 [![npm version](https://badge.fury.io/js/pixie-highcharts.svg)](https://badge.fury.io/js/pixie-highcharts)
 [![Downloads](https://img.shields.io/npm/dt/pixie-highcharts.svg)](https://www.npmjs.com/package/pixie-highcharts)
-[![Dependency Status](https://david-dm.org/briankpw/pixie-highcharts.svg)](https://david-dm.org/briankpw/pixie-highcharts)
-[![devDependencies Status](https://david-dm.org/briankpw/pixie-highcharts/dev-status.svg)](https://david-dm.org/briankpw/pixie-highcharts?type=dev)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/briankpw)
 
 # Pixie Highcharts
@@ -292,7 +287,8 @@ onLoad (e) {
 ```
 
 ## Localization
-Currently, highcharts doesn't provide localization for the language you wish to display. 
+
+Currently, highcharts doesn't provide localization for the language you wish to display.
 Right now, `pixie-highcharts` supporting localization.
 
 ```ts
@@ -305,7 +301,7 @@ export class Component implements OnInit {
 }
 ```
 
-Current word support for localization is `resetZoom`, `noDataAvailable`, `months[]`, `shortMonths[]`, `weekdays[]` 
+Current word support for localization is `resetZoom`, `noDataAvailable`, `months[]`, `shortMonths[]`, `weekdays[]`
 [Localization File](https://github.com/briankpw/pixie-highcharts/blob/master/lib/src/pixie-highcharts/lib/locale.service.ts)
 
 ## Global Variable for Pixie Highcharts
@@ -339,6 +335,8 @@ hc.globalPXH.debug = true;
 | --------------------- | :-----: | ----------------------- | ---------------------------------------------------------------------------------------- |
 | standardTooltipDesign | Object  | `Below defaultTooltip`  |                                                                                          |
 | dateTimeLabelFormats  | Object  | `Below defaultDateTime` | [dateTimeLabelFormats](https://api.highcharts.com/highcharts/xAxis.dateTimeLabelFormats) |
+| sameLegendSymbol      | Boolean | False                   | T-All legend will fixed column legend symbol                                             |
+| legendPosition        | String  | top                     | [verticalAlign](https://api.highcharts.com/highcharts/legend.verticalAlign)              |
 | url                   | String  |                         | Footer URL                                                                               |
 | exportTheme           | Object  |                         | [Chart Options](https://api.highcharts.com/highcharts/exporting.chartOptions)            |
 | filename              | String  |                         | Default exporting file name for all the chart                                            |
@@ -352,7 +350,8 @@ const defaultTooltip = {
     '<tr><td style="color:{series.color};padding:0">{series.name}</td>' +
     '<td style="padding:0"> : </td>' +
     '<td style="padding:0"><b>{point.y}</b></td></tr>',
-  footerFormat: '</table>'
+  footerFormat: '</table>',
+  useHTML: true
 };
 
 const defaultDateTime = {
@@ -453,4 +452,9 @@ Please make sure to update tests as appropriate.
 
 <!-- [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fbriankpw%2Fpixie.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fbriankpw%2Fpixie?ref=badge_shield)
 
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fbriankpw%2Fpixie.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fbriankpw%2Fpixie?ref=badge_large) -->
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fbriankpw%2Fpixie.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fbriankpw%2Fpixie?ref=badge_large)
+-->
+<!--
+[![Dependency Status](https://david-dm.org/briankpw/pixie-highcharts.svg)](https://david-dm.org/briankpw/pixie-highcharts)
+[![devDependencies Status](https://david-dm.org/briankpw/pixie-highcharts/dev-status.svg)](https://david-dm.org/briankpw/pixie-highcharts?type=dev)
+-->
