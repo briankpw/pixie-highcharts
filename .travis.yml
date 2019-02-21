@@ -16,6 +16,12 @@ after_success:
   - npm run semantic-release-pre
   - npm run-script publish
   - npm run semantic-release-post
+deploy:
+  provider: npm
+  email: $NPM_EMAIL
+  api_key: $NPM_TOKEN
+  on:
+    tags: true
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
