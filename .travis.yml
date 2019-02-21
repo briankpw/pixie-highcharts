@@ -6,12 +6,6 @@ notifications:
   email: false
 node_js:
   - stable
-deploy:
-  provider: npm
-  email: $NPM_EMAIL
-  api_key: $NPM_TOKEN
-  on:
-    tags: true
 before_install:
   - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
 install:
@@ -21,9 +15,7 @@ script:
   - npm run build
 after_success:
   - npm run travis-deploy-once
-  - npm run semantic-release-pre
-  - npm run-script publish
-  - npm run semantic-release-post
+  - npm run semantic-release
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
