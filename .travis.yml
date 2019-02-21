@@ -16,15 +16,7 @@ after_success:
   - npm run semantic-release-pre
   - npm run-script publish
   - npm run semantic-release-post
-
-deploy: "echo 'ready?'"
-  provider: npm
-  email: $NPM_EMAIL
-  api_key: $NPM_TOKEN
-  on:
-    tags: true
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
 # Send coverage data to Coveralls
-nano ~/.npmrc
