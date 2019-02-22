@@ -22,7 +22,7 @@
   - [Axis Events](#axis-events)
   - [ColorAxis Events](#coloraxis-events)
 - [Members](#members)
-- [Global Variable for Pixie Highcharts](#global-variable-for-pixie-highcharts)
+- [Global Variable for Pixie Highcharts](#global-variable-and-class-for-pixie-highcharts)
   - [GlobalPXH](#globalpxh)
   - [Export](#export)
 - [Highstock](#highstock)

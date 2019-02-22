@@ -61,9 +61,9 @@ export function highchartsFactory() {
     // this.globalPXH.dateTimeLabelFormats = config.dateTimeLabelFormats;
     exportPXH.filename = 'Pixie Highcharts';
 
-    globalPXH.export = exportPXH;
+     globalPXH.export = exportPXH;
     globalPXH.debug = true;
-    hc.globalPXH = globalPXH;
+     hc.globalPXH = globalPXH;
   }
   return hc;
 }
