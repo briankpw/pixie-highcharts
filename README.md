@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.com/briankpw/pixie-highcharts.svg?branch=master)](https://travis-ci.com/briankpw/pixie-highcharts)
 [![npm version](https://badge.fury.io/js/pixie-highcharts.svg)](https://badge.fury.io/js/pixie-highcharts)
 [![Downloads](https://img.shields.io/npm/dt/pixie-highcharts.svg)](https://www.npmjs.com/package/pixie-highcharts)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fbriankpw%2Fpixie-highcharts.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fbriankpw%2Fpixie-highcharts?ref=badge_shield)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/briankpw)
 
 # Pixie Highcharts
@@ -22,6 +23,8 @@
   - [ColorAxis Events](#coloraxis-events)
 - [Members](#members)
 - [Global Variable for Pixie Highcharts](#global-variable-for-pixie-highcharts)
+  - [GlobalPXH](#globalpxh)
+  - [Export](#export)
 - [Highstock](#highstock)
 - [Highmaps](#highmaps)
 - [Highcharts Static API](#highcharts-static-api)
@@ -69,6 +72,8 @@ export class AppModule {}
 ```
 
 Let Start With Basis Hello World's Highcharts Visulization
+
+📈 [Hello World Demo](https://codesandbox.io/s/0xrm47jvw0?codemirror=1&fontsize=14)
 
 HTML
 
@@ -127,6 +132,8 @@ export class AppComponent {
 }
 ```
 
+📊 [Live Demo](https://codesandbox.io/s/jv3r0lr6k5?autoresize=1&codemirror=1&fontsize=14)
+
 Last but not least, you can use Pixie Function to transform new Pixie Dataset which doesn’t in your current payload.
 
 ## Options
@@ -134,18 +141,18 @@ Last but not least, you can use Pixie Function to transform new Pixie Dataset wh
 | Input           |      Class      | Default Value    | Reference                                                                                        |
 | --------------- | :-------------: | ---------------- | ------------------------------------------------------------------------------------------------ |
 | id              |     String      |                  | 5 Digit of ID will generated if no Input                                                         |
-| type            |     String      |                  | [Type](https://api.highcharts.com/highcharts/chart.type)                                         |
-| zoomType        |     String      |                  | [Zoom Type](https://api.highcharts.com/highcharts/chart.zoomType)                                |
+| type            |     String      |                  | [chart.type](https://api.highcharts.com/highcharts/chart.type)                                   |
+| zoomType        |     String      |                  | [chart.zoomType](https://api.highcharts.com/highcharts/chart.zoomType)                           |
 | title           |     Object      |                  |                                                                                                  |
 | xAxis           |     Object      |                  | [xAxis](https://api.highcharts.com/highcharts/xAxis)                                             |
 | yAxis           |     Object      |                  | [yAxis](https://api.highcharts.com/highcharts/yAxis)                                             |
 | zAxis           |     Object      |                  | [zAxis](https://api.highcharts.com/highcharts/zAxis)                                             |
-| tooltip         |     Object      |                  | [Tooltip](https://api.highcharts.com/highcharts/tooltip)                                         |
+| tooltip         |     Object      |                  | [tooltip](https://api.highcharts.com/highcharts/tooltip)                                         |
 | export          |     Export      |                  |                                                                                                  |
 | colors          | Array`<String>` |                  |                                                                                                  |
-| colorAxis       |     Object      |                  | [Color Axis](https://api.highcharts.com/highcharts/colorAxis)                                    |
+| colorAxis       |     Object      |                  | [colorAxis](https://api.highcharts.com/highcharts/colorAxis)                                     |
 | footer          |     String      |                  |                                                                                                  |
-| data            |  Array`<any>`   |                  | [Series](https://api.highcharts.com/highcharts/series)                                           |
+| data            |  Array`<any>`   |                  | [series](https://api.highcharts.com/highcharts/series)                                           |
 | config          |     Object      |                  | Additional Highcharts Option/Object not exist in Pixie Highcharts                                |
 | isLegend        |     Boolean     | True             | T-Enable Legend, F-Disable Legend                                                                |
 | isUTC           |     Boolean     | False            | T-Based on Browser UTC, F-UTC+0                                                                  |
@@ -162,11 +169,11 @@ Last but not least, you can use Pixie Function to transform new Pixie Dataset wh
 | isMap           |     Boolean     | False            | T-Enable Map Chart `Highmaps or map module is required`                                          |
 | isStacked       |     Boolean     | False            | T-Enable Stack Chart for Bar, Column, Line, etc                                                  |
 | isGroup         |     Boolean     | False            | T-Enable Group Chart for Bar, Column, Line, etc                                                  |
-| rangeSelector   |     Object      |                  | [Range Selector](https://api.highcharts.com/highstock/rangeSelector)                             |
+| rangeSelector   |     Object      |                  | [rangeSelector](https://api.highcharts.com/highstock/rangeSelector)                              |
 | isRangeSelector |     Boolean     | True             | T-Enable Range Selector, F-Disable Range Selector                                                |
 | isRangeInput    |     Boolean     | False            | T-Enable Range Input, F-Disable Range Input                                                      |
-| navigator       |     Object      |                  | [Navigator](https://api.highcharts.com/highstock/navigator)                                      |
-| navigatorData   |     Object      |                  | [Navigator Series](https://api.highcharts.com/highstock/navigator.series)                        |
+| navigator       |     Object      |                  | [navigator](https://api.highcharts.com/highstock/navigator)                                      |
+| navigatorData   |     Object      |                  | [navigator.series](https://api.highcharts.com/highstock/navigator.series)                        |
 | isXScrollbar    |     Boolean     | False            | T-Enable xAxis Scrollbar, F-Disable xAxis Scrollbar                                              |
 | isYScrollbar    |     Boolean     | False            | T-Enable yAxis Scrollbar, F-Disable yAxis Scrollbar                                              |
 
@@ -199,9 +206,9 @@ The only purpose of this auxiliary component is to provide access to [plotOption
 
 ```html
 <pixie-highcharts>
-    <series (legendItemClick)="onLegendClick($event)"></series>
+  <series (legendItemClick)="onLegendClick($event)"></series>
 </pixie-highcharts>
-<p><b>{{serieName}}</b> is clicked<p>
+<p><b>{{serieName}}</b> is clicked</p>
 ```
 
 ```ts
@@ -218,11 +225,11 @@ Similary you can use the `point` to access to [plotOptions.series.point.events](
 
 ```html
 <pixie-highcharts>
-    <series>
-        <point (click)="onPointClick($event)"></point>
-    </series>
+  <series>
+    <point (click)="onPointClick($event)"></point>
+  </series>
 </pixie-highcharts>
-<p><b>{{point}}</b> is clicked<p>
+<p><b>{{point}}</b> is clicked</p>
 ```
 
 <!-- [Live Demo]() -->
@@ -233,13 +240,13 @@ Similary you can use the `xAxis` or `yAxis` or `zAxis` to access to [xAxis.event
 
 ```html
 <pixie-highcharts>
-     <xAxis (afterSetExtremes)="onAfterSetExtremesX($event)"></xAxis>
-     <yAxis (afterSetExtremes)="onAfterSetExtremesY($event)"></yAxis>
-     <zAxis (afterSetExtremes)="onAfterSetExtremesZ($event)"></zAxis>
+  <xAxis (afterSetExtremes)="onAfterSetExtremesX($event)"></xAxis>
+  <yAxis (afterSetExtremes)="onAfterSetExtremesY($event)"></yAxis>
+  <zAxis (afterSetExtremes)="onAfterSetExtremesZ($event)"></zAxis>
 </pixie-highcharts>
-<p>{{minX}} - {{maxX}}<p>
-<p>{{minY}} - {{maxY}}<p>
-<p>{{minZ}} - {{maxZ}}<p>
+<p>{{minX}} - {{maxX}}</p>
+<p>{{minY}} - {{maxY}}</p>
+<p>{{minZ}} - {{maxZ}}</p>
 ```
 
 ```ts
@@ -265,9 +272,9 @@ Similary you can use the `colorAxis` to access to [colorAxis.events](https://api
 
 ```html
 <pixie-highcharts>
-    <colorAxis (legendItemClick)="onLegendClick($event)"></colorAxis>
+  <colorAxis (legendItemClick)="onLegendClick($event)"></colorAxis>
 </pixie-highcharts>
-<p><b>{{colorLegend}}</b> is clicked<p>
+<p><b>{{colorLegend}}</b> is clicked</p>
 ```
 
 <!-- [Live Demo]() -->
@@ -301,47 +308,53 @@ export class Component implements OnInit {
 }
 ```
 
-Current word support for localization is `resetZoom`, `noDataAvailable`, `months[]`, `shortMonths[]`, `weekdays[]`
-[Localization File](https://github.com/briankpw/pixie-highcharts/blob/master/lib/src/pixie-highcharts/lib/locale.service.ts)
+Current word support for localization is `resetZoom`, `noDataAvailable`, `months[]`, `shortMonths[]`, `weekdays[]` in [Localization File](https://github.com/briankpw/pixie-highcharts/blob/master/lib/src/pixie-highcharts/lib/locale.service.ts)
 
-## Global Variable for Pixie Highcharts
+## Global Variable and Class for Pixie Highcharts
 
 For normal way to generate highcharts visualization, you required to declare style, tooltips, exporting, datetime format, and url again and again for the options.
 For `pixie-highcharts` you no need to declare repeatedly.
 
 ```ts
-import * as Highcharts from 'highcharts';
+import * as hc from 'highcharts';
 // OR
-const Highcharts = require('highcharts');
+const hc = require('highcharts');
 ```
 
 ```ts
-hc.globalPXH = {};
-hc.globalPXH.footerURL = 'https://github.com/briankpw/pixie-highcharts/';
-hc.globalPXH.exportTheme = {
+const globalPXH: GlobalPXH = {};
+const exportPXH: Export = {};
+
+// Declare Global Variable for Each COnfig
+exportPXH.theme = {
   chart: {
     backgroundColor: '#23232A',
     spacingTop: 10,
     style: { fontFamily: 'Arial', color: '##FFF' }
   }
 };
-hc.globalPXH.standardTooltipDesign = config.standardTooltipDesign;
-hc.globalPXH.dateTimeLabelFormats = config.dateTimeLabelFormats;
-hc.globalPXH.filename = 'Pixie Highcharts';
-hc.globalPXH.debug = true;
+exportPXH.filename = 'Pixie Highcharts';
+globalPXH.export = exportPXH;
+
+globalPXH.url = 'https://github.com/briankpw/pixie-highcharts';
+globalPXH.debug = true;
+
+// Assign globalPXH to Highcharts
+hc.globalPXH = globalPXH;
 ```
 
-| Input                 |  Class  | Default Value           | Reference                                                                                |
-| --------------------- | :-----: | ----------------------- | ---------------------------------------------------------------------------------------- |
-| standardTooltipDesign | Object  | `Below defaultTooltip`  |                                                                                          |
-| dateTimeLabelFormats  | Object  | `Below defaultDateTime` | [dateTimeLabelFormats](https://api.highcharts.com/highcharts/xAxis.dateTimeLabelFormats) |
-| sameLegendSymbol      | Boolean | False                   | T-All legend will fixed column legend symbol                                             |
-| legendPosition        | String  | top                     | [verticalAlign](https://api.highcharts.com/highcharts/legend.verticalAlign)              |
-| url                   | String  |                         | Footer URL                                                                               |
-| exportTheme           | Object  |                         | [Chart Options](https://api.highcharts.com/highcharts/exporting.chartOptions)            |
-| filename              | String  |                         | Default exporting file name for all the chart                                            |
-| debug                 | Boolean | False                   | T-Turn on Debug (View compile options, error, and etc)                                   |
-| debugStringify        | Boolean | False                   | T-Turn on Debug with stringify output                                                    |
+### GlobalPXH
+
+| Input                 |  Class  | Default Value           | Reference                                                                                      |
+| --------------------- | :-----: | ----------------------- | ---------------------------------------------------------------------------------------------- |
+| standardTooltipDesign | Object  | `Below defaultTooltip`  |                                                                                                |
+| dateTimeLabelFormats  | Object  | `Below defaultDateTime` | [xAxis.dateTimeLabelFormats](https://api.highcharts.com/highcharts/xAxis.dateTimeLabelFormats) |
+| sameLegendSymbol      | Boolean | False                   | T-All legend will fixed column legend symbol                                                   |
+| legendPosition        | String  | top                     | [legend.verticalAlign](https://api.highcharts.com/highcharts/legend.verticalAlign)             |
+| url                   | String  |                         | Footer URL                                                                                     |
+| export                | Export  |                         | [Export](#export)                                                                              |
+| debug                 | Boolean | False                   | T-Turn on Debug (View compile options, error, and etc)                                         |
+| debugStringify        | Boolean | False                   | T-Turn on Debug with stringify output                                                          |
 
 ```ts
 const defaultTooltip = {
@@ -365,6 +378,28 @@ const defaultDateTime = {
   year: '%y'
 };
 ```
+
+### Export
+
+| Input                  |  Class  | Default Value | Reference                                                                              |
+| ---------------------- | :-----: | ------------- | -------------------------------------------------------------------------------------- |
+| title                  | String  |               | Export title if `null`, default chart title will be consider                           |
+| subtitle               | String  |               | Export subtitle if `null`, default chart title will be consider                        |
+| filename               | String  |               |                                                                                        |
+| width                  | Number  | 600           | [exporting.sourceWidth](https://api.highcharts.com/highcharts/exporting.sourceWidth)   |
+| height                 | Number  | 800           | [exporting.sourceHeight](https://api.highcharts.com/highcharts/exporting.sourceHeight) |
+| scale                  | Number  |               | Automated adjust export resolution for image and pdf                                   |
+| theme                  | Object  |               | [exporting.chartOptions](https://api.highcharts.com/highcharts/exporting.chartOptions) |
+| enabled                | Boolean | True          | T-Turn on exporting button                                                             |
+| fallbackToExportServer | Boolean | False         | T-Turn on offline exporting                                                            |
+| customExport           | Boolean | False         | Flag for custom Highcharts event, function, any                                        |
+
+### Title
+
+| Input    | Class  |
+| -------- | :----: |
+| title    | String |
+| subtitle | String |
 
 ## Highstock
 
@@ -450,10 +485,8 @@ Please make sure to update tests as appropriate.
 
 [MIT](https://choosealicense.com/licenses/mit/) @ Brian Koh Ping Weng
 
-<!-- [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fbriankpw%2Fpixie.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fbriankpw%2Fpixie?ref=badge_shield)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fbriankpw%2Fpixie-highcharts.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fbriankpw%2Fpixie-highcharts?ref=badge_large)
 
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fbriankpw%2Fpixie.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fbriankpw%2Fpixie?ref=badge_large)
--->
 <!--
 [![Dependency Status](https://david-dm.org/briankpw/pixie-highcharts.svg)](https://david-dm.org/briankpw/pixie-highcharts)
 [![devDependencies Status](https://david-dm.org/briankpw/pixie-highcharts/dev-status.svg)](https://david-dm.org/briankpw/pixie-highcharts?type=dev)

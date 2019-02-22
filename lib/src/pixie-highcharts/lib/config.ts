@@ -1,3 +1,5 @@
+import { GlobalPXH, Export } from './chart.model';
+
 const standardTooltipDesign = {
   headerFormat: '<span style="font-size:10px">{point.key}</span><table style="margin-bottom:unset">',
   pointFormat:
@@ -19,16 +21,24 @@ const dateTimeLabelFormats = {
   year: '%y'
 };
 
-const config = {
+const exportConfig: Export = {
+  filename: 'Pixie_Highcharts',
+  enabled: true,
+  theme: { chart: { events: { load: function() {} } }, title: {}, subtitle: {} }.chart,
+  fallbackToExportServer: false,
+  height: 600,
+  width: 800
+};
+
+const config: GlobalPXH = {
   standardTooltipDesign: standardTooltipDesign,
   dateTimeLabelFormats: dateTimeLabelFormats,
   url: 'https://www.highcharts.com?credits',
-  filename: 'Pixie_Highcharts',
-  exportTheme: { chart: { events: { load: function() {} } }, title: {}, subtitle: {} },
+  export: exportConfig,
   sameLegendSymbol: false,
   legendPosition: 'top',
   debug: false,
   debugStringify: false
 };
 
-export { config };
+export { config, exportConfig };

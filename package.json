@@ -39,7 +39,8 @@
     "dataset",
     "tool",
     "pixie-transformer",
-    "angular2-highcharts"
+    "angular2-highcharts",
+    "angular"
   ],
   "author": "Brian Koh Ping Weng <briankpw@gmail.com>",
   "publishConfig": {
@@ -61,7 +62,7 @@
     "core-js": "^2.4.1",
     "highcharts": "^7.0.3",
     "highcharts-angular": "^2.4.0",
-    "pixie-highcharts": "^0.0.1",
+    "pixie-highcharts": "file:lib/dist",
     "pixie-transformer": "^1.1.5",
     "rxjs": "^5.5.6",
     "underscore": "^1.9.1",

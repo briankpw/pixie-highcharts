@@ -10,6 +10,7 @@ export interface Export {
   width?: number;
   height?: number;
   scale?: number;
+  theme?: Object;
 
   enabled?: boolean;
   fallbackToExportServer?: boolean;
@@ -19,9 +20,8 @@ export interface Export {
 export interface GlobalPXH {
   standardTooltipDesign?: Object;
   dateTimeLabelFormats?: Object;
+  export?: Export;
   url?: string;
-  filename?: string;
-  exportTheme?: Object;
   sameLegendSymbol?: boolean;
   legendPosition?: string;
   debug?: boolean;

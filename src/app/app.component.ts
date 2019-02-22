@@ -9,40 +9,7 @@ import * as Highcharts from 'highcharts';
 export class AppComponent {
   title = 'pixie';
   theme: Highcharts.Options = {
-    colors: [
-      '#B9E8E0',
-      '#F2DFBE',
-      '#FFC189',
-      '#F5AB99',
-      '#F07A9A',
-      '#FF7E5F',
-      '#FEB47B',
-      '#FFE66D',
-      '#04A777',
-      '#4ECDC4',
-      '#6CBF84',
-      '#FF6BBB',
-      '#FF6B6B',
-      '#D90368',
-      '#F4E8C1',
-      '#DFE2D2',
-      '#F0F7EE',
-      '#FFFFFF',
-      '#83B692',
-      '#009BFC',
-      '#ED6A5A',
-      '#F0A61F',
-      '#FF8A12',
-      '#337873',
-      '#2b908f',
-      '#90ee7e',
-      '#f45b5b',
-      '#7798BF',
-      '#aaeeee',
-      '#ff0066',
-      '#eeaaee',
-      '#55BF3B'
-    ],
+    colors: ['#B9E8E0', '#F2DFBE', '#FFC189', '#F5AB99', '#F07A9A', '#FF7E5F', '#FEB47B', '#ff0066', '#eeaaee', '#55BF3B'],
     chart: {
       backgroundColor: 'rgba(255, 255, 255, 0.0)',
       style: {
@@ -234,5 +201,4 @@ declare module 'highcharts' {
   interface SVGAttributes {
     states: Highcharts.CSSObject;
   }
-
 }

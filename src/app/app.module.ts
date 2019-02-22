@@ -10,7 +10,7 @@ import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';
 import { ConfigureComponent } from './configure/configure.component';
 import { ConfigureHighstockComponent } from './configure-highstock/configure-highstock.component';
-import { HighchartsStatic, GlobalPXH } from 'pixie-highcharts';
+import { HighchartsStatic, GlobalPXH, Export } from 'pixie-highcharts';
 
 declare var require: any;
 export function highchartsFactory() {
@@ -38,10 +38,11 @@ export function highchartsFactory() {
     bst(hc);
     hc.PixieHighLoaded = true;
     const globalPXH: GlobalPXH = {};
-
+    const exportPXH: Export = {};
     // hc.globalPXH.legendPosition = 'bottom';
     globalPXH.url = 'google.com';
-    globalPXH.exportTheme = {
+
+    exportPXH.theme = {
       chart: {
         backgroundColor: '#23232A',
         spacingTop: 10,
@@ -58,7 +59,9 @@ export function highchartsFactory() {
     };
     // this.globalPXH.standardTooltipDesign = config.standardTooltipDesign;
     // this.globalPXH.dateTimeLabelFormats = config.dateTimeLabelFormats;
-    globalPXH.filename = 'Pixie Highcharts';
+    exportPXH.filename = 'Pixie Highcharts';
+
+    globalPXH.export = exportPXH;
     globalPXH.debug = true;
     hc.globalPXH = globalPXH;
   }

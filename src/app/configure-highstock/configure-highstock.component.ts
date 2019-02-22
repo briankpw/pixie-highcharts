@@ -781,7 +781,35 @@ export class ConfigureHighstockComponent implements OnInit {
   ];
 
   rangeSelector = {
-    enabled: true
+    allButtonsEnabled: true,
+    buttons: [{
+        type: 'month',
+        count: 3,
+        text: 'Day',
+        dataGrouping: {
+            forced: true,
+            units: [['day', [1]]]
+        }
+    }, {
+        type: 'year',
+        count: 1,
+        text: 'Week',
+        dataGrouping: {
+            forced: true,
+            units: [['week', [1]]]
+        }
+    }, {
+        type: 'all',
+        text: 'Month',
+        dataGrouping: {
+            forced: true,
+            units: [['month', [1]]]
+        }
+    }],
+    buttonTheme: {
+        width: 60
+    },
+    selected: 2
   };
 
   navigator = {
@@ -1069,7 +1097,7 @@ export class ConfigureHighstockComponent implements OnInit {
     useHTML: true
   };
   // filename: 'Volume',
-  export = { title: 'Volume',  scale: 3 };
+  export = { title: 'Volume', scale: 3 };
   config = {
     legend: { borderWidth: 0, borderRadius: 0, itemMarginTop: 0, padding: 0 }
   };

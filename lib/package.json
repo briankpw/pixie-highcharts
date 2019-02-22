@@ -21,7 +21,8 @@
     "dataset",
     "tool",
     "pixie-transformer",
-    "angular2-highcharts"
+    "angular2-highcharts",
+    "angular"
   ],
   "publishConfig": {
     "access": "public"

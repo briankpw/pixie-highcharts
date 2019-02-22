@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, Output, ContentChild, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import * as Highcharts from 'highcharts';
 
-import { Export } from './lib/chart.model';
+import { Export, GlobalPXH } from './lib/chart.model';
 import { ChartSeriesComponent } from './lib/chart-series.component';
 import { ChartXAxisComponent } from './lib/chart-xAxis.component';
 import { ChartYAxisComponent } from './lib/chart-yAxis.component';
@@ -14,7 +14,7 @@ import { createBaseOpts } from './lib/createBaseOpts';
 import { deepAssign } from './lib/deepAssign';
 import { prefixConversion } from './lib/prefixConversion';
 import { event } from './lib/event';
-import { config } from './lib/config';
+import { config, exportConfig } from './lib/config';
 
 import { HighchartsService } from './lib/highcharts.service';
 import { LocaleService } from './lib/locale.service';
@@ -106,7 +106,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   public updateFlag: Boolean = false;
 
   private element: ElementRef;
-  private globalPXH: any;
+  private globalPXH: GlobalPXH;
   private i18nNoDataAvailable = 'No Data Available';
 
   constructor(element: ElementRef, highchartsService: HighchartsService, localeService: LocaleService) {
@@ -399,7 +399,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     if (typeof this.footer !== 'undefined') {
       opts['credits'] = {};
       opts['credits']['text'] = this.footer;
-      opts['credits']['href'] = this.globalPXH.footerURL;
+      opts['credits']['href'] = this.globalPXH.url;
     } else {
       opts['credits'] = {};
       opts['credits']['enabled'] = false;
@@ -799,14 +799,34 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
           this.globalPXH.legendPosition = config.legendPosition;
         }
 
-        if (!this.globalPXH.hasOwnProperty('exportTheme')) {
-          this.globalPXH.exportTheme = config.exportTheme;
+        if (!this.globalPXH.hasOwnProperty('export')) {
+          this.globalPXH.export = config.export;
         } else {
-          this.globalPXH.exportTheme = deepAssign({}, this.globalPXH.exportTheme, config.exportTheme);
-        }
+          if (!this.globalPXH.export.hasOwnProperty('theme')) {
+            this.globalPXH.export.theme = exportConfig.theme;
+          } else {
+            this.globalPXH.export.theme = deepAssign({}, this.globalPXH.export.theme, exportConfig.theme);
+          }
 
-        if (!this.globalPXH.hasOwnProperty('filename')) {
-          this.globalPXH.filename = config.filename;
+          if (!this.globalPXH.export.hasOwnProperty('enabled')) {
+            this.globalPXH.export.enabled = exportConfig.enabled;
+          }
+
+          if (!this.globalPXH.export.hasOwnProperty('filename')) {
+            this.globalPXH.export.filename = exportConfig.filename;
+          }
+
+          if (!this.globalPXH.export.hasOwnProperty('fallbackToExportServer')) {
+            this.globalPXH.export.fallbackToExportServer = exportConfig.fallbackToExportServer;
+          }
+
+          if (!this.globalPXH.export.hasOwnProperty('height')) {
+            this.globalPXH.export.height = exportConfig.height;
+          }
+
+          if (!this.globalPXH.export.hasOwnProperty('width')) {
+            this.globalPXH.export.width = exportConfig.width;
+          }
         }
 
         if (!this.globalPXH.hasOwnProperty('debug')) {
@@ -817,10 +837,10 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
           this.globalPXH.debugStringify = config.debugStringify;
         }
       } else {
-        this.declareGlobalPXH();
+        this.globalPXH = { ...config };
       }
     } catch (e) {
-      this.declareGlobalPXH();
+      this.globalPXH = { ...config };
 
       console.log('Init Error: ', e);
       if (this.globalPXH.debug) {
@@ -848,13 +868,13 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
 
   exportingConfigure(exportParam: Export, update = false) {
     let standard: any = {
-      enabled: false,
+      enabled: this.globalPXH.export.enabled,
       customExport: false,
-      fallbackToExportServer: false,
-      sourceHeight: 600,
-      sourceWidth: 800,
-      chartOptions: this.globalPXH.exportTheme,
-      filename: this.globalPXH.filename
+      fallbackToExportServer: this.globalPXH.export.fallbackToExportServer,
+      sourceHeight: this.globalPXH.export.height,
+      sourceWidth: this.globalPXH.export.width,
+      chartOptions: this.globalPXH.export.theme,
+      filename: this.globalPXH.export.filename
     };
 
     if (update) {
@@ -1045,19 +1065,6 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         obj[key] = value;
       }
     }
-  }
-
-  private declareGlobalPXH() {
-    this.globalPXH = {};
-    this.globalPXH.standardTooltipDesign = config.standardTooltipDesign;
-    this.globalPXH.dateTimeLabelFormats = config.dateTimeLabelFormats;
-    this.globalPXH.url = config.url;
-    this.globalPXH.filename = config.filename;
-    this.globalPXH.exportTheme = config.exportTheme;
-    this.globalPXH.sameLegendSymbol = config.sameLegendSymbol;
-    this.globalPXH.legendPosition = config.legendPosition;
-    this.globalPXH.debug = config.debug;
-    this.globalPXH.debugStringify = config.debugStringify;
   }
 
   private generateID() {

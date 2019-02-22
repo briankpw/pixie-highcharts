@@ -63,7 +63,7 @@ export class ConfigureComponent implements OnInit {
     useHTML: true
   };
 
-  export = { title: 'Volume', filename: 'Volume', scale: 3 };
+  export = { title: 'Sample File Name', filename: 'Sample File Name', scale: 3 };
   config = { legend: { borderWidth: 0, borderRadius: 0, itemMarginTop: 0, padding: 0 } };
 
   chart;

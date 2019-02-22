@@ -1,5 +1,7 @@
 label {
   color: white;
+  font-weight: bold;
+  font-style: "Arial";
 }
 
 span {
@@ -14,4 +16,9 @@ span {
 .form-control {
   font-size: 13px;
   line-height: 1.2;
+}
+
+
+.checkbox-inline{
+  padding-left: 5px;
 }
