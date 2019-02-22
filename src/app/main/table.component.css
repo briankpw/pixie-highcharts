@@ -68,6 +68,7 @@ th {
 
 .table-hover tbody tr:hover {
   background-color: rgb(51, 51, 55);
+  color:white;
 }
 
 
