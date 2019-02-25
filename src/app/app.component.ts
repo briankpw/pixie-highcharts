@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 
 import * as Highcharts from 'highcharts';
 @Component({
-  selector: 'pixie-root',
+  selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   title = 'pixie';
@@ -184,7 +184,7 @@ export class AppComponent {
 
   constructor() {
     Highcharts.setOptions(this.theme);
-    Highcharts['footerURL'] = 'aa';
+    // Highcharts['footerURL'] = 'aa';
   }
 }
 
