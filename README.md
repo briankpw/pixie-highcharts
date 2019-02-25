@@ -21,10 +21,12 @@
   - [Point Events](#point-events)
   - [Axis Events](#axis-events)
   - [ColorAxis Events](#coloraxis-events)
+  - [Navigation Events](#navigation-events)
 - [Members](#members)
-- [Global Variable for Pixie Highcharts](#global-variable-and-class-for-pixie-highcharts)
+- [Global Variable and Class for Pixie Highcharts](#global-variable-and-class-for-pixie-highcharts)
   - [GlobalPXH](#globalpxh)
   - [Export](#export)
+  - [Title](#title)
 - [Highstock](#highstock)
 - [Highmaps](#highmaps)
 - [Highcharts Static API](#highcharts-static-api)
@@ -217,7 +219,7 @@ onLegendClick (e) {
 }
 ```
 
-📊 [Live Demo](https://codesandbox.io/s/kk650l0qyv?codemirror=1&fontsize=14)
+📊 [Live Demo](https://codesandbox.io/s/01plyp30o0?autoresize=1&fontsize=14)
 
 ### Point Events
 
@@ -279,7 +281,11 @@ Similary you can use the `colorAxis` to access to [colorAxis.events](https://api
 <p><b>{{colorLegend}}</b> is clicked</p>
 ```
 
-<!-- 📊 [Live Demo]() -->
+📊 [Live Demo](https://codesandbox.io/s/qvoo281qm6?autoresize=1&fontsize=14)
+
+### Navigation Events
+
+Similary you can use the `navigation` to access to [navigation.events](https://api.highcharts.com/highcharts/navigation.events) API.
 
 ## Members
 
@@ -294,6 +300,8 @@ onLoad (e) {
   this.chartInstance = e;
 }
 ```
+
+📊 [Live Demo](https://codesandbox.io/s/ryqkz1vky4?autoresize=1&fontsize=14)
 
 ## Localization
 

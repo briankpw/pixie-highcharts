@@ -61,9 +61,15 @@ export function highchartsFactory() {
     // this.globalPXH.dateTimeLabelFormats = config.dateTimeLabelFormats;
     exportPXH.filename = 'Pixie Highcharts';
 
-     globalPXH.export = exportPXH;
+    globalPXH.export = exportPXH;
     globalPXH.debug = true;
-     hc.globalPXH = globalPXH;
+    // globalPXH.debugStringify = true;
+    hc.globalPXH = globalPXH;
+
+    // const globalPXH: any = {};
+    // globalPXH.debug = true;
+    // globalPXH.debugStringify = true;
+    // hc.globalPXH = globalPXH;
   }
   return hc;
 }

@@ -21,10 +21,12 @@
   - [Point Events](#point-events)
   - [Axis Events](#axis-events)
   - [ColorAxis Events](#coloraxis-events)
+  - [Navigation Events](#navigation-events)
 - [Members](#members)
-- [Global Variable for Pixie Highcharts](#global-variable-for-pixie-highcharts)
+- [Global Variable and Class for Pixie Highcharts](#global-variable-and-class-for-pixie-highcharts)
   - [GlobalPXH](#globalpxh)
   - [Export](#export)
+  - [Title](#title)
 - [Highstock](#highstock)
 - [Highmaps](#highmaps)
 - [Highcharts Static API](#highcharts-static-api)
@@ -134,8 +136,6 @@ export class AppComponent {
 
 📊 [Live Demo](https://codesandbox.io/s/jv3r0lr6k5?autoresize=1&codemirror=1&fontsize=14)
 
-Last but not least, you can use Pixie Function to transform new Pixie Dataset which doesn’t in your current payload.
-
 ## Options
 
 | Input           |      Class      | Default Value    | Reference                                                                                        |
@@ -187,7 +187,9 @@ ChartEvent is an class which simply wraps original Highcharts events (`chartEven
 All the events from the [chart.events](http://api.highcharts.com/highcharts#chart.events) are available as output properties of the `chart` component.
 
 ```html
-<pixie-highcharts (selection)="onChartSelection($event)"> </pixie-highcharts>
+<pixie-highcharts (selection)="onChartSelection($event)"></pixie-highcharts>
+
+<p>Selection area from <b>{{from}}</b> to <b>{{to}}</b></p>
 ```
 
 ```ts
@@ -197,7 +199,7 @@ onChartSelection (e) {
 }
 ```
 
-<!-- [Live Demo]() -->
+📊 [Live Demo](https://codesandbox.io/s/py25qzv86q?codemirror=1&fontsize=14)
 
 ### Series Events
 
@@ -217,7 +219,7 @@ onLegendClick (e) {
 }
 ```
 
-<!-- [Live Demo]() -->
+📊 [Live Demo](https://codesandbox.io/s/01plyp30o0?autoresize=1&fontsize=14)
 
 ### Point Events
 
@@ -232,7 +234,7 @@ Similary you can use the `point` to access to [plotOptions.series.point.events](
 <p><b>{{point}}</b> is clicked</p>
 ```
 
-<!-- [Live Demo]() -->
+📊 [Live Demo](https://codesandbox.io/s/kk650l0qyv?codemirror=1&fontsize=14)
 
 ### Axis Events
 
@@ -244,9 +246,9 @@ Similary you can use the `xAxis` or `yAxis` or `zAxis` to access to [xAxis.event
   <yAxis (afterSetExtremes)="onAfterSetExtremesY($event)"></yAxis>
   <zAxis (afterSetExtremes)="onAfterSetExtremesZ($event)"></zAxis>
 </pixie-highcharts>
-<p>{{minX}} - {{maxX}}</p>
-<p>{{minY}} - {{maxY}}</p>
-<p>{{minZ}} - {{maxZ}}</p>
+<p>ExtremesX: <b>{{minX}}</b> - <b>{{maxX}}</b></p>
+<p>ExtremesY: <b>{{minY}}</b> - <b>{{maxY}}</b></p>
+<p>ExtremesZ: <b>{{minZ}}</b> - <b>{{maxZ}}</b></p>
 ```
 
 ```ts
@@ -266,6 +268,8 @@ onAfterSetExtremesZ (e) {
 }
 ```
 
+📊 [Live Demo](https://codesandbox.io/s/vj91625085?codemirror=1&fontsize=14)
+
 ### ColorAxis Events
 
 Similary you can use the `colorAxis` to access to [colorAxis.events](https://api.highcharts.com/highcharts/colorAxis.events) API.
@@ -277,7 +281,11 @@ Similary you can use the `colorAxis` to access to [colorAxis.events](https://api
 <p><b>{{colorLegend}}</b> is clicked</p>
 ```
 
-<!-- [Live Demo]() -->
+📊 [Live Demo](https://codesandbox.io/s/qvoo281qm6?autoresize=1&fontsize=14)
+
+### Navigation Events
+
+Similary you can use the `navigation` to access to [navigation.events](https://api.highcharts.com/highcharts/navigation.events) API.
 
 ## Members
 
@@ -292,6 +300,8 @@ onLoad (e) {
   this.chartInstance = e;
 }
 ```
+
+📊 [Live Demo](https://codesandbox.io/s/ryqkz1vky4?autoresize=1&fontsize=14)
 
 ## Localization
 
@@ -421,6 +431,8 @@ Don't forget, You need to update @NgModule in app.module.ts
 })
 ...
 ```
+
+📊 [Live Demo](https://codesandbox.io/s/k37zjxl7nr?codemirror=1&fontsize=14)
 
 ## Highmaps
 
