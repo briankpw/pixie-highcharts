@@ -31,8 +31,8 @@
     "highcharts-angular": "^2.4.0"
   },
   "peerDependencies": {
-    "@angular/core": ">=5.0.0",
-    "@angular/common": ">=5.0.0"
+    "@angular/common": "^2.0.0-rc.0 || >=2.0.0",
+    "@angular/core": "^2.0.0-rc.0 || >=2.0.0"
   },
   "ngPackage": {
     "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
