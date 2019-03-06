@@ -63,7 +63,8 @@ export function highchartsFactory() {
 
     globalPXH.export = exportPXH;
     globalPXH.debug = true;
-    // globalPXH.debugStringify = true;
+    globalPXH.debugStringify = true;
+    globalPXH.sameLegendSymbol = true;
     hc.globalPXH = globalPXH;
 
     // const globalPXH: any = {};

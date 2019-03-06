@@ -12,7 +12,7 @@ const locales = require('../../../lib/src/pixie-highcharts/lib/locale.json');
 })
 export class ConfigureComponent implements OnInit {
   public formGroupChart: FormGroup;
-  type = 'bar';
+  type = 'line';
   zoomType = 'x';
   data = [
     { name: 'OMAK-1', data: [{ x: 0, y: 983 }] },

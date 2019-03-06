@@ -1,5 +1,6 @@
-import * as Highcharts from 'highcharts';
+import * as Highchart from 'highcharts';
 
+const Highcharts: any = Highchart;
 function addXScrollMouseWheel(chart) {
   Highcharts.addEvent(chart.container, document.onwheel === undefined ? 'DOMMouseScroll' : 'mousewheel', e => {
     let delta, newMin, newMax;

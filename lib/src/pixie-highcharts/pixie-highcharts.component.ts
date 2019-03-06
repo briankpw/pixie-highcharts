@@ -12,6 +12,7 @@ import { ChartEvent } from './lib/chart.model';
 
 import { createBaseOpts } from './lib/createBaseOpts';
 import { deepAssign } from './lib/deepAssign';
+import { deepClone } from './lib/deepClone';
 import { prefixConversion } from './lib/prefixConversion';
 import { event } from './lib/event';
 import { config, exportConfig } from './lib/config';
@@ -99,7 +100,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   @ContentChild(ChartColorAxisComponent) chartColorAxisComponent: ChartColorAxisComponent;
   @ContentChild(ChartNavigationComponent) chartNavigationComponent: ChartNavigationComponent;
 
-  public Highcharts;
+  public Highcharts: any;
   public constructorType = 'chart';
   public options: any;
   public chart: any;
@@ -112,7 +113,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   constructor(element: ElementRef, highchartsService: HighchartsService, localeService: LocaleService) {
     this.element = element;
     this.Highcharts = highchartsService.getHighchartsStatic();
-    this.initCustomHighCharts();
+    this.initConfiguration();
 
     localeService.getLocale().subscribe(d => {
       this.i18nNoDataAvailable = d.noDataAvailable === '' ? 'No Data Available' : d.noDataAvailable;
@@ -144,6 +145,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   }
 
   async ngOnInit() {
+    this.initCustomHighCharts();
     const opts: Object = this.plotOptionConfigure();
     opts['exporting'] = this.exportingConfigure(this.export);
 
@@ -189,6 +191,12 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
 
       if (!this.isRangeSelector) {
         opts['rangeSelector']['enabled'] = false;
+      } else {
+        if (this.data !== undefined && this.data.length) {
+          opts['rangeSelector']['enabled'] = true;
+        } else {
+          opts['rangeSelector']['enabled'] = false;
+        }
       }
 
       if (!this.isRangeInput) {
@@ -697,7 +705,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     }
 
     if (this.isYScrollbar) {
-      event.addXScrollMouseWheel(this.chart);
+      event.addYScrollMouseWheel(this.chart);
     }
   }
 
@@ -749,6 +757,11 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     if (this.isGap) {
       plotOption['plotOptions'][this.type]['gapSize'] = this.gapSize;
       plotOption['plotOptions'][this.type]['gapUnit'] = this.gapUnit;
+
+      if (plotOption['plotOptions'][this.type].hasOwnProperty('marker')) {
+        plotOption['plotOptions'][this.type]['marker']['enabled'] = true;
+        plotOption['plotOptions'][this.type]['marker']['radius'] = 2;
+      }
     } else {
       if (update) {
         plotOption['plotOptions'][this.type]['gapSize'] = 0;
@@ -773,9 +786,10 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     return plotOption;
   }
 
-  initCustomHighCharts() {
+  initConfiguration() {
+    const Highchart: any = this.Highcharts;
+
     try {
-      const Highchart = this.Highcharts;
       if (Highchart.hasOwnProperty('globalPXH')) {
         this.globalPXH = Highchart['globalPXH'];
 
@@ -852,7 +866,9 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     Highcharts['SVGRenderer'].prototype.symbols['cross'] = function(x, y, w, h) {
       return ['M', x, y, 'L', x + w, y + h, 'M', x + w, y, 'L', x, y + h, 'z'];
     };
+  }
 
+  initCustomHighCharts() {
     try {
       if (this.globalPXH.sameLegendSymbol) {
         Highcharts['seriesTypes'][this.type].prototype.drawLegendSymbol = Highcharts['seriesTypes']['column'].prototype.drawLegendSymbol;
@@ -873,7 +889,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       fallbackToExportServer: this.globalPXH.export.fallbackToExportServer,
       sourceHeight: this.globalPXH.export.height,
       sourceWidth: this.globalPXH.export.width,
-      chartOptions: this.globalPXH.export.theme,
+      chartOptions: deepClone(this.globalPXH.export.theme, true),
       filename: this.globalPXH.export.filename
     };
 
@@ -954,11 +970,11 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   private validateSeries(updateOption, isSubtitle = false) {
     try {
       const subtitle: any = { text: this.i18nNoDataAvailable };
-      let xAxis = false;
-      let yAxis = false;
-      let zAxis = false;
-      let navigator = false;
-      let rangeSelector = false;
+      let xAxis: Boolean = false;
+      let yAxis: Boolean = false;
+      let zAxis: Boolean = false;
+      let navigator: Boolean = false;
+      let rangeSelector: Boolean = false;
 
       // Declare Empty Object
       if (!updateOption.hasOwnProperty('rangeSelector')) {
@@ -969,11 +985,11 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         updateOption.navigator = {};
       }
 
-      if (this.data.length !== 0) {
+      if (this.data !== undefined && this.data.length) {
         xAxis = true;
         yAxis = true;
         zAxis = true;
-        rangeSelector = true;
+        rangeSelector = this.isRangeSelector;
         navigator = true;
         subtitle.text = null;
       }
@@ -1001,15 +1017,27 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       }
 
       if (typeof this.xAxis !== 'undefined') {
-        this.complexOptionAssignment(updateOption, 'xAxis', { visible: xAxis });
+        if (this.xAxis.hasOwnProperty('visible')) {
+          this.complexOptionAssignment(updateOption, 'xAxis', { visible: this.xAxis['visible'] });
+        } else {
+          this.complexOptionAssignment(updateOption, 'xAxis', { visible: xAxis });
+        }
       }
 
       if (typeof this.yAxis !== 'undefined') {
-        this.complexOptionAssignment(updateOption, 'yAxis', { visible: yAxis });
+        if (this.yAxis.hasOwnProperty('visible')) {
+          this.complexOptionAssignment(updateOption, 'yAxis', { visible: this.yAxis['visible'] });
+        } else {
+          this.complexOptionAssignment(updateOption, 'yAxis', { visible: yAxis });
+        }
       }
 
       if (typeof this.zAxis !== 'undefined') {
-        this.complexOptionAssignment(updateOption, 'zAxis', { visible: zAxis });
+        if (this.zAxis.hasOwnProperty('visible')) {
+          this.complexOptionAssignment(updateOption, 'zAxis', { visible: this.zAxis['visible'] });
+        } else {
+          this.complexOptionAssignment(updateOption, 'zAxis', { visible: zAxis });
+        }
       }
 
       if (!isSubtitle) {

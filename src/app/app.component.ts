@@ -147,19 +147,11 @@ export class AppComponent {
     },
 
     navigator: {
-      handles: {
-        backgroundColor: '#666',
-        borderColor: '#AAA'
-      },
+      handles: { backgroundColor: '#666', borderColor: '#AAA' },
       outlineColor: '#CCC',
       maskFill: 'rgba(255,255,255,0.1)',
-      series: {
-        // color: '#7798BF',
-        lineColor: '#A6C7ED'
-      },
-      xAxis: {
-        gridLineColor: '#505053'
-      }
+      series: { color: '#7798BF', lineColor: '#A6C7ED' },
+      xAxis: { gridLineColor: '#505053' }
     },
 
     scrollbar: {
@@ -197,6 +189,10 @@ declare module 'highcharts' {
     // states: Highcharts.CSSObject;
   }
   // }
+
+  interface NavigatorSeriesOptions {
+    color: Highcharts.ColorString;
+  }
 
   interface SVGAttributes {
     states: Highcharts.CSSObject;

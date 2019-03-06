@@ -73,7 +73,7 @@ import { PixieHighchartsModule } from 'pixie-highcharts';
 export class AppModule {}
 ```
 
-Let Start With Basis Hello World's Highcharts Visulization
+Let Start With Basis Hello World's Highcharts Visualization
 
 📈 [Hello World Demo](https://codesandbox.io/s/0xrm47jvw0?codemirror=1&fontsize=14)
 
