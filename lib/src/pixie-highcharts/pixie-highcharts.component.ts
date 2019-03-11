@@ -114,33 +114,10 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     this.element = element;
     this.Highcharts = highchartsService.getHighchartsStatic();
     this.initConfiguration();
+    this.localeInit(localeService.getCurrentLocale());
 
     localeService.getLocale().subscribe(d => {
-      this.i18nNoDataAvailable = d.noDataAvailable === '' ? 'No Data Available' : d.noDataAvailable;
-      d.resetZoom = d.resetZoom === '' ? 'Reset Zoom' : d.resetZoom;
-      Highcharts.setOptions({ lang: d });
-
-      if (typeof this.title === 'undefined') {
-        validateSeries(this.data, this.chart, this.i18nNoDataAvailable);
-      } else {
-        if (!this.title.hasOwnProperty('subtitle')) {
-          validateSeries(this.data, this.chart, this.i18nNoDataAvailable);
-        }
-      }
-
-      this.chart.redraw(false);
-
-      function validateSeries(data, chart, noDataAvailableText) {
-        if (data.length === 0) {
-          if (!isSameString(chart, noDataAvailableText)) {
-            chart.setSubtitle({ text: noDataAvailableText });
-          }
-        }
-      }
-
-      function isSameString(chart, noDataAvailableText) {
-        return chart.subtitle.textStr === noDataAvailableText ? true : false;
-      }
+      this.localeInit(d, true);
     });
   }
 
@@ -710,17 +687,23 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   }
 
   plotOptionConfigure(update = false) {
+    let markerSymbol;
+    if (this.globalPXH.sameLegendSymbol) {
+      markerSymbol = 'circle';
+    }
+
     const standard = {
       plotOptions: {
         series: {},
         bar: { grouping: false, groupPadding: 0, pointPadding: 0.2, borderWidth: 0, turboThreshold: 0 },
         column: { grouping: false, groupPadding: 0, pointPadding: 0.2, borderWidth: 0, turboThreshold: 0 },
-        line: { marker: { symbol: 'circle' }, turboThreshold: 0 },
-        spline: { marker: { symbol: 'circle' }, turboThreshold: 0 },
+        line: { marker: { symbol: markerSymbol }, turboThreshold: 0 },
+        spline: { marker: { symbol: markerSymbol }, turboThreshold: 0 },
+        area: { marker: { symbol: markerSymbol }, turboThreshold: 0 },
         boxplot: { turboThreshold: 0 },
         pie: { allowPointSelect: true, cursor: 'pointer', dataLabels: { enabled: false }, showInLegend: true },
         scatter: {
-          marker: { symbol: 'circle', radius: 2, states: { hover: { enabled: true } } },
+          marker: { symbol: markerSymbol, radius: 2, states: { hover: { enabled: true } } },
           states: { hover: { marker: { enabled: false } } },
           turboThreshold: 0,
           stickyTracking: false
@@ -966,6 +949,36 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     return standard;
   }
 
+  localeInit(d, update = false) {
+    this.i18nNoDataAvailable = d.noDataAvailable === '' ? 'No Data Available' : d.noDataAvailable;
+    d.resetZoom = d.resetZoom === '' ? 'Reset Zoom' : d.resetZoom;
+    Highcharts.setOptions({ lang: d });
+
+    if (update) {
+      if (typeof this.title === 'undefined') {
+        validateSeries(this.data, this.chart, this.i18nNoDataAvailable);
+      } else {
+        if (!this.title.hasOwnProperty('subtitle')) {
+          validateSeries(this.data, this.chart, this.i18nNoDataAvailable);
+        }
+      }
+
+      this.chart.redraw(false);
+    }
+
+    function validateSeries(data, chart, noDataAvailableText) {
+      if (data.length === 0) {
+        if (!isSameString(chart, noDataAvailableText)) {
+          chart.setSubtitle({ text: noDataAvailableText });
+        }
+      }
+    }
+
+    function isSameString(chart, noDataAvailableText) {
+      return chart.subtitle.textStr === noDataAvailableText ? true : false;
+    }
+  }
+
   // Util
   private validateSeries(updateOption, isSubtitle = false) {
     try {
@@ -973,8 +986,9 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       let xAxis: Boolean = false;
       let yAxis: Boolean = false;
       let zAxis: Boolean = false;
-      let navigator: Boolean = false;
+      let legend: Boolean = false;
       let rangeSelector: Boolean = false;
+      let navigator: Boolean = false;
 
       // Declare Empty Object
       if (!updateOption.hasOwnProperty('rangeSelector')) {
@@ -989,6 +1003,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         xAxis = true;
         yAxis = true;
         zAxis = true;
+        legend = this.isLegend;
         rangeSelector = this.isRangeSelector;
         navigator = true;
         subtitle.text = null;
@@ -1014,6 +1029,9 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         } else {
           updateOption.navigator.enabled = navigator;
         }
+      } else {
+        updateOption.legend = {};
+        updateOption.legend.enabled = legend;
       }
 
       if (typeof this.xAxis !== 'undefined') {

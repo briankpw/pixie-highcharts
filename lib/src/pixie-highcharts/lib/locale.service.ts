@@ -4,6 +4,8 @@ import { Observable, Subject } from 'rxjs/Rx';
 @Injectable()
 export class LocaleService {
   static currentLocale: Subject<any> = new Subject<any>();
+  static currentLang: string = 'en';
+
   private _locales = {
     'am-et': {
       resetZoom: '',
@@ -337,6 +339,10 @@ export class LocaleService {
 
   constructor() {}
 
+  getCurrentLocale() {
+    return this._locales[LocaleService.currentLang];
+  }
+
   getLocale(): Observable<any> {
     return LocaleService.currentLocale.asObservable();
   }
@@ -348,6 +354,7 @@ export class LocaleService {
     } else {
       selectedLocale = this._locales['en'];
     }
+    LocaleService.currentLang = locale;
     LocaleService.currentLocale.next(selectedLocale);
   }
 }
