@@ -761,6 +761,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     }
 
     if (this.isBoost) {
+      plotOption['plotOptions'][this.type]['animation'] = false;
       plotOption['plotOptions'][this.type]['boostThreshold'] = 1000000;
       plotOption['plotOptions'][this.type]['turboThreshold'] = Number.MAX_VALUE;
       plotOption['plotOptions'][this.type]['cropThreshold'] = Infinity;
@@ -986,7 +987,6 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       let xAxis: Boolean = false;
       let yAxis: Boolean = false;
       let zAxis: Boolean = false;
-      let legend: Boolean = false;
       let rangeSelector: Boolean = false;
       let navigator: Boolean = false;
 
@@ -1003,7 +1003,6 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         xAxis = true;
         yAxis = true;
         zAxis = true;
-        legend = this.isLegend;
         rangeSelector = this.isRangeSelector;
         navigator = true;
         subtitle.text = null;
@@ -1029,9 +1028,6 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         } else {
           updateOption.navigator.enabled = navigator;
         }
-      } else {
-        updateOption.legend = {};
-        updateOption.legend.enabled = legend;
       }
 
       if (typeof this.xAxis !== 'undefined') {
