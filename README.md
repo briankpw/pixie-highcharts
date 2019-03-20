@@ -67,7 +67,7 @@ import { PixieHighchartsModule } from 'pixie-highcharts';
 
 @NgModule({
   imports: [
-    PixieHighchartsModule.forRoot(require('highcharts')) //
+    PixieHighchartsModule.forRoot(require('highcharts')) 
   ]
 })
 export class AppModule {}
