@@ -45,7 +45,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   // #Tools
   // T-Show Legend
   @Input() isLegend: Boolean = true;
-  // F-UTC is Active for UnixTimestamp Conversation, T= UTC+0
+  // T-UTC+[Current Timezone], F= UTC+0
   @Input() isUTC: Boolean = false;
   // T-Polar Shape like Radar
   @Input() isPolar: Boolean = false;
@@ -357,10 +357,9 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       opts['colorAxis'] = this.colorAxis;
     }
 
-    if (this.isUTC) {
-      opts['time'] = {};
-      opts['time']['useUTC'] = this.isUTC;
-    }
+    // default: useUTC:true: UTC+0 else useUTC:false, timezone
+    opts['time'] = {};
+    opts['time']['useUTC'] = !this.isUTC;
 
     if (typeof this.tooltip !== 'undefined') {
       opts['tooltip'] = this.tooltip;
@@ -556,7 +555,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
 
       if (typeof changes.isUTC !== 'undefined' && !changes.isUTC.firstChange) {
         updateOption.time = {};
-        updateOption.time.useUTC = changes.isUTC.currentValue;
+        updateOption.time.useUTC = !changes.isUTC.currentValue;
         redraw = true;
       }
 
