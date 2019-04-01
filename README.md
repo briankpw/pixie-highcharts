@@ -66,9 +66,7 @@ Import PixieHighchartsModule into your @NgModule in app.module.ts
 import { PixieHighchartsModule } from 'pixie-highcharts';
 
 @NgModule({
-  imports: [
-    PixieHighchartsModule.forRoot(require('highcharts')) 
-  ]
+  imports: [PixieHighchartsModule.forRoot(require('highcharts'))]
 })
 export class AppModule {}
 ```
@@ -155,7 +153,7 @@ export class AppComponent {
 | data            |  Array`<any>`   |                  | [series](https://api.highcharts.com/highcharts/series)                                           |
 | config          |     Object      |                  | Additional Highcharts Option/Object not exist in Pixie Highcharts                                |
 | isLegend        |     Boolean     | True             | T-Enable Legend, F-Disable Legend                                                                |
-| isUTC           |     Boolean     | False            | T-Based on Browser UTC, F-UTC+0                                                                  |
+| isUTC           |     Boolean     | False            | T-UTC+[Based on Browser UTC], F-UTC+0                                                            |
 | isPolar         |     Boolean     | False            | T-Polar Shape like Radar                                                                         |
 | isBoost         |     Boolean     | False            | T-Boost the Chart                                                                                |
 | isGap           |     Boolean     | True             | T-Gap Size Between Each Point : Display a gap in the graph                                       |

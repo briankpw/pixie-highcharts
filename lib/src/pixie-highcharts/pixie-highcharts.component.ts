@@ -357,10 +357,6 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       opts['colorAxis'] = this.colorAxis;
     }
 
-    // default: useUTC:true: UTC+0 else useUTC:false, timezone
-    opts['time'] = {};
-    opts['time']['useUTC'] = !this.isUTC;
-
     if (typeof this.tooltip !== 'undefined') {
       opts['tooltip'] = this.tooltip;
       opts['tooltip']['followPointer'] = true;
@@ -428,6 +424,15 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
 
     this.options = deepAssign({}, opts, eventOption);
 
+    /**  #Highcharts Bugs-Getting rid of the time section from the initial options resolves the problem
+     * default: useUTC:true: UTC+0 else useUTC:false, timezone
+     */
+    setTimeout(() => {
+      this.options['time'] = {};
+      this.options['time']['useUTC'] = !this.isUTC;
+      this.updateFlag = true;
+    }, 1000);
+
     if (this.globalPXH.debug) {
       console.log(`---${this.type}#${this.id}---`);
       console.log('Option: ', this.options);
@@ -448,7 +453,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       }
 
       let redraw: Boolean = false;
-      const updateOption: any = {};
+      const updateOption: any = this.options;
 
       if (typeof changes.type !== 'undefined' && !changes.type.firstChange) {
         if (!updateOption.hasOwnProperty('chart')) {
@@ -652,7 +657,6 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       }
 
       if (redraw) {
-        this.options = updateOption;
         this.updateFlag = redraw;
 
         if (this.globalPXH.debug) {
@@ -896,9 +900,9 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       }
 
       if (typeof exportParam.filename !== 'undefined') {
-        standard.filename = `${exportParam.filename}_${this.getCurrentDate()}`;
+        standard.filename = `${exportParam.filename}`;
       } else {
-        standard.filename = `${standard.filename}_${this.getCurrentDate()}`;
+        standard.filename = `${standard.filename}`;
       }
 
       if (typeof exportParam.enabled !== 'undefined') {
@@ -914,31 +918,15 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       }
 
       if (typeof exportParam.scale !== 'undefined') {
-        if (exportParam.scale === 1) {
-          standard.sourceHeight = 300;
-          standard.sourceWidth = 400;
-        } else if (exportParam.scale === 2) {
-          standard.sourceHeight = 400;
-          standard.sourceWidth = 500;
-        } else if (exportParam.scale === 3) {
-          // Great for Legend Less than 5
-          standard.sourceHeight = 500;
-          standard.sourceWidth = 600;
-        } else if (exportParam.scale === 4) {
-          // Great for Legend More than 5, Less than 20
-          standard.sourceHeight = 600;
-          standard.sourceWidth = 700;
-        } else if (exportParam.scale === 5) {
-          // Great for Legend More than 5, Less than 20
-          standard.sourceHeight = 700;
-          standard.sourceWidth = 800;
-        } else if (exportParam.scale === 6) {
-          standard.sourceHeight = 800;
-          standard.sourceWidth = 900;
-        } else if (exportParam.scale === 7) {
-          standard.sourceHeight = 900;
-          standard.sourceWidth = 1000;
-        }
+        /**
+         * Min:1, Max:9 Depend on your Requirement
+         * scale: 3 - Great for Legend Less than 5
+         * scale: 4 - Great for Legend More than 5, Less than 20
+         * scale: 5 - Great for Legend More than 5, Less than 20
+         **/
+
+        standard.sourceHeight = exportParam.scale * 100 + 200;
+        standard.sourceWidth = exportParam.scale * 100 + 300;
       } else if (typeof exportParam.width !== 'undefined' && typeof exportParam.height !== 'undefined') {
         standard.sourceHeight = exportParam.height;
         standard.sourceWidth = exportParam.width;
@@ -982,6 +970,10 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   // Util
   private validateSeries(updateOption, isSubtitle = false) {
     try {
+      if (updateOption === undefined) {
+        return;
+      }
+
       const subtitle: any = { text: this.i18nNoDataAvailable };
       let xAxis: Boolean = false;
       let yAxis: Boolean = false;
