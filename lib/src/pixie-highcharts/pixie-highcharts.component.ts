@@ -453,7 +453,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       }
 
       let redraw: Boolean = false;
-      const updateOption: any = this.options;
+      const updateOption: any = {};
 
       if (typeof changes.type !== 'undefined' && !changes.type.firstChange) {
         if (!updateOption.hasOwnProperty('chart')) {
@@ -657,6 +657,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       }
 
       if (redraw) {
+        this.options = updateOption;
         this.updateFlag = redraw;
 
         if (this.globalPXH.debug) {
