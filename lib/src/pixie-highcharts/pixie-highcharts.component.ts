@@ -349,6 +349,9 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       opts['zAxis'] = this.zAxis;
     }
 
+  //   this.options['time'] = {};
+  // this.options['time']['useUTC'] = !this.isUTC;
+
     if (typeof this.colors !== 'undefined') {
       opts['colors'] = this.colors;
     }
@@ -426,12 +429,13 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
 
     /**  #Highcharts Bugs-Getting rid of the time section from the initial options resolves the problem
      * default: useUTC:true: UTC+0 else useUTC:false, timezone
+     * This solution will double update
      */
     setTimeout(() => {
       this.options['time'] = {};
       this.options['time']['useUTC'] = !this.isUTC;
       this.updateFlag = true;
-    }, 1000);
+    }, 100);
 
     if (this.globalPXH.debug) {
       console.log(`---${this.type}#${this.id}---`);
