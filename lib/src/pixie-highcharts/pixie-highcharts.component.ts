@@ -40,6 +40,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   @Input() colorAxis: Object;
   @Input() footer: string;
   @Input() data: Array<any>;
+  @Input() boostType: Array<any>;
   @Input() config: Object;
 
   // #Tools
@@ -349,8 +350,8 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       opts['zAxis'] = this.zAxis;
     }
 
-  //   this.options['time'] = {};
-  // this.options['time']['useUTC'] = !this.isUTC;
+    opts['time'] = {};
+    opts['time']['useUTC'] = !this.isUTC;
 
     if (typeof this.colors !== 'undefined') {
       opts['colors'] = this.colors;
@@ -431,11 +432,11 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
      * default: useUTC:true: UTC+0 else useUTC:false, timezone
      * This solution will double update
      */
-    setTimeout(() => {
-      this.options['time'] = {};
-      this.options['time']['useUTC'] = !this.isUTC;
-      this.updateFlag = true;
-    }, 100);
+    // setTimeout(() => {
+    //   this.options['time'] = {};
+    //   this.options['time']['useUTC'] = !this.isUTC;
+    //   this.updateFlag = true;
+    // }, 100);
 
     if (this.globalPXH.debug) {
       console.log(`---${this.type}#${this.id}---`);
@@ -648,16 +649,18 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       }
 
       // # Data Validation
-      if (typeof this.title === 'undefined') {
-        this.validateSeries(updateOption);
-        redraw = true;
-      } else {
-        if (this.title.hasOwnProperty('subtitle')) {
-          this.validateSeries(updateOption, true);
-        } else {
+      if (redraw) {
+        if (typeof this.title === 'undefined') {
           this.validateSeries(updateOption);
+          redraw = true;
+        } else {
+          if (this.title.hasOwnProperty('subtitle')) {
+            this.validateSeries(updateOption, true);
+          } else {
+            this.validateSeries(updateOption);
+          }
+          redraw = true;
         }
-        redraw = true;
       }
 
       if (redraw) {
@@ -769,10 +772,18 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     }
 
     if (this.isBoost) {
-      plotOption['plotOptions'][this.type]['animation'] = false;
-      plotOption['plotOptions'][this.type]['boostThreshold'] = 1000000;
-      plotOption['plotOptions'][this.type]['turboThreshold'] = Number.MAX_VALUE;
-      plotOption['plotOptions'][this.type]['cropThreshold'] = Infinity;
+      const boost = [...this.boostType];
+      boost.push(this.type);
+
+      for (const type of boost) {
+        if (!plotOption['plotOptions'].hasOwnProperty(type)) {
+          plotOption['plotOptions'][type] = {};
+        }
+        plotOption['plotOptions'][type]['animation'] = false;
+        plotOption['plotOptions'][type]['boostThreshold'] = 1000000;
+        plotOption['plotOptions'][type]['turboThreshold'] = Number.MAX_VALUE;
+        plotOption['plotOptions'][type]['cropThreshold'] = Infinity;
+      }
     }
 
     return plotOption;

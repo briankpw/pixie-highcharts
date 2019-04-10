@@ -151,6 +151,7 @@ export class AppComponent {
 | colorAxis       |     Object      |                  | [colorAxis](https://api.highcharts.com/highcharts/colorAxis)                                     |
 | footer          |     String      |                  |                                                                                                  |
 | data            |  Array`<any>`   |                  | [series](https://api.highcharts.com/highcharts/series)                                           |
+| boostType       |  Array`<any>`   |                  | Type of Chart to Boost - `["line","Scatter"]`                                                    |
 | config          |     Object      |                  | Additional Highcharts Option/Object not exist in Pixie Highcharts                                |
 | isLegend        |     Boolean     | True             | T-Enable Legend, F-Disable Legend                                                                |
 | isUTC           |     Boolean     | False            | T-UTC+[Based on Browser UTC], F-UTC+0                                                            |
