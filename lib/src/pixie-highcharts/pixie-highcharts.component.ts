@@ -772,7 +772,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     }
 
     if (this.isBoost) {
-      const boost = [...this.boostType];
+      const boost = this.boostType === undefined ? [] : [...this.boostType];
       boost.push(this.type);
 
       for (const type of boost) {
