@@ -371,12 +371,21 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
 
     if (this.isStock) {
       opts['tooltip']['split'] = false;
-      opts['tooltip']['positioner'] = function() {
-        return { x: 1, y: 1 };
+
+      opts['tooltip']['positioner'] = function(labelWidth, labelHeight, point) {
+        const leftHalf = point.plotX < this.chart.plotWidth / 2;
+        return {
+          x: leftHalf ? this.chart.plotLeft + this.chart.plotWidth - labelWidth : this.chart.plotLeft,
+          y: 1
+        };
       };
     } else {
-      opts['tooltip']['positioner'] = function() {
-        return { x: 1, y: 1 };
+      opts['tooltip']['positioner'] = function(labelWidth, labelHeight, point) {
+        const leftHalf = point.plotX < this.chart.plotWidth / 2;
+        return {
+          x: leftHalf ? this.chart.plotLeft + this.chart.plotWidth - labelWidth : this.chart.plotLeft,
+          y: 1
+        };
       };
     }
 
