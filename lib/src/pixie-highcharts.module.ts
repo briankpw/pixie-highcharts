@@ -47,12 +47,5 @@ export class PixieHighchartsModule {
 
 export {
   PixieHighChartsComponent,
-  ChartSeriesComponent,
-  ChartPointComponent,
-  ChartXAxisComponent,
-  ChartYAxisComponent,
-  ChartZAxisComponent,
-  ChartColorAxisComponent,
-  ChartNavigationComponent,
   prefixConversion
 };

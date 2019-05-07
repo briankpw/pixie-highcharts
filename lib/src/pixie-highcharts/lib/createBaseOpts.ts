@@ -29,23 +29,20 @@ export function createBaseOpts(chartCmp, seriesCmp, pointCmp, xAxisCmp, yAxisCmp
   };
 
   chartEvents.forEach(function(eventName) {
-    opts.chart.events[eventName] =
-      opts.chart.events[eventName] ||
-      function(event: any) {
-        if (eventName === 'click') {
-          chartCmp['chartClick'].emit(new ChartEvent(event, this));
-        } else {
-          chartCmp[eventName].emit(new ChartEvent(event, this));
-        }
-      };
+    opts.chart.events[eventName] = function(event: any) {
+      if (eventName === 'click') {
+        chartCmp['chartClick'].emit(new ChartEvent(event, this));
+      } else {
+        chartCmp[eventName].emit(new ChartEvent(event, this));
+      }
+    };
   });
+
   if (seriesCmp) {
     seriesEvents.forEach(function(eventName) {
-      opts.plotOptions.series.events[eventName] =
-        opts.plotOptions.series.events[eventName] ||
-        function(event: any) {
-          seriesCmp[eventName].emit(new ChartEvent(event, this));
-        };
+      opts.plotOptions.series.events[eventName] = function(event: any) {
+        seriesCmp[eventName].emit(new ChartEvent(event, this));
+      };
     });
   }
   if (pointCmp) {
@@ -57,55 +54,72 @@ export function createBaseOpts(chartCmp, seriesCmp, pointCmp, xAxisCmp, yAxisCmp
         };
     });
   }
+
   if (colorAxisCmp) {
+    // Clear Event Object If Exist
+    if (chartCmp.colorAxis && chartCmp.colorAxis.events) {
+      chartCmp.colorAxis.events = {};
+    }
+
     opts.colorAxis = { events: {} };
     colorAxisEvents.forEach(function(eventName) {
-      opts.colorAxis.events[eventName] =
-        opts.colorAxis.events[eventName] ||
-        function(event: any) {
-          colorAxisCmp[eventName].emit(new ChartEvent(event, this));
-        };
+      opts.colorAxis.events[eventName] = function(event: any) {
+        colorAxisCmp[eventName].emit(new ChartEvent(event, this));
+      };
     });
   }
   if (navigationCmp) {
+    // Clear Event Object If Exist
+    if (chartCmp.navigation && chartCmp.navigation.events) {
+      chartCmp.navigation.events = {};
+    }
+
     opts.navigation = { events: {} };
     navigationEvents.forEach(function(eventName) {
-      opts.navigation.events[eventName] =
-        opts.navigation.events[eventName] ||
-        function(event: any) {
-          navigationCmp[eventName].emit(new ChartEvent(event, this));
-        };
+      opts.navigation.events[eventName] = function(event: any) {
+        navigationCmp[eventName].emit(new ChartEvent(event, this));
+      };
     });
   }
 
   if (xAxisCmp) {
+    // Clear Event Object If Exist
+    if (chartCmp.xAxis && chartCmp.xAxis.events) {
+      chartCmp.xAxis.events = {};
+    }
+
     opts.xAxis = { events: {} };
     xAxisEvents.forEach(function(eventName) {
-      opts.xAxis.events[eventName] =
-        opts.xAxis.events[eventName] ||
-        function(event: any) {
-          xAxisCmp[eventName].emit(new ChartEvent(event, this));
-        };
+      opts.xAxis.events[eventName] = function(event: any) {
+        xAxisCmp[eventName].emit(new ChartEvent(event, this));
+      };
     });
   }
+
   if (yAxisCmp) {
+    // Clear Event Object If Exist
+    if (chartCmp.yAxis && chartCmp.yAxis.events) {
+      chartCmp.yAxis.events = {};
+    }
+
     opts.yAxis = { events: {} };
     yAxisEvents.forEach(function(eventName) {
-      opts.yAxis.events[eventName] =
-        opts.yAxis.events[eventName] ||
-        function(event: any) {
-          yAxisCmp[eventName].emit(new ChartEvent(event, this));
-        };
+      opts.yAxis.events[eventName] = function(event: any) {
+        yAxisCmp[eventName].emit(new ChartEvent(event, this));
+      };
     });
   }
   if (zAxisCmp) {
+    // Clear Event Object If Exist
+    if (chartCmp.zAxis && chartCmp.zAxis.events) {
+      chartCmp.zAxis.events = {};
+    }
+
     opts.zAxis = { events: {} };
     zAxisEvents.forEach(function(eventName) {
-      opts.zAxis.events[eventName] =
-        opts.zAxis.events[eventName] ||
-        function(event: any) {
-          zAxisCmp[eventName].emit(new ChartEvent(event, this));
-        };
+      opts.zAxis.events[eventName] = function(event: any) {
+        zAxisCmp[eventName].emit(new ChartEvent(event, this));
+      };
     });
   }
 
