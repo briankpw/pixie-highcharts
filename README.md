@@ -157,7 +157,8 @@ export class AppComponent {
 | isUTC           |     Boolean     | False            | T-UTC+[Based on Browser UTC], F-UTC+0                                                            |
 | isPolar         |     Boolean     | False            | T-Polar Shape like Radar                                                                         |
 | isBoost         |     Boolean     | False            | T-Boost the Chart                                                                                |
-| isGap           |     Boolean     | True             | T-Gap Size Between Each Point : Display a gap in the graph                                       |
+| isTooltipMoved  |     Boolean     | True             | T-Tooltip Will Move Based on the Cursor                                                          |
+| isGap           |     Boolean     | True             | T-Gap Size Between Each Point : Display a Gap in the Graph                                       |
 | gapSize         |     Number      | 86400000 @ 1 Day | Day-To-Day Disconnected                                                                          |
 | gapUnit         |     String      | value            |                                                                                                  |
 | isPointRange    |     Boolean     | False            | T-Each Point Wont Have the Hours Based on pointRange Set                                         |

@@ -52,6 +52,8 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   @Input() isPolar: Boolean = false;
   // T-Boost the Chart
   @Input() isBoost: Boolean = false;
+  // T-Tooltip will be move based on the cursor
+  @Input() isTooltipMoved: Boolean = true;
 
   // T-Gap Size Between Each Point, Day2Day Disconnected: Display a gap in the graph
   @Input() isGap: Boolean = false;
@@ -371,7 +373,9 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
 
     if (this.isStock) {
       opts['tooltip']['split'] = false;
+    }
 
+    if (this.isTooltipMoved) {
       opts['tooltip']['positioner'] = function(labelWidth, labelHeight, point) {
         const leftHalf = point.plotX < this.chart.plotWidth / 2;
         return {
@@ -380,12 +384,8 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         };
       };
     } else {
-      opts['tooltip']['positioner'] = function(labelWidth, labelHeight, point) {
-        const leftHalf = point.plotX < this.chart.plotWidth / 2;
-        return {
-          x: leftHalf ? this.chart.plotLeft + this.chart.plotWidth - labelWidth : this.chart.plotLeft,
-          y: 1
-        };
+      opts['tooltip']['positioner'] = function() {
+        return { x: 1, y: 1 };
       };
     }
 
