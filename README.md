@@ -402,7 +402,8 @@ const defaultDateTime = {
 | theme                  | Object  |               | [exporting.chartOptions](https://api.highcharts.com/highcharts/exporting.chartOptions) |
 | enabled                | Boolean | True          | T-Turn on exporting button                                                             |
 | fallbackToExportServer | Boolean | False         | T-Turn on offline exporting                                                            |
-| customExport           | Boolean | False         | Flag for custom Highcharts event, function, any                                        |
+| customExport           | Boolean | False         | Flag for custom Highcharts event, function, any (Custom Script)                        |
+| clearDefaultField      | Boolean | False         | Flag for clear default series rows/columns data (Custom Script)                        |
 
 ### Title
 

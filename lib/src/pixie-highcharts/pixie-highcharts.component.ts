@@ -898,6 +898,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     let standard: any = {
       enabled: this.globalPXH.export.enabled,
       customExport: false,
+      clearDefaultField: false,
       fallbackToExportServer: this.globalPXH.export.fallbackToExportServer,
       sourceHeight: this.globalPXH.export.height,
       sourceWidth: this.globalPXH.export.width,
@@ -940,6 +941,10 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
 
       if (typeof exportParam.customExport !== 'undefined') {
         standard.customExport = exportParam.customExport;
+      }
+
+      if (typeof exportParam.clearDefaultField !== 'undefined') {
+        standard.clearDefaultField = exportParam.clearDefaultField;
       }
 
       if (typeof exportParam.scale !== 'undefined') {
