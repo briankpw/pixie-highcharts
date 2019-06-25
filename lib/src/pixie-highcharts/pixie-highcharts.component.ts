@@ -40,7 +40,6 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   @Input() colorAxis: Object;
   @Input() footer: string;
   @Input() data: Array<any>;
-  @Input() boostType: Array<any>;
   @Input() config: Object;
 
   // #Tools
@@ -52,6 +51,8 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   @Input() isPolar: Boolean = false;
   // T-Boost the Chart
   @Input() isBoost: Boolean = false;
+  // T-Debug Boost Mode
+  @Input() isBoostDebug: Boolean = false;
   // T-Tooltip will be move based on the cursor
   @Input() isTooltipMoved: Boolean = true;
 
@@ -209,11 +210,19 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     if (this.isBoost) {
       opts['chart']['animation'] = false;
       opts['boost'] = {};
-      opts['boost']['usePreAllocated'] = true;
-      // opts['chart']['boost']['useGPUTranslations'] = true;
-      // opts['boost'] = {};
+      opts['boost']['enabled'] = true;
       // opts['boost']['useGPUTranslations'] = true;
-      // opts['boost']['usePreAllocated'] = true;
+      // opts['boost']['usePreallocated'] = true;
+
+      if (this.isBoostDebug) {
+        opts['boost']['debug'] = {};
+        opts['boost']['debug']['showSkipSummary'] = true;
+        opts['boost']['debug']['timeBufferCopy'] = true;
+        opts['boost']['debug']['timeKDTree'] = true;
+        opts['boost']['debug']['timeRendering'] = true;
+        opts['boost']['debug']['timeSeriesProcessing'] = true;
+        opts['boost']['debug']['timeSetup'] = true;
+      }
     } else {
       opts['boost'] = {};
       opts['boost']['enabled'] = false;
@@ -781,18 +790,15 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     }
 
     if (this.isBoost) {
-      const boost = this.boostType === undefined ? [] : [...this.boostType];
-      boost.push(this.type);
-
-      for (const type of boost) {
-        if (!plotOption['plotOptions'].hasOwnProperty(type)) {
-          plotOption['plotOptions'][type] = {};
-        }
-        plotOption['plotOptions'][type]['animation'] = false;
-        plotOption['plotOptions'][type]['boostThreshold'] = 1000000;
-        plotOption['plotOptions'][type]['turboThreshold'] = Number.MAX_VALUE;
-        plotOption['plotOptions'][type]['cropThreshold'] = Infinity;
+      if (!plotOption['plotOptions'].hasOwnProperty('series')) {
+        plotOption['plotOptions']['series'] = {};
       }
+      plotOption['plotOptions']['series']['animation'] = false;
+      plotOption['plotOptions']['series']['turboThreshold'] = Number.MAX_VALUE;
+      // Set the point threshold for when a series should enter boost mode.
+      plotOption['plotOptions']['series']['boostThreshold'] = 1;
+      // When the series contains less points than the crop threshold, all points are drawn
+      plotOption['plotOptions']['series']['cropThreshold'] = Infinity;
     }
 
     return plotOption;

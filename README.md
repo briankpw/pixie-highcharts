@@ -151,12 +151,12 @@ export class AppComponent {
 | colorAxis       |     Object      |                  | [colorAxis](https://api.highcharts.com/highcharts/colorAxis)                                     |
 | footer          |     String      |                  |                                                                                                  |
 | data            |  Array`<any>`   |                  | [series](https://api.highcharts.com/highcharts/series)                                           |
-| boostType       |  Array`<any>`   |                  | Type of Chart to Boost - `["line","Scatter"]`                                                    |
 | config          |     Object      |                  | Additional Highcharts Option/Object not exist in Pixie Highcharts                                |
 | isLegend        |     Boolean     | True             | T-Enable Legend, F-Disable Legend                                                                |
 | isUTC           |     Boolean     | False            | T-UTC+[Based on Browser UTC], F-UTC+0                                                            |
 | isPolar         |     Boolean     | False            | T-Polar Shape like Radar                                                                         |
 | isBoost         |     Boolean     | False            | T-Boost the Chart                                                                                |
+| isBoostDebug    |     Boolean     | False            | T-Debug of the boost mode [boost.debug](https://api.highcharts.com/highcharts/boost.debug)       |
 | isTooltipMoved  |     Boolean     | True             | T-Tooltip Will Move Based on the Cursor                                                          |
 | isGap           |     Boolean     | True             | T-Gap Size Between Each Point : Display a Gap in the Graph                                       |
 | gapSize         |     Number      | 86400000 @ 1 Day | Day-To-Day Disconnected                                                                          |

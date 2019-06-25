@@ -180,21 +180,21 @@ export class AppComponent {
   }
 }
 
-declare module 'highcharts' {
-  // interface Options {
-  interface ChartResetZoomButtonThemeOptions {
-    fill: Highcharts.ColorString;
-    stroke: Highcharts.ColorString;
-    style: Highcharts.CSSObject;
-    // states: Highcharts.CSSObject;
-  }
-  // }
+// declare module 'highcharts' {
+//   // interface Options {
+//   interface ChartResetZoomButtonThemeOptions {
+//     fill: Highcharts.ColorString;
+//     stroke: Highcharts.ColorString;
+//     style: Highcharts.CSSObject;
+//     // states: Highcharts.CSSObject;
+//   }
+//   // }
 
-  interface NavigatorSeriesOptions {
-    color: Highcharts.ColorString;
-  }
+//   interface NavigatorSeriesOptions {
+//     color: Highcharts.ColorString;
+//   }
 
-  interface SVGAttributes {
-    states: Highcharts.CSSObject;
-  }
-}
+//   interface SVGAttributes {
+//     states: Highcharts.CSSObject;
+//   }
+// }
