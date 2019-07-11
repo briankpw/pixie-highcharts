@@ -20,6 +20,7 @@ export function highchartsFactory() {
     const hcm = require('highcharts/highcharts-more');
     const hs = require('highcharts/modules/stock');
     const dd = require('highcharts/modules/drilldown');
+    const nd = require('highcharts/modules/no-data-to-display');
     const dde = require('highcharts/modules/exporting');
     const hm = require('highcharts/modules/heatmap');
     const tm = require('highcharts/modules/treemap');
@@ -30,6 +31,7 @@ export function highchartsFactory() {
     hcm(hc);
     hs(hc);
     dd(hc);
+    nd(hc);
     dde(hc);
     hm(hc);
     tm(hc);

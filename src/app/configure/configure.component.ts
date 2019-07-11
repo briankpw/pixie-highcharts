@@ -3,7 +3,7 @@ import * as _ from 'underscore';
 import { FormBuilder, FormGroup } from '@angular/forms';
 declare var require: any;
 const locales = require('../../../lib/src/pixie-highcharts/lib/locale.json');
-// import { LocaleService } from 'pixie-highcharts';
+import { LocaleService } from 'pixie-highcharts';
 
 @Component({
   selector: 'pixie-app-configure',
@@ -12,9 +12,9 @@ const locales = require('../../../lib/src/pixie-highcharts/lib/locale.json');
 })
 export class ConfigureComponent implements OnInit {
   public formGroupChart: FormGroup;
-  type = 'line';
+  type = 'scatter';
   zoomType = 'x';
-  data = [
+  data1 = [
     { name: 'OMAK-1', data: [{ x: 0, y: 983 }] },
     { name: 'OMAK-2', data: [{ x: 1, y: 70 }] },
     { name: 'OMAK-3', data: [{ x: 2, y: 10 }] },
@@ -22,7 +22,7 @@ export class ConfigureComponent implements OnInit {
     { name: 'OMAK-5', data: [{ x: 1, y: 108 }, { x: 3, y: 108 }] }
   ];
 
-  data2 = [
+  data =   [
     {
       name: 'OMAK-C',
       data: [
@@ -37,8 +37,8 @@ export class ConfigureComponent implements OnInit {
 
   title = { title: 'Sample Title', subtitle: 'Sample SubTitle' };
 
-  xAxis = { title: { text: 'Sample X-Axis' }, type: 'category' };
-  // type: 'datetime'
+  xAxis = { title: { text: 'Sample X-Axis' }, type: 'datetime' };
+  // type: 'datetime' category
 
   yAxis = { title: { text: 'Sample Y-Axis' } };
 
@@ -78,8 +78,8 @@ export class ConfigureComponent implements OnInit {
   isGap = true;
   isUTC = false;
   isBoost = false;
-  // , private pixieHighchartsLocaleService: LocaleService
-  constructor(private formBuilder: FormBuilder) {}
+
+  constructor(private formBuilder: FormBuilder, private pixieHighchartsLocaleService: LocaleService) {}
 
   ngOnInit() {
     this.formGroupChart = this.formBuilder.group({
@@ -137,7 +137,7 @@ export class ConfigureComponent implements OnInit {
       this.config = JSON.parse(d);
     });
     this.formGroupChart.controls['localeModel'].valueChanges.subscribe(d => {
-      // this.pixieHighchartsLocaleService.setLocale(d);
+      this.pixieHighchartsLocaleService.setLocale(d);
     });
   }
 

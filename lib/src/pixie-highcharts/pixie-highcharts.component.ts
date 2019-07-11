@@ -55,6 +55,8 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   @Input() isBoostDebug: Boolean = false;
   // T-Tooltip will be move based on the cursor
   @Input() isTooltipMoved: Boolean = true;
+  // T-Animation will Animate (Load & Update)
+  @Input() isAnimation: Boolean = true;
 
   // T-Gap Size Between Each Point, Day2Day Disconnected: Display a gap in the graph
   @Input() isGap: Boolean = false;
@@ -112,7 +114,6 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
 
   private element: ElementRef;
   private globalPXH: GlobalPXH;
-  private i18nNoDataAvailable = 'No Data Available';
 
   constructor(element: ElementRef, highchartsService: HighchartsService, localeService: LocaleService) {
     this.element = element;
@@ -121,7 +122,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     this.localeInit(localeService.getCurrentLocale());
 
     localeService.getLocale().subscribe(d => {
-      this.localeInit(d, true);
+      this.localeInit(d);
     });
   }
 
@@ -207,6 +208,10 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       this.constructorType = 'mapChart';
     }
 
+    if (!this.isAnimation) {
+      opts['chart']['animation'] = false;
+    }
+
     if (this.isBoost) {
       opts['chart']['animation'] = false;
       opts['boost'] = {};
@@ -247,19 +252,8 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     } else {
       opts['title'] = {};
       opts['title']['text'] = null;
-
-      try {
-        if (this.data.length === 0) {
-          opts['subtitle'] = {};
-          opts['subtitle']['text'] = this.i18nNoDataAvailable;
-        } else {
-          opts['subtitle'] = {};
-          opts['subtitle']['text'] = null;
-        }
-      } catch (e) {
-        opts['subtitle'] = {};
-        opts['subtitle']['text'] = this.i18nNoDataAvailable;
-      }
+      opts['subtitle'] = {};
+      opts['subtitle']['text'] = null;
     }
 
     if (typeof this.zoomType !== 'undefined') {
@@ -419,9 +413,10 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     }
 
     opts['drilldown'] = {};
-    opts['drilldown']['animation'] = false;
     opts['drilldown']['series'] = [];
-
+    if (!this.isAnimation) {
+      opts['drilldown']['animation'] = false;
+    }
     opts['drilldown']['drillUpButton'] = {};
     opts['drilldown']['drillUpButton']['relativeTo'] = 'chart';
 
@@ -613,7 +608,8 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         (typeof changes.isGroup !== 'undefined' && !changes.isGroup.firstChange) ||
         (typeof changes.isPointRange !== 'undefined' && !changes.isPointRange.firstChange) ||
         (typeof changes.isGap !== 'undefined' && !changes.isGap.firstChange) ||
-        (typeof changes.isBoost !== 'undefined' && !changes.isBoost.firstChange)
+        (typeof changes.isBoost !== 'undefined' && !changes.isBoost.firstChange) ||
+        (typeof changes.isAnimation !== 'undefined' && !changes.isAnimation.firstChange)
       ) {
         updateOption.plotOptions = this.plotOptionConfigure(true)['plotOptions'];
         redraw = true;
@@ -668,17 +664,8 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
 
       // # Data Validation
       if (redraw) {
-        if (typeof this.title === 'undefined') {
-          this.validateSeries(updateOption);
-          redraw = true;
-        } else {
-          if (this.title.hasOwnProperty('subtitle')) {
-            this.validateSeries(updateOption, true);
-          } else {
-            this.validateSeries(updateOption);
-          }
-          redraw = true;
-        }
+        this.validateSeries(updateOption);
+        redraw = true;
       }
 
       if (redraw) {
@@ -766,6 +753,10 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       }
     }
 
+    if (!plotOption['plotOptions'].hasOwnProperty('series')) {
+      plotOption['plotOptions']['series'] = {};
+    }
+
     if (this.isGap) {
       plotOption['plotOptions'][this.type]['gapSize'] = this.gapSize;
       plotOption['plotOptions'][this.type]['gapUnit'] = this.gapUnit;
@@ -789,10 +780,17 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       }
     }
 
-    if (this.isBoost) {
-      if (!plotOption['plotOptions'].hasOwnProperty('series')) {
-        plotOption['plotOptions']['series'] = {};
+    if (!this.isAnimation) {
+      plotOption['plotOptions']['series']['animation'] = false;
+    } else {
+      if (update) {
+        // plotOption['chart']={}
+        // plotOption['chart']['animation'] = this.isAnimation;
+        plotOption['plotOptions']['series']['animation'] = this.isAnimation;
       }
+    }
+
+    if (this.isBoost) {
       plotOption['plotOptions']['series']['animation'] = false;
       plotOption['plotOptions']['series']['turboThreshold'] = Number.MAX_VALUE;
       // Set the point threshold for when a series should enter boost mode.
@@ -973,44 +971,19 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     return standard;
   }
 
-  localeInit(d, update = false) {
-    this.i18nNoDataAvailable = d.noDataAvailable === '' ? 'No Data Available' : d.noDataAvailable;
+  localeInit(d) {
+    d.noData = d.noData === '' ? 'No Data Available' : d.noData;
     d.resetZoom = d.resetZoom === '' ? 'Reset Zoom' : d.resetZoom;
     Highcharts.setOptions({ lang: d });
-
-    if (update) {
-      if (typeof this.title === 'undefined') {
-        validateSeries(this.data, this.chart, this.i18nNoDataAvailable);
-      } else {
-        if (!this.title.hasOwnProperty('subtitle')) {
-          validateSeries(this.data, this.chart, this.i18nNoDataAvailable);
-        }
-      }
-
-      this.chart.redraw(false);
-    }
-
-    function validateSeries(data, chart, noDataAvailableText) {
-      if (data.length === 0) {
-        if (!isSameString(chart, noDataAvailableText)) {
-          chart.setSubtitle({ text: noDataAvailableText });
-        }
-      }
-    }
-
-    function isSameString(chart, noDataAvailableText) {
-      return chart.subtitle.textStr === noDataAvailableText ? true : false;
-    }
   }
 
   // Util
-  private validateSeries(updateOption, isSubtitle = false) {
+  private validateSeries(updateOption) {
     try {
       if (updateOption === undefined) {
         return;
       }
 
-      const subtitle: any = { text: this.i18nNoDataAvailable };
       let xAxis: Boolean = false;
       let yAxis: Boolean = false;
       let zAxis: Boolean = false;
@@ -1032,7 +1005,6 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         zAxis = true;
         rangeSelector = this.isRangeSelector;
         navigator = true;
-        subtitle.text = null;
       }
 
       if (this.isStock) {
@@ -1079,10 +1051,6 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         } else {
           this.complexOptionAssignment(updateOption, 'zAxis', { visible: zAxis });
         }
-      }
-
-      if (!isSubtitle) {
-        updateOption.subtitle = subtitle;
       }
     } catch (e) {
       console.log('Validate Series Error: ', e);

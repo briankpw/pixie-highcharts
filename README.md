@@ -158,6 +158,7 @@ export class AppComponent {
 | isBoost         |     Boolean     | False            | T-Boost the Chart                                                                                |
 | isBoostDebug    |     Boolean     | False            | T-Debug of the boost mode [boost.debug](https://api.highcharts.com/highcharts/boost.debug)       |
 | isTooltipMoved  |     Boolean     | True             | T-Tooltip Will Move Based on the Cursor                                                          |
+| isAnimation     |     Boolean     | True             | T-Animation will Animate (Load & Update)                                                         |
 | isGap           |     Boolean     | True             | T-Gap Size Between Each Point : Display a Gap in the Graph                                       |
 | gapSize         |     Number      | 86400000 @ 1 Day | Day-To-Day Disconnected                                                                          |
 | gapUnit         |     String      | value            |                                                                                                  |
