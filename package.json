@@ -40,7 +40,8 @@
     "tool",
     "pixie-transformer",
     "angular2-highcharts",
-    "angular"
+    "angular",
+    "angular5"
   ],
   "author": "Brian Koh Ping Weng <briankpw@gmail.com>",
   "publishConfig": {
