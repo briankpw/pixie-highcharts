@@ -794,7 +794,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       plotOption['plotOptions']['series']['animation'] = false;
       plotOption['plotOptions']['series']['turboThreshold'] = Number.MAX_VALUE;
       // Set the point threshold for when a series should enter boost mode.
-      plotOption['plotOptions']['series']['boostThreshold'] = 1;
+      plotOption['plotOptions']['series']['boostThreshold'] = 3000;
       // When the series contains less points than the crop threshold, all points are drawn
       plotOption['plotOptions']['series']['cropThreshold'] = Infinity;
     }
