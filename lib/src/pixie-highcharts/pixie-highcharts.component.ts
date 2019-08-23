@@ -664,8 +664,9 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
 
       // # Data Validation
       if (redraw) {
-        this.validateSeries(updateOption);
-        redraw = true;
+        // Disable validateSeries due to Highcharts Bug is Reference Out of the Pixie Highcharts Reference.
+        // this.validateSeries(updateOption);
+        // redraw = true;
       }
 
       if (redraw) {
@@ -846,6 +847,10 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
             this.globalPXH.export.filename = exportConfig.filename;
           }
 
+          if (!this.globalPXH.export.hasOwnProperty('url')) {
+            this.globalPXH.export.url = exportConfig.url;
+          }
+
           if (!this.globalPXH.export.hasOwnProperty('fallbackToExportServer')) {
             this.globalPXH.export.fallbackToExportServer = exportConfig.fallbackToExportServer;
           }
@@ -899,6 +904,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   }
 
   exportingConfigure(exportParam: Export, update = false) {
+    // Default Config
     let standard: any = {
       enabled: this.globalPXH.export.enabled,
       customExport: false,
@@ -907,7 +913,8 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       sourceHeight: this.globalPXH.export.height,
       sourceWidth: this.globalPXH.export.width,
       chartOptions: deepClone(this.globalPXH.export.theme, true),
-      filename: this.globalPXH.export.filename
+      filename: this.globalPXH.export.filename,
+      url: this.globalPXH.export.url
     };
 
     if (update) {
@@ -920,6 +927,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       };
     }
 
+    // Assign User Setting into Export Config
     if (typeof exportParam !== 'undefined') {
       if (typeof exportParam.title !== 'undefined') {
         standard.chartOptions.title.text = exportParam.title;
@@ -941,6 +949,10 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
 
       if (typeof exportParam.fallbackToExportServer !== 'undefined') {
         standard.fallbackToExportServer = exportParam.fallbackToExportServer;
+      }
+
+      if (typeof exportParam.url !== 'undefined') {
+        standard.url = exportParam.url;
       }
 
       if (typeof exportParam.customExport !== 'undefined') {
@@ -968,6 +980,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     } else {
       standard.filename = `${standard.filename}_${this.getCurrentDate()}`;
     }
+
     return standard;
   }
 

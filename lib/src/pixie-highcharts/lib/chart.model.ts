@@ -11,6 +11,7 @@ export interface Export {
   height?: number;
   scale?: number;
   theme?: Object;
+  url?: string;
 
   enabled?: boolean;
   fallbackToExportServer?: boolean;

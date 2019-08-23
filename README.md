@@ -400,6 +400,7 @@ const defaultDateTime = {
 | width                  | Number  | 600           | [exporting.sourceWidth](https://api.highcharts.com/highcharts/exporting.sourceWidth)   |
 | height                 | Number  | 800           | [exporting.sourceHeight](https://api.highcharts.com/highcharts/exporting.sourceHeight) |
 | scale                  | Number  |               | Automated adjust export resolution for image and pdf                                   |
+| url                    | String  |               | [exporting.url](https://api.highcharts.com/highcharts/exporting.url)                   |
 | theme                  | Object  |               | [exporting.chartOptions](https://api.highcharts.com/highcharts/exporting.chartOptions) |
 | enabled                | Boolean | True          | T-Turn on exporting button                                                             |
 | fallbackToExportServer | Boolean | False         | T-Turn on offline exporting                                                            |

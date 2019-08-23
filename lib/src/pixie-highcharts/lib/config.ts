@@ -23,6 +23,7 @@ const dateTimeLabelFormats = {
 
 const exportConfig: Export = {
   filename: 'Pixie_Highcharts',
+  url: 'https://export.highcharts.com/',
   enabled: true,
   theme: { chart: { events: { load: function() {} } }, title: {}, subtitle: {} },
   fallbackToExportServer: false,
