@@ -26,7 +26,7 @@ const exportConfig: Export = {
   url: 'https://export.highcharts.com/',
   enabled: true,
   theme: { chart: { events: { load: function() {} } }, title: {}, subtitle: {} },
-  fallbackToExportServer: false,
+  fallbackToExportServer: true,
   height: 600,
   width: 800
 };

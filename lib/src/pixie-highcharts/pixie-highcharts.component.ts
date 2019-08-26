@@ -86,6 +86,9 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   @Input() isXScrollbar: Boolean = false;
   @Input() isYScrollbar: Boolean = false;
 
+  // Util
+  @Input() referenceUpdate: Boolean = false;
+
   // Event
   @Output() addSeries = new EventEmitter<ChartEvent>();
   @Output() afterPrint = new EventEmitter<ChartEvent>();
@@ -174,11 +177,13 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       if (!this.isRangeSelector) {
         opts['rangeSelector']['enabled'] = false;
       } else {
-        if (this.data !== undefined && this.data.length) {
-          opts['rangeSelector']['enabled'] = true;
-        } else {
-          opts['rangeSelector']['enabled'] = false;
-        }
+        // Disable validateSeries due to Highcharts Bug is Reference Out of the Pixie Highcharts Reference.
+        opts['rangeSelector']['enabled'] = this.isRangeSelector;
+        // if (this.data !== undefined && this.data.length) {
+        //   opts['rangeSelector']['enabled'] = true;
+        // } else {
+        //   opts['rangeSelector']['enabled'] = false;
+        // }
       }
 
       if (!this.isRangeInput) {
@@ -471,7 +476,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       }
 
       let redraw: Boolean = false;
-      const updateOption: any = {};
+      const updateOption: any = this.referenceUpdate ? this.options : {};
 
       if (typeof changes.type !== 'undefined' && !changes.type.firstChange) {
         if (!updateOption.hasOwnProperty('chart')) {

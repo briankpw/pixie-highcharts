@@ -177,6 +177,7 @@ export class AppComponent {
 | navigatorData   |     Object      |                  | [navigator.series](https://api.highcharts.com/highstock/navigator.series)                        |
 | isXScrollbar    |     Boolean     | False            | T-Enable xAxis Scrollbar, F-Disable xAxis Scrollbar                                              |
 | isYScrollbar    |     Boolean     | False            | T-Enable yAxis Scrollbar, F-Disable yAxis Scrollbar                                              |
+| referenceUpdate |     Boolean     | False            | T-Enable Options Update, F-New Options Object Created when Update                                |
 
 ## Events
 
@@ -403,7 +404,7 @@ const defaultDateTime = {
 | url                    | String  |               | [exporting.url](https://api.highcharts.com/highcharts/exporting.url)                   |
 | theme                  | Object  |               | [exporting.chartOptions](https://api.highcharts.com/highcharts/exporting.chartOptions) |
 | enabled                | Boolean | True          | T-Turn on exporting button                                                             |
-| fallbackToExportServer | Boolean | False         | T-Turn on offline exporting                                                            |
+| fallbackToExportServer | Boolean | True          | T-Fallback to export server if offline exporting failure                               |
 | customExport           | Boolean | False         | Flag for custom Highcharts event, function, any (Custom Script)                        |
 | clearDefaultField      | Boolean | False         | Flag for clear default series rows/columns data (Custom Script)                        |
 
