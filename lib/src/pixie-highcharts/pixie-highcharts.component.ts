@@ -57,6 +57,8 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   @Input() isTooltipMoved: Boolean = true;
   // T-Animation will Animate (Load & Update)
   @Input() isAnimation: Boolean = true;
+  // T-Disable Inactive State (When Hover on Series Point, Its Won't Disable The Point)
+  @Input() isInactive: Boolean = true;
 
   // T-Gap Size Between Each Point, Day2Day Disconnected: Display a gap in the graph
   @Input() isGap: Boolean = false;
@@ -726,7 +728,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         pie: { allowPointSelect: true, cursor: 'pointer', dataLabels: { enabled: false }, showInLegend: true },
         scatter: {
           marker: { symbol: markerSymbol, radius: 2, states: { hover: { enabled: true } } },
-          states: { hover: { marker: { enabled: false } } },
+          states: { hover: { marker: { enabled: false } }},
           turboThreshold: 0,
           stickyTracking: false
         }
@@ -736,7 +738,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     const combination = { plotOptions: { bar: { stacking: 'normal' }, column: { stacking: 'normal' } } };
     const group = { plotOptions: { bar: { grouping: true }, column: { grouping: true } } };
 
-    let plotOption = { plotOptions: {} };
+    let plotOption: any = { plotOptions: {} };
     if (!update) {
       plotOption = standard;
     } else {
@@ -796,11 +798,20 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       }
     }
 
+    if (this.isInactive) {
+      if (plotOption.plotOptions.series.hasOwnProperty('states')) {
+        plotOption.plotOptions.series.states.inactive = { opacity: 1 };
+      } else {
+        plotOption.plotOptions.series.states = {};
+        plotOption.plotOptions.series.states.inactive = { opacity: 1 };
+      }
+    }
+
     if (this.isBoost) {
       plotOption['plotOptions']['series']['animation'] = false;
       plotOption['plotOptions']['series']['turboThreshold'] = Number.MAX_VALUE;
       // Set the point threshold for when a series should enter boost mode.
-      plotOption['plotOptions']['series']['boostThreshold'] = 3000;
+      plotOption['plotOptions']['series']['boostThreshold'] = 30000;
       // When the series contains less points than the crop threshold, all points are drawn
       plotOption['plotOptions']['series']['cropThreshold'] = Infinity;
     }
