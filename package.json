@@ -45,7 +45,8 @@
   ],
   "author": "Brian Koh Ping Weng <briankpw@gmail.com>",
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://npm.pkg.github.com/" 
   },
   "release": {
     "pkgRoot": "lib/dist"
