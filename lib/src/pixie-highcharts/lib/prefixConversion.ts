@@ -26,7 +26,7 @@ function convertNegativeE(number, decimalPoint, isNegative) {
 
   for (let i = 0; i <= 8; i++) {
     const numberPow = number * Math.pow(10, currentPow * 3);
-    if (numberPow > 1000) {
+    if (numberPow >= 1000) {
       convertNumber = numberPow;
       ii = i;
       overflow = false;
