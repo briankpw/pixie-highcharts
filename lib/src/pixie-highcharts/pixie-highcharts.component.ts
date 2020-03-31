@@ -322,7 +322,9 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
           }
 
           if (this.isAxisPrefix) {
-            d['labels'] = {};
+            if (!d.hasOwnProperty('labels')) {
+              d['labels'] = {};
+            }
             d['labels']['formatter'] = function() {
               return prefixConversion(this.value, axisFloat);
             };
@@ -333,7 +335,10 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         opts['yAxis'] = this.yAxis;
 
         if (this.isAxisPrefix) {
-          opts['yAxis']['labels'] = {};
+          if (!opts['yAxis'].hasOwnProperty('labels')) {
+            opts['yAxis']['labels'] = {};
+          }
+
           opts['yAxis']['labels']['formatter'] = function() {
             return prefixConversion(this.value, axisFloat);
           };
@@ -728,7 +733,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         pie: { allowPointSelect: true, cursor: 'pointer', dataLabels: { enabled: false }, showInLegend: true },
         scatter: {
           marker: { symbol: markerSymbol, radius: 2, states: { hover: { enabled: true } } },
-          states: { hover: { marker: { enabled: false } }},
+          states: { hover: { marker: { enabled: false } } },
           turboThreshold: 0,
           stickyTracking: false
         }
