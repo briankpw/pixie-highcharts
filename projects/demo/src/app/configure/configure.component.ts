@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as _ from 'underscore';
 import { FormBuilder, FormGroup } from '@angular/forms';
 declare var require: any;
-const locales = require('../../../lib/src/pixie-highcharts/lib/locale.json');
+const locales = require('../../../../pixie-highcharts/src/lib/util/locale.json');
 import { LocaleService } from 'pixie-highcharts';
 
 @Component({
@@ -12,17 +12,29 @@ import { LocaleService } from 'pixie-highcharts';
 })
 export class ConfigureComponent implements OnInit {
   public formGroupChart: FormGroup;
-  type = 'scatter';
+  type = 'bar';
   zoomType = 'x';
-  data1 = [
+  data = [
     { name: 'OMAK-1', data: [{ x: 0, y: 983 }] },
     { name: 'OMAK-2', data: [{ x: 1, y: 70 }] },
     { name: 'OMAK-3', data: [{ x: 2, y: 10 }] },
-    { name: 'OMAK-4', data: [{ x: 2, y: 108 }, { x: 3, y: 308 }] },
-    { name: 'OMAK-5', data: [{ x: 1, y: 108 }, { x: 3, y: 108 }] }
+    {
+      name: 'OMAK-4',
+      data: [
+        { x: 2, y: 108 },
+        { x: 3, y: 308 }
+      ]
+    },
+    {
+      name: 'OMAK-5',
+      data: [
+        { x: 1, y: 108 },
+        { x: 3, y: 108 }
+      ]
+    }
   ];
 
-  data =   [
+  data1 = [
     {
       name: 'OMAK-C',
       data: [
@@ -45,7 +57,10 @@ export class ConfigureComponent implements OnInit {
   footer = 'Sample Footer';
   color = ['rgb(0, 255, 255)', 'rgb(246, 107, 0)', 'rgb(115, 211, 44)', 'rgb(227, 2, 42)', 'rgb(23,119,25)'];
   colorAxis = {
-    stops: [[0, 'rgb(115, 211, 44)'], [1, 'rgb(255, 255, 42)']],
+    stops: [
+      [0, 'rgb(115, 211, 44)'],
+      [1, 'rgb(255, 255, 42)']
+    ],
     min: 0,
     max: 50,
     labels: { overflow: 'allow', useHTML: 'true' }
@@ -78,6 +93,8 @@ export class ConfigureComponent implements OnInit {
   isGap = true;
   isUTC = false;
   isBoost = false;
+
+  logging = '';
 
   constructor(private formBuilder: FormBuilder, private pixieHighchartsLocaleService: LocaleService) {}
 
@@ -143,20 +160,28 @@ export class ConfigureComponent implements OnInit {
 
   onLoad(e) {
     this.chart = e;
-    console.log(e);
+    this.consoleLog('', e);
   }
 
   onEventClick(e, name) {
-    console.log('[' + name + '] : ', e);
+    this.consoleLog(`[${name}] ->`, e);
   }
 
   toggle(e, type) {
     this[type] = e;
-    console.log(e);
   }
 
   exportClicked() {
     console.log('Export clicked');
     this.chart.exportChart();
+  }
+
+  consoleLog(msg, e?) {
+    this.logging = msg + this.logging;
+    // if (_.isObject(e)) {
+    // this.logging += JSON.stringify(e);
+    // }
+    this.logging += '\n';
+    console.log(msg, e);
   }
 }

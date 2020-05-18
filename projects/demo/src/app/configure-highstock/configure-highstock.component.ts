@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as _ from 'underscore';
 import { FormBuilder, FormGroup } from '@angular/forms';
 declare var require: any;
-const locales = require('../../../lib/src/pixie-highcharts/lib/locale.json');
+const locales = require('../../../../pixie-highcharts/src/lib/util/locale.json');
 import { LocaleService } from 'pixie-highcharts';
 
 @Component({
@@ -782,32 +782,36 @@ export class ConfigureHighstockComponent implements OnInit {
 
   rangeSelector = {
     allButtonsEnabled: true,
-    buttons: [{
+    buttons: [
+      {
         type: 'month',
         count: 3,
         text: 'Day',
         dataGrouping: {
-            forced: true,
-            units: [['day', [1]]]
+          forced: true,
+          units: [['day', [1]]]
         }
-    }, {
+      },
+      {
         type: 'year',
         count: 1,
         text: 'Week',
         dataGrouping: {
-            forced: true,
-            units: [['week', [1]]]
+          forced: true,
+          units: [['week', [1]]]
         }
-    }, {
+      },
+      {
         type: 'all',
         text: 'Month',
         dataGrouping: {
-            forced: true,
-            units: [['month', [1]]]
+          forced: true,
+          units: [['month', [1]]]
         }
-    }],
+      }
+    ],
     buttonTheme: {
-        width: 60
+      width: 60
     },
     selected: 2
   };
@@ -1079,7 +1083,10 @@ export class ConfigureHighstockComponent implements OnInit {
   footer = 'Sample Footer';
   color = ['rgb(0, 255, 255)', 'rgb(246, 107, 0)', 'rgb(115, 211, 44)', 'rgb(227, 2, 42)', 'rgb(23,119,25)'];
   colorAxis = {
-    stops: [[0, 'rgb(115, 211, 44)'], [1, 'rgb(255, 255, 42)']],
+    stops: [
+      [0, 'rgb(115, 211, 44)'],
+      [1, 'rgb(255, 255, 42)']
+    ],
     min: 0,
     max: 50,
     labels: { overflow: 'allow', useHTML: 'true' }
@@ -1118,6 +1125,8 @@ export class ConfigureHighstockComponent implements OnInit {
   isRangeInput = true;
   isXScrollbar = true;
   isYScrollbar = false;
+
+  logging = '';
   // private pixieHighchartsLocaleService: LocaleService
   constructor(private formBuilder: FormBuilder, private pixieHighchartsLocaleService: LocaleService) {}
 
@@ -1196,20 +1205,28 @@ export class ConfigureHighstockComponent implements OnInit {
 
   onLoad(e) {
     this.chart = e;
-    console.log(e);
+    this.consoleLog('', e);
   }
 
   onEventClick(e, name) {
-    console.log('[' + name + '] : ', e);
+    this.consoleLog(`[${name}] ->`, e);
   }
 
   toggle(e, type) {
     this[type] = e;
-    console.log(e);
   }
 
   exportClicked() {
     console.log('Export clicked');
     this.chart.exportChart();
+  }
+
+  consoleLog(msg, e?) {
+    this.logging = msg + this.logging;
+    // if (_.isObject(e)) {
+    // this.logging += JSON.stringify(e);
+    // }
+    this.logging += '\n';
+    console.log(msg, e);
   }
 }

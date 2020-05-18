@@ -18,10 +18,8 @@ const appRoutes: Routes = [
 
   { path: '**', redirectTo: '/' }
 ];
-
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes, { enableTracing: false })],
-  exports: [RouterModule],
-  providers: []
+  exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

@@ -4,7 +4,7 @@ import { ConfigureComponent } from './configure.component';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PixieHighchartsModule } from '../../../lib/dist';
+import { PixieHighchartsModule } from 'pixie-highcharts';
 describe('ConfigureComponent', () => {
   let component: ConfigureComponent;
   let fixture: ComponentFixture<ConfigureComponent>;
