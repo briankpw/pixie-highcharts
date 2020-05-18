@@ -1,0 +1,12 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/pixie-highcharts",
+  "lib": {
+    "entryFile": "src/public-api.ts",
+    "umdModuleIds": {
+      "highcharts": "highcharts",
+      "highcharts-angular": "highcharts-angular"
+    }
+  },
+  "whitelistedNonPeerDependencies": ["highcharts-angular"]
+}

@@ -31,15 +31,8 @@
     "highcharts-angular": "^2.4.0"
   },
   "peerDependencies": {
-    "@angular/common": "^2.0.0-rc.0 || >=2.0.0",
-    "@angular/core": "^2.0.0-rc.0 || >=2.0.0"
-  },
-  "ngPackage": {
-    "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
-    "lib": {
-      "entryFile": "public_api.ts"
-    },
-    "dest": "dist",
-    "whitelistedNonPeerDependencies": ["highcharts-angular"]
+    "@angular/common": "^8.2.14",
+    "@angular/core": "^8.2.14",
+    "highcharts-angular": "^2.4.0"
   }
 }

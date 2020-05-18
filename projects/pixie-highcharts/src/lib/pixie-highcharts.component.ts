@@ -1,24 +1,24 @@
 import { Component, ElementRef, Input, Output, ContentChild, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import * as Highcharts from 'highcharts';
 
-import { Export, GlobalPXH } from './lib/chart.model';
-import { ChartSeriesComponent } from './lib/chart-series.component';
-import { ChartXAxisComponent } from './lib/chart-xAxis.component';
-import { ChartYAxisComponent } from './lib/chart-yAxis.component';
-import { ChartZAxisComponent } from './lib/chart-zAxis.component';
-import { ChartColorAxisComponent } from './lib/chart-colorAxis.component';
-import { ChartNavigationComponent } from './lib/chart-navigation.component';
-import { ChartEvent } from './lib/chart.model';
+import { Export, GlobalPXH } from './util/chart.model';
+import { ChartSeriesComponent } from './util/chart-series.component';
+import { ChartXAxisComponent } from './util/chart-xAxis.component';
+import { ChartYAxisComponent } from './util/chart-yAxis.component';
+import { ChartZAxisComponent } from './util/chart-zAxis.component';
+import { ChartColorAxisComponent } from './util/chart-colorAxis.component';
+import { ChartNavigationComponent } from './util/chart-navigation.component';
+import { ChartEvent, Title } from './util/chart.model';
 
-import { createBaseOpts } from './lib/createBaseOpts';
-import { deepAssign } from './lib/deepAssign';
-import { deepClone } from './lib/deepClone';
-import { prefixConversion } from './lib/prefixConversion';
-import { event } from './lib/event';
-import { config, exportConfig } from './lib/config';
+import { createBaseOpts } from './util/createBaseOpts';
+import { deepAssign } from './util/deepAssign';
+import { deepClone } from './util/deepClone';
+import { prefixConversion } from './util/prefixConversion';
+import { event } from './util/event';
+import { config, exportConfig } from './util/config';
 
-import { HighchartsService } from './lib/highcharts.service';
-import { LocaleService } from './lib/locale.service';
+import { HighchartsService } from './util/highcharts.service';
+import { LocaleService } from './util/locale.service';
 
 @Component({
   selector: 'pixie-highcharts',
@@ -26,70 +26,70 @@ import { LocaleService } from './lib/locale.service';
   styleUrls: ['./pixie-highcharts.component.scss'],
   providers: [HighchartsService, LocaleService]
 })
-export class PixieHighChartsComponent implements OnInit, OnChanges {
+export class PixieHighchartsComponent implements OnInit, OnChanges {
   @Input() id: string;
   @Input() type: string;
   @Input() zoomType: string;
-  @Input() title: Object;
-  @Input() xAxis: Object;
-  @Input() yAxis: Object;
-  @Input() zAxis: Object;
-  @Input() tooltip: Object;
+  @Input() title: Title | object | any;
+  @Input() xAxis: object | any;
+  @Input() yAxis: object | any;
+  @Input() zAxis: object | any;
+  @Input() tooltip: object | any;
   @Input() export: Export;
   @Input() colors: Array<string>;
-  @Input() colorAxis: Object;
+  @Input() colorAxis: object | any;
   @Input() footer: string;
   @Input() data: Array<any>;
-  @Input() config: Object;
+  @Input() config: object | any;
 
   // #Tools
   // T-Show Legend
-  @Input() isLegend: Boolean = true;
+  @Input() isLegend: boolean = true;
   // T-UTC+[Current Timezone], F= UTC+0
-  @Input() isUTC: Boolean = false;
+  @Input() isUTC: boolean = false;
   // T-Polar Shape like Radar
-  @Input() isPolar: Boolean = false;
+  @Input() isPolar: boolean = false;
   // T-Boost the Chart
-  @Input() isBoost: Boolean = false;
+  @Input() isBoost: boolean = false;
   // T-Debug Boost Mode
-  @Input() isBoostDebug: Boolean = false;
+  @Input() isBoostDebug: boolean = false;
   // T-Tooltip will be move based on the cursor
-  @Input() isTooltipMoved: Boolean = true;
+  @Input() isTooltipMoved: boolean = true;
   // T-Animation will Animate (Load & Update)
-  @Input() isAnimation: Boolean = true;
+  @Input() isAnimation: boolean = true;
   // T-Disable Inactive State (When Hover on Series Point, Its Won't Disable The Point)
-  @Input() isInactive: Boolean = true;
+  @Input() isInactive: boolean = true;
 
   // T-Gap Size Between Each Point, Day2Day Disconnected: Display a gap in the graph
-  @Input() isGap: Boolean = false;
-  @Input() gapSize: Number = 1000 * 60 * 60 * 24;
+  @Input() isGap: boolean = false;
+  @Input() gapSize: number = 1000 * 60 * 60 * 24;
   @Input() gapUnit: String = 'value';
 
   // T-Each Point Wont Have the Hours, Day2Day Connected: X axis range that each point is valid for
-  @Input() isPointRange: Boolean = false;
-  @Input() pointRange: Number = 1000 * 60 * 60 * 24;
+  @Input() isPointRange: boolean = false;
+  @Input() pointRange: number = 1000 * 60 * 60 * 24;
 
   // T-Active the Y-Axis Prefix F-Dont Convert Legend
-  @Input() isAxisPrefix: Boolean = false;
-  @Input() axisPrefixFloat: Number = 2;
+  @Input() isAxisPrefix: boolean = false;
+  @Input() axisPrefixFloat: number = 2;
 
   // Plot Option
-  @Input() isStock: Boolean = false;
-  @Input() isMap: Boolean = false;
-  @Input() isStacked: Boolean = false;
-  @Input() isGroup: Boolean = false;
+  @Input() isStock: boolean = false;
+  @Input() isMap: boolean = false;
+  @Input() isStacked: boolean = false;
+  @Input() isGroup: boolean = false;
 
   // Highstock
-  @Input() rangeSelector: Object;
-  @Input() isRangeSelector: Boolean = true;
-  @Input() isRangeInput: Boolean = false;
-  @Input() navigator: Object;
-  @Input() navigatorData: Object;
-  @Input() isXScrollbar: Boolean = false;
-  @Input() isYScrollbar: Boolean = false;
+  @Input() rangeSelector: object | any;
+  @Input() isRangeSelector: boolean = true;
+  @Input() isRangeInput: boolean = false;
+  @Input() navigator: object | any;
+  @Input() navigatorData: object;
+  @Input() isXScrollbar: boolean = false;
+  @Input() isYScrollbar: boolean = false;
 
   // Util
-  @Input() referenceUpdate: Boolean = false;
+  @Input() referenceUpdate: boolean = false;
 
   // Event
   @Output() addSeries = new EventEmitter<ChartEvent>();
@@ -104,18 +104,18 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   @Output() render = new EventEmitter<ChartEvent>();
   @Output() selection = new EventEmitter<ChartEvent>();
 
-  @ContentChild(ChartSeriesComponent) chartSeriesComponent: ChartSeriesComponent;
-  @ContentChild(ChartXAxisComponent) chartXAxisComponent: ChartXAxisComponent;
-  @ContentChild(ChartYAxisComponent) chartYAxisComponent: ChartYAxisComponent;
-  @ContentChild(ChartZAxisComponent) chartZAxisComponent: ChartZAxisComponent;
-  @ContentChild(ChartColorAxisComponent) chartColorAxisComponent: ChartColorAxisComponent;
-  @ContentChild(ChartNavigationComponent) chartNavigationComponent: ChartNavigationComponent;
+  @ContentChild(ChartSeriesComponent, { static: false }) chartSeriesComponent: ChartSeriesComponent;
+  @ContentChild(ChartXAxisComponent, { static: false }) chartXAxisComponent: ChartXAxisComponent;
+  @ContentChild(ChartYAxisComponent, { static: false }) chartYAxisComponent: ChartYAxisComponent;
+  @ContentChild(ChartZAxisComponent, { static: false }) chartZAxisComponent: ChartZAxisComponent;
+  @ContentChild(ChartColorAxisComponent, { static: false }) chartColorAxisComponent: ChartColorAxisComponent;
+  @ContentChild(ChartNavigationComponent, { static: false }) chartNavigationComponent: ChartNavigationComponent;
 
   public Highcharts: any;
   public constructorType = 'chart';
   public options: any;
   public chart: any;
-  public updateFlag: Boolean = false;
+  public updateFlag: boolean = false;
 
   private element: ElementRef;
   private globalPXH: GlobalPXH;
@@ -133,80 +133,80 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
 
   async ngOnInit() {
     this.initCustomHighCharts();
-    const opts: Object = this.plotOptionConfigure();
-    opts['exporting'] = this.exportingConfigure(this.export);
+    const opts: any = this.plotOptionConfigure();
+    opts.exporting = this.exportingConfigure(this.export);
 
     if (this.id === undefined) {
       this.id = this.generateID();
     }
-    if (typeof this.type !== 'undefined') {
+    if (this.type !== undefined) {
       // Type : column(Vertical Bar), bar(Horizontal Bar), line, area, pie, scatter and etc.
-      opts['chart'] = {};
-      opts['chart']['type'] = this.type;
+      opts.chart = {};
+      opts.chart.type = this.type;
     } else {
-      opts['chart'] = {};
-      opts['chart']['type'] = 'line';
+      opts.chart = {};
+      opts.chart.type = 'line';
       this.type = 'line';
     }
 
     if (this.isPolar) {
-      opts['chart']['polar'] = true;
+      opts.chart.polar = true;
     }
 
-    opts['chart']['panning'] = true;
-    opts['chart']['panKey'] = 'ctrl';
+    // opts.chart.panning = true;
+    opts.chart.panKey = 'ctrl';
 
     if (this.isStock) {
       this.constructorType = 'stockChart';
-      opts['chart']['spacingTop'] = 5;
+      opts.chart.spacingTop = 5;
       // Adjust the title between navigator
-      if (typeof this.xAxis !== 'undefined') {
+      if (this.xAxis !== undefined) {
         if (this.xAxis.hasOwnProperty('title')) {
-          opts['chart']['marginBottom'] = 30;
+          opts.chart.marginBottom = 30;
         } else {
-          opts['chart']['marginBottom'] = 20;
+          opts.chart.marginBottom = 20;
         }
       } else {
-        opts['chart']['marginBottom'] = 20;
+        opts.chart.marginBottom = 20;
       }
 
-      if (typeof this.rangeSelector !== 'undefined') {
-        opts['rangeSelector'] = this.rangeSelector;
+      if (this.rangeSelector !== undefined) {
+        opts.rangeSelector = this.rangeSelector;
       } else {
-        opts['rangeSelector'] = {};
+        opts.rangeSelector = {};
       }
 
       if (!this.isRangeSelector) {
-        opts['rangeSelector']['enabled'] = false;
+        opts.rangeSelector.enabled = false;
       } else {
         // Disable validateSeries due to Highcharts Bug is Reference Out of the Pixie Highcharts Reference.
-        opts['rangeSelector']['enabled'] = this.isRangeSelector;
+        opts.rangeSelector.enabled = this.isRangeSelector;
         // if (this.data !== undefined && this.data.length) {
-        //   opts['rangeSelector']['enabled'] = true;
+        //   opts.rangeSelector.enabled = true;
         // } else {
-        //   opts['rangeSelector']['enabled'] = false;
+        //   opts.rangeSelector.enabled = false;
         // }
       }
 
       if (!this.isRangeInput) {
-        opts['rangeSelector']['inputEnabled'] = false;
+        opts.rangeSelector.inputEnabled = false;
       }
 
-      if (typeof this.navigator !== 'undefined') {
-        opts['navigator'] = this.navigator;
+      if (this.navigator !== undefined) {
+        opts.navigator = this.navigator;
         if (!this.navigator.hasOwnProperty('height')) {
-          opts['navigator']['height'] = 20;
+          opts.navigator.height = 20;
         }
 
-        if (typeof this.navigatorData !== 'undefined') {
-          opts['navigator']['series'] = this.navigatorData;
+        if (this.navigatorData !== undefined) {
+          opts.navigator.series = this.navigatorData;
         }
       } else {
-        opts['navigator'] = {};
-        opts['navigator']['height'] = 20;
+        opts.navigator = {};
+        opts.navigator.height = 20;
 
-        if (typeof this.navigatorData !== 'undefined') {
-          opts['navigator']['series'] = this.navigatorData;
+        if (this.navigatorData !== undefined) {
+          opts.navigator.series = this.navigatorData;
         }
       }
     }
@@ -216,182 +216,182 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     }
 
     if (!this.isAnimation) {
-      opts['chart']['animation'] = false;
+      opts.chart.animation = false;
     }
 
     if (this.isBoost) {
-      opts['chart']['animation'] = false;
-      opts['boost'] = {};
-      opts['boost']['enabled'] = true;
-      // opts['boost']['useGPUTranslations'] = true;
-      // opts['boost']['usePreallocated'] = true;
+      opts.chart.animation = false;
+      opts.boost = {};
+      opts.boost.enabled = true;
+      // opts.boost.useGPUTranslations = true;
+      // opts.boost.usePreallocated = true;
 
       if (this.isBoostDebug) {
-        opts['boost']['debug'] = {};
-        opts['boost']['debug']['showSkipSummary'] = true;
-        opts['boost']['debug']['timeBufferCopy'] = true;
-        opts['boost']['debug']['timeKDTree'] = true;
-        opts['boost']['debug']['timeRendering'] = true;
-        opts['boost']['debug']['timeSeriesProcessing'] = true;
-        opts['boost']['debug']['timeSetup'] = true;
+        opts.boost.debug = {};
+        opts.boost.debug.showSkipSummary = true;
+        opts.boost.debug.timeBufferCopy = true;
+        opts.boost.debug.timeKDTree = true;
+        opts.boost.debug.timeRendering = true;
+        opts.boost.debug.timeSeriesProcessing = true;
+        opts.boost.debug.timeSetup = true;
       }
     } else {
-      opts['boost'] = {};
-      opts['boost']['enabled'] = false;
+      opts.boost = {};
+      opts.boost.enabled = false;
     }
 
-    if (typeof this.title !== 'undefined') {
-      if (typeof this.title['title'] !== 'undefined') {
-        opts['title'] = {};
-        opts['title']['text'] = this.title['title'];
+    if (this.title !== undefined) {
+      if (this.title.title !== undefined) {
+        opts.title = {};
+        opts.title.text = this.title.title;
       } else {
-        opts['title'] = {};
-        opts['title']['text'] = null;
-        opts['title']['floating'] = true;
+        opts.title = {};
+        opts.title.text = null;
+        opts.title.floating = true;
       }
-      if (typeof this.title['subtitle'] !== 'undefined') {
-        opts['subtitle'] = {};
-        opts['subtitle']['text'] = this.title['subtitle'];
+      if (this.title.subtitle !== undefined) {
+        opts.subtitle = {};
+        opts.subtitle.text = this.title.subtitle;
       } else {
-        opts['subtitle'] = {};
-        opts['subtitle']['text'] = null;
+        opts.subtitle = {};
+        opts.subtitle.text = null;
       }
     } else {
-      opts['title'] = {};
-      opts['title']['text'] = null;
-      opts['subtitle'] = {};
-      opts['subtitle']['text'] = null;
+      opts.title = {};
+      opts.title.text = null;
+      opts.subtitle = {};
+      opts.subtitle.text = null;
     }
 
-    if (typeof this.zoomType !== 'undefined') {
+    if (this.zoomType !== undefined) {
       // X Y XY
-      opts['chart']['zoomType'] = this.zoomType;
+      opts.chart.zoomType = this.zoomType;
     }
 
-    if (typeof this.data !== 'undefined') {
-      opts['series'] = this.data;
+    if (this.data !== undefined) {
+      opts.series = this.data;
     }
 
-    if (typeof this.xAxis !== 'undefined') {
+    if (this.xAxis !== undefined) {
       if (Array.isArray(this.xAxis)) {
-        opts['xAxis'] = [];
+        opts.xAxis = [];
         this.xAxis.forEach(d => {
           if (!d.hasOwnProperty('title')) {
-            d['title'] = {};
-            d['title']['text'] = null;
+            d.title = {};
+            d.title.text = null;
           }
 
           if (d.hasOwnProperty('type')) {
-            if (d['type'] === 'datetime') {
+            if (d.type === 'datetime') {
               if (!d.hasOwnProperty('dateTimeLabelFormats')) {
-                d['dateTimeLabelFormats'] = this.globalPXH.dateTimeLabelFormats;
+                d.dateTimeLabelFormats = this.globalPXH.dateTimeLabelFormats;
               }
             }
           }
-          opts['xAxis'].push(d);
+          opts.xAxis.push(d);
         });
       } else {
-        opts['xAxis'] = this.xAxis;
+        opts.xAxis = this.xAxis;
         if (!this.xAxis.hasOwnProperty('title')) {
-          opts['xAxis']['title'] = {};
-          opts['xAxis']['title']['text'] = null;
+          opts.xAxis.title = {};
+          opts.xAxis.title.text = null;
         }
 
         if (this.xAxis.hasOwnProperty('type')) {
-          if (this.xAxis['type'] === 'datetime') {
+          if (this.xAxis.type === 'datetime') {
             if (!this.xAxis.hasOwnProperty('dateTimeLabelFormats')) {
-              this.xAxis['dateTimeLabelFormats'] = this.globalPXH.dateTimeLabelFormats;
+              this.xAxis.dateTimeLabelFormats = this.globalPXH.dateTimeLabelFormats;
             }
           }
         }
       }
     } else {
-      opts['xAxis'] = {};
-      opts['xAxis']['title'] = {};
-      opts['xAxis']['title']['text'] = null;
+      opts.xAxis = {};
+      opts.xAxis.title = {};
+      opts.xAxis.title.text = null;
     }
 
     const axisFloat = this.axisPrefixFloat;
-    if (typeof this.yAxis !== 'undefined') {
+    if (this.yAxis !== undefined) {
       if (Array.isArray(this.yAxis)) {
-        opts['yAxis'] = [];
+        opts.yAxis = [];
         this.yAxis.forEach(d => {
           if (!d.hasOwnProperty('title')) {
-            d['title'] = {};
-            d['title']['text'] = null;
+            d.title = {};
+            d.title.text = null;
           }
 
           if (this.isAxisPrefix) {
             if (!d.hasOwnProperty('labels')) {
-              d['labels'] = {};
+              d.labels = {};
             }
-            d['labels']['formatter'] = function() {
+            d.labels.formatter = function() {
               return prefixConversion(this.value, axisFloat);
             };
           }
-          opts['yAxis'].push(d);
+          opts.yAxis.push(d);
         });
       } else {
-        opts['yAxis'] = this.yAxis;
+        opts.yAxis = this.yAxis;
 
         if (this.isAxisPrefix) {
-          if (!opts['yAxis'].hasOwnProperty('labels')) {
-            opts['yAxis']['labels'] = {};
+          if (!opts.yAxis.hasOwnProperty('labels')) {
+            opts.yAxis.labels = {};
           }
 
-          opts['yAxis']['labels']['formatter'] = function() {
+          opts.yAxis.labels.formatter = function() {
             return prefixConversion(this.value, axisFloat);
           };
         }
 
         if (!this.yAxis.hasOwnProperty('title')) {
-          opts['yAxis']['title'] = {};
-          opts['yAxis']['title']['text'] = null;
+          opts.yAxis.title = {};
+          opts.yAxis.title.text = null;
         }
       }
     } else {
-      opts['yAxis'] = {};
+      opts.yAxis = {};
 
       if (this.isAxisPrefix) {
-        opts['yAxis']['labels'] = {};
-        opts['yAxis']['labels']['formatter'] = function() {
+        opts.yAxis.labels = {};
+        opts.yAxis.labels.formatter = function() {
           return prefixConversion(this.value, axisFloat);
         };
       }
 
-      opts['yAxis']['title'] = {};
-      opts['yAxis']['title']['text'] = null;
+      opts.yAxis.title = {};
+      opts.yAxis.title.text = null;
     }
 
-    if (typeof this.zAxis !== 'undefined') {
-      opts['zAxis'] = this.zAxis;
+    if (this.zAxis !== undefined) {
+      opts.zAxis = this.zAxis;
     }
 
-    opts['time'] = {};
-    opts['time']['useUTC'] = !this.isUTC;
+    opts.time = {};
+    opts.time.useUTC = !this.isUTC;
 
-    if (typeof this.colors !== 'undefined') {
-      opts['colors'] = this.colors;
+    if (this.colors !== undefined) {
+      opts.colors = this.colors;
     }
 
-    if (typeof this.colorAxis !== 'undefined') {
-      opts['colorAxis'] = this.colorAxis;
+    if (this.colorAxis !== undefined) {
+      opts.colorAxis = this.colorAxis;
     }
 
-    if (typeof this.tooltip !== 'undefined') {
-      opts['tooltip'] = this.tooltip;
-      opts['tooltip']['followPointer'] = true;
+    if (this.tooltip !== undefined) {
+      opts.tooltip = this.tooltip;
+      opts.tooltip.followPointer = true;
     } else {
-      opts['tooltip'] = this.globalPXH.standardTooltipDesign;
-      opts['tooltip']['followPointer'] = true;
+      opts.tooltip = this.globalPXH.standardTooltipDesign;
+      opts.tooltip.followPointer = true;
     }
 
     if (this.isStock) {
-      opts['tooltip']['split'] = false;
+      opts.tooltip.split = false;
     }
 
     if (this.isTooltipMoved) {
-      opts['tooltip']['positioner'] = function(labelWidth, labelHeight, point) {
+      opts.tooltip.positioner = function(labelWidth, labelHeight, point) {
         const leftHalf = point.plotX < this.chart.plotWidth / 2;
         return {
           x: leftHalf ? this.chart.plotLeft + this.chart.plotWidth - labelWidth : this.chart.plotLeft,
@@ -399,40 +399,40 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         };
       };
     } else {
-      opts['tooltip']['positioner'] = function() {
+      opts.tooltip.positioner = function() {
         return { x: 1, y: 1 };
       };
     }
 
-    if (typeof this.footer !== 'undefined') {
-      opts['credits'] = {};
-      opts['credits']['text'] = this.footer;
-      opts['credits']['href'] = this.globalPXH.url;
+    if (this.footer !== undefined) {
+      opts.credits = {};
+      opts.credits.text = this.footer;
+      opts.credits.href = this.globalPXH.url;
     } else {
-      opts['credits'] = {};
-      opts['credits']['enabled'] = false;
+      opts.credits = {};
+      opts.credits.enabled = false;
     }
 
     if (this.isLegend) {
-      opts['legend'] = {};
-      opts['legend']['verticalAlign'] = this.globalPXH.legendPosition;
+      opts.legend = {};
+      opts.legend.verticalAlign = this.globalPXH.legendPosition;
       if (this.globalPXH.legendPosition === 'top') {
-        opts['chart']['spacingTop'] = 0;
+        opts.chart.spacingTop = 0;
       }
     } else {
-      opts['legend'] = {};
-      opts['legend']['enabled'] = false;
+      opts.legend = {};
+      opts.legend.enabled = false;
     }
 
-    opts['drilldown'] = {};
-    opts['drilldown']['series'] = [];
+    opts.drilldown = {};
+    opts.drilldown.series = [];
     if (!this.isAnimation) {
-      opts['drilldown']['animation'] = false;
+      opts.drilldown.animation = false;
     }
-    opts['drilldown']['drillUpButton'] = {};
-    opts['drilldown']['drillUpButton']['relativeTo'] = 'chart';
+    opts.drilldown.drillUpButton = {};
+    opts.drilldown.drillUpButton.relativeTo = 'chart';
 
-    if (typeof this.config !== 'undefined') {
+    if (this.config !== undefined) {
       const allKey = Object.keys(this.config);
       for (const key of allKey) {
         opts[key] = deepAssign({}, opts[key], this.config[key]);
@@ -458,8 +458,8 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
      * This solution will double update
      */
     // setTimeout(() => {
-    //   this.options['time'] = {};
-    //   this.options['time']['useUTC'] = !this.isUTC;
+    //   this.options.time = {};
+    //   this.options.time.useUTC = !this.isUTC;
     //   this.updateFlag = true;
     // }, 100);
 
@@ -482,10 +482,10 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         console.log('Changes [S]: ', JSON.stringify(changes));
       }
 
-      let redraw: Boolean = false;
+      let redraw: boolean = false;
       const updateOption: any = this.referenceUpdate ? this.options : {};
 
-      if (typeof changes.type !== 'undefined' && !changes.type.firstChange) {
+      if (changes.type !== undefined && !changes.type.firstChange) {
         if (!updateOption.hasOwnProperty('chart')) {
           updateOption.chart = {};
         }
@@ -493,7 +493,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         redraw = true;
       }
 
-      if (typeof changes.zoomType !== 'undefined' && !changes.zoomType.firstChange) {
+      if (changes.zoomType !== undefined && !changes.zoomType.firstChange) {
         if (!updateOption.hasOwnProperty('chart')) {
           updateOption.chart = {};
         }
@@ -501,12 +501,12 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         redraw = true;
       }
 
-      if (typeof changes.data !== 'undefined' && !changes.data.firstChange) {
+      if (changes.data !== undefined && !changes.data.firstChange) {
         updateOption.series = changes.data.currentValue;
         redraw = true;
       }
 
-      if (typeof changes.title !== 'undefined' && !changes.title.firstChange) {
+      if (changes.title !== undefined && !changes.title.firstChange) {
         const title = { title: { text: null }, subtitle: { text: null } };
         if (changes.title.currentValue.hasOwnProperty('title')) {
           title.title.text = changes.title.currentValue.title;
@@ -520,42 +520,42 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         redraw = true;
       }
 
-      if (typeof changes.xAxis !== 'undefined' && !changes.xAxis.firstChange) {
+      if (changes.xAxis !== undefined && !changes.xAxis.firstChange) {
         updateOption.xAxis = changes.xAxis.currentValue;
         redraw = true;
       }
 
-      if (typeof changes.yAxis !== 'undefined' && !changes.yAxis.firstChange) {
+      if (changes.yAxis !== undefined && !changes.yAxis.firstChange) {
         updateOption.yAxis = changes.yAxis.currentValue;
         redraw = true;
       }
 
-      if (typeof changes.zAxis !== 'undefined' && !changes.zAxis.firstChange) {
+      if (changes.zAxis !== undefined && !changes.zAxis.firstChange) {
         updateOption.zAxis = changes.zAxis.currentValue;
         redraw = true;
       }
 
-      if (typeof changes.tooltip !== 'undefined' && !changes.tooltip.firstChange) {
+      if (changes.tooltip !== undefined && !changes.tooltip.firstChange) {
         updateOption.tooltip = changes.tooltip.currentValue;
         redraw = true;
       }
 
-      if (typeof changes.footer !== 'undefined' && !changes.footer.firstChange) {
+      if (changes.footer !== undefined && !changes.footer.firstChange) {
         updateOption.credits = { text: changes.footer.currentValue };
         redraw = true;
       }
 
-      if (typeof changes.colors !== 'undefined' && !changes.colors.firstChange) {
+      if (changes.colors !== undefined && !changes.colors.firstChange) {
         updateOption.colors = changes.colors.currentValue;
         redraw = true;
       }
 
-      if (typeof changes.colorAxis !== 'undefined' && !changes.colorAxis.firstChange) {
+      if (changes.colorAxis !== undefined && !changes.colorAxis.firstChange) {
         updateOption.colorAxis = changes.colorAxis.currentValue;
         redraw = true;
       }
 
-      if (typeof changes.navigator !== 'undefined' && !changes.navigator.firstChange) {
+      if (changes.navigator !== undefined && !changes.navigator.firstChange) {
         const navigator: any = changes.navigator.currentValue;
         if (!navigator.hasOwnProperty('height')) {
           navigator.height = 20;
@@ -564,7 +564,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         redraw = true;
       }
 
-      if (typeof changes.navigatorData !== 'undefined' && !changes.navigatorData.firstChange) {
+      if (changes.navigatorData !== undefined && !changes.navigatorData.firstChange) {
         if (!updateOption.hasOwnProperty('navigator')) {
           updateOption.navigator = {};
         }
@@ -572,7 +572,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         redraw = true;
       }
 
-      if (typeof changes.isLegend !== 'undefined' && !changes.isLegend.firstChange) {
+      if (changes.isLegend !== undefined && !changes.isLegend.firstChange) {
         if (!updateOption.hasOwnProperty('chart')) {
           updateOption.chart = {};
         }
@@ -588,15 +588,15 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         redraw = true;
       }
 
-      if (typeof changes.isUTC !== 'undefined' && !changes.isUTC.firstChange) {
+      if (changes.isUTC !== undefined && !changes.isUTC.firstChange) {
         updateOption.time = {};
         updateOption.time.useUTC = !changes.isUTC.currentValue;
         redraw = true;
       }
 
       if (
-        (typeof changes.isAxisPrefix !== 'undefined' && !changes.isAxisPrefix.firstChange) ||
-        (typeof changes.axisPrefixFloat !== 'undefined' && !changes.axisPrefixFloat.firstChange)
+        (changes.isAxisPrefix !== undefined && !changes.isAxisPrefix.firstChange) ||
+        (changes.axisPrefixFloat !== undefined && !changes.axisPrefixFloat.firstChange)
       ) {
         const axisFloat = this.axisPrefixFloat;
         if (this.isAxisPrefix) {
@@ -616,24 +616,24 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
 
       // #plotOption - Redraw
       if (
-        (typeof changes.isStacked !== 'undefined' && !changes.isStacked.firstChange) ||
-        (typeof changes.isGroup !== 'undefined' && !changes.isGroup.firstChange) ||
-        (typeof changes.isPointRange !== 'undefined' && !changes.isPointRange.firstChange) ||
-        (typeof changes.isGap !== 'undefined' && !changes.isGap.firstChange) ||
-        (typeof changes.isBoost !== 'undefined' && !changes.isBoost.firstChange) ||
-        (typeof changes.isAnimation !== 'undefined' && !changes.isAnimation.firstChange)
+        (changes.isStacked !== undefined && !changes.isStacked.firstChange) ||
+        (changes.isGroup !== undefined && !changes.isGroup.firstChange) ||
+        (changes.isPointRange !== undefined && !changes.isPointRange.firstChange) ||
+        (changes.isGap !== undefined && !changes.isGap.firstChange) ||
+        (changes.isBoost !== undefined && !changes.isBoost.firstChange) ||
+        (changes.isAnimation !== undefined && !changes.isAnimation.firstChange)
       ) {
-        updateOption.plotOptions = this.plotOptionConfigure(true)['plotOptions'];
+        updateOption.plotOptions = this.plotOptionConfigure(true).plotOptions;
         redraw = true;
       }
 
-      if (typeof changes.export !== 'undefined' && !changes.export.firstChange) {
+      if (changes.export !== undefined && !changes.export.firstChange) {
         updateOption.exporting = this.exportingConfigure(changes.export.currentValue, true);
         redraw = true;
       }
 
       // #Stock
-      if (typeof changes.isRangeSelector !== 'undefined' && !changes.isRangeSelector.firstChange) {
+      if (changes.isRangeSelector !== undefined && !changes.isRangeSelector.firstChange) {
         if (!updateOption.hasOwnProperty('rangeSelector')) {
           updateOption.rangeSelector = {};
         }
@@ -642,7 +642,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         redraw = true;
       }
 
-      if (typeof changes.isRangeInput !== 'undefined' && !changes.isRangeInput.firstChange) {
+      if (changes.isRangeInput !== undefined && !changes.isRangeInput.firstChange) {
         if (!updateOption.hasOwnProperty('rangeSelector')) {
           updateOption.rangeSelector = {};
         }
@@ -651,7 +651,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         redraw = true;
       }
 
-      if (typeof changes.config !== 'undefined' && !changes.config.firstChange) {
+      if (changes.config !== undefined && !changes.config.firstChange) {
         const allKey = Object.keys(changes.config.currentValue);
         for (const key of allKey) {
           updateOption[key] = deepAssign({}, updateOption[key], changes.config.currentValue[key]);
@@ -660,8 +660,8 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       }
 
       if (
-        (typeof changes.isXScrollbar !== 'undefined' && !changes.isXScrollbar.firstChange) ||
-        (typeof changes.isYScrollbar !== 'undefined' && !changes.isYScrollbar.firstChange)
+        (changes.isXScrollbar !== undefined && !changes.isXScrollbar.firstChange) ||
+        (changes.isYScrollbar !== undefined && !changes.isYScrollbar.firstChange)
       ) {
         event.removeMouseWheel(this.chart);
 
@@ -747,14 +747,14 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     if (!update) {
       plotOption = standard;
     } else {
-      plotOption['plotOptions'][this.type] = {};
+      plotOption.plotOptions[this.type] = {};
     }
 
     if (this.isStacked) {
       plotOption = deepAssign({}, plotOption, combination);
     } else {
       if (update) {
-        plotOption['plotOptions'][this.type]['stacking'] = undefined;
+        plotOption.plotOptions[this.type].stacking = undefined;
       }
     }
 
@@ -762,44 +762,44 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       plotOption = deepAssign({}, plotOption, group);
     } else {
       if (update) {
-        plotOption['plotOptions'][this.type]['grouping'] = false;
+        plotOption.plotOptions[this.type].grouping = false;
       }
     }
 
-    if (!plotOption['plotOptions'].hasOwnProperty('series')) {
-      plotOption['plotOptions']['series'] = {};
+    if (!plotOption.plotOptions.hasOwnProperty('series')) {
+      plotOption.plotOptions.series = {};
     }
 
     if (this.isGap) {
-      plotOption['plotOptions'][this.type]['gapSize'] = this.gapSize;
-      plotOption['plotOptions'][this.type]['gapUnit'] = this.gapUnit;
+      plotOption.plotOptions[this.type].gapSize = this.gapSize;
+      plotOption.plotOptions[this.type].gapUnit = this.gapUnit;
 
-      if (plotOption['plotOptions'][this.type].hasOwnProperty('marker')) {
-        plotOption['plotOptions'][this.type]['marker']['enabled'] = true;
-        plotOption['plotOptions'][this.type]['marker']['radius'] = 2;
+      if (plotOption.plotOptions[this.type].hasOwnProperty('marker')) {
+        plotOption.plotOptions[this.type].marker.enabled = true;
+        plotOption.plotOptions[this.type].marker.radius = 2;
       }
     } else {
       if (update) {
-        plotOption['plotOptions'][this.type]['gapSize'] = 0;
-        plotOption['plotOptions'][this.type]['gapUnit'] = 'relative';
+        plotOption.plotOptions[this.type].gapSize = 0;
+        plotOption.plotOptions[this.type].gapUnit = 'relative';
       }
     }
 
     if (this.isPointRange) {
-      plotOption['plotOptions'][this.type]['pointRange'] = this.pointRange;
+      plotOption.plotOptions[this.type].pointRange = this.pointRange;
     } else {
       if (update) {
-        plotOption['plotOptions'][this.type]['pointRange'] = null;
+        plotOption.plotOptions[this.type].pointRange = null;
       }
     }
 
     if (!this.isAnimation) {
-      plotOption['plotOptions']['series']['animation'] = false;
+      plotOption.plotOptions.series.animation = false;
     } else {
       if (update) {
-        // plotOption['chart']={}
-        // plotOption['chart']['animation'] = this.isAnimation;
-        plotOption['plotOptions']['series']['animation'] = this.isAnimation;
+        // plotOption.chart={}
+        // plotOption.chart.animation = this.isAnimation;
+        plotOption.plotOptions.series.animation = this.isAnimation;
       }
     }
 
@@ -813,12 +813,12 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     }
 
     if (this.isBoost) {
-      plotOption['plotOptions']['series']['animation'] = false;
-      plotOption['plotOptions']['series']['turboThreshold'] = Number.MAX_VALUE;
+      plotOption.plotOptions.series.animation = false;
+      plotOption.plotOptions.series.turboThreshold = Number.MAX_VALUE;
       // Set the point threshold for when a series should enter boost mode.
-      plotOption['plotOptions']['series']['boostThreshold'] = 30000;
+      plotOption.plotOptions.series.boostThreshold = 30000;
       // When the series contains less points than the crop threshold, all points are drawn
-      plotOption['plotOptions']['series']['cropThreshold'] = Infinity;
+      plotOption.plotOptions.series.cropThreshold = Infinity;
     }
 
     return plotOption;
@@ -829,7 +829,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
 
     try {
       if (Highchart.hasOwnProperty('globalPXH')) {
-        this.globalPXH = Highchart['globalPXH'];
+        this.globalPXH = Highchart.globalPXH;
 
         if (!this.globalPXH.hasOwnProperty('url')) {
           this.globalPXH.url = config.url;
@@ -905,7 +905,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       }
     }
 
-    Highcharts['SVGRenderer'].prototype.symbols['cross'] = function(x, y, w, h) {
+    Highcharts.SVGRenderer.prototype.symbols.cross = function(x, y, w, h) {
       return ['M', x, y, 'L', x + w, y + h, 'M', x + w, y, 'L', x, y + h, 'z'];
     };
   }
@@ -949,42 +949,42 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
     }
 
     // Assign User Setting into Export Config
-    if (typeof exportParam !== 'undefined') {
-      if (typeof exportParam.title !== 'undefined') {
+    if (exportParam !== undefined) {
+      if (exportParam.title !== undefined) {
         standard.chartOptions.title.text = exportParam.title;
       }
 
-      if (typeof exportParam.subtitle !== 'undefined') {
+      if (exportParam.subtitle !== undefined) {
         standard.chartOptions.subtitle.text = exportParam.subtitle;
       }
 
-      if (typeof exportParam.filename !== 'undefined') {
+      if (exportParam.filename !== undefined) {
         standard.filename = `${exportParam.filename}`;
       } else {
         standard.filename = `${standard.filename}`;
       }
 
-      if (typeof exportParam.enabled !== 'undefined') {
+      if (exportParam.enabled !== undefined) {
         standard.enabled = exportParam.enabled;
       }
 
-      if (typeof exportParam.fallbackToExportServer !== 'undefined') {
+      if (exportParam.fallbackToExportServer !== undefined) {
         standard.fallbackToExportServer = exportParam.fallbackToExportServer;
       }
 
-      if (typeof exportParam.url !== 'undefined') {
+      if (exportParam.url !== undefined) {
         standard.url = exportParam.url;
       }
 
-      if (typeof exportParam.customExport !== 'undefined') {
+      if (exportParam.customExport !== undefined) {
         standard.customExport = exportParam.customExport;
       }
 
-      if (typeof exportParam.clearDefaultField !== 'undefined') {
+      if (exportParam.clearDefaultField !== undefined) {
         standard.clearDefaultField = exportParam.clearDefaultField;
       }
 
-      if (typeof exportParam.scale !== 'undefined') {
+      if (exportParam.scale !== undefined) {
         /**
          * Min:1, Max:9 Depend on your Requirement
          * scale: 3 - Great for Legend Less than 5
@@ -994,7 +994,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
 
         standard.sourceHeight = exportParam.scale * 100 + 200;
         standard.sourceWidth = exportParam.scale * 100 + 300;
-      } else if (typeof exportParam.width !== 'undefined' && typeof exportParam.height !== 'undefined') {
+      } else if (exportParam.width !== undefined && exportParam.height !== undefined) {
         standard.sourceHeight = exportParam.height;
         standard.sourceWidth = exportParam.width;
       }
@@ -1018,11 +1018,11 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         return;
       }
 
-      let xAxis: Boolean = false;
-      let yAxis: Boolean = false;
-      let zAxis: Boolean = false;
-      let rangeSelector: Boolean = false;
-      let navigator: Boolean = false;
+      let xAxis: boolean = false;
+      let yAxis: boolean = false;
+      let zAxis: boolean = false;
+      let rangeSelector: boolean = false;
+      let navigator: boolean = false;
 
       // Declare Empty Object
       if (!updateOption.hasOwnProperty('rangeSelector')) {
@@ -1042,9 +1042,9 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
       }
 
       if (this.isStock) {
-        if (typeof this.rangeSelector !== 'undefined') {
+        if (this.rangeSelector !== undefined) {
           if (this.rangeSelector.hasOwnProperty('enabled')) {
-            updateOption.rangeSelector.enabled = this.rangeSelector['enabled'];
+            updateOption.rangeSelector.enabled = this.rangeSelector.enabled;
           } else {
             updateOption.rangeSelector.enabled = rangeSelector;
           }
@@ -1052,9 +1052,9 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
           updateOption.rangeSelector.enabled = rangeSelector;
         }
 
-        if (typeof this.navigator !== 'undefined') {
+        if (this.navigator !== undefined) {
           if (this.navigator.hasOwnProperty('enabled')) {
-            updateOption.navigator.enabled = this.navigator['enabled'];
+            updateOption.navigator.enabled = this.navigator.enabled;
           } else {
             updateOption.navigator.enabled = navigator;
           }
@@ -1063,25 +1063,25 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
         }
       }
 
-      if (typeof this.xAxis !== 'undefined') {
+      if (this.xAxis !== undefined) {
         if (this.xAxis.hasOwnProperty('visible')) {
-          this.complexOptionAssignment(updateOption, 'xAxis', { visible: this.xAxis['visible'] });
+          this.complexOptionAssignment(updateOption, 'xAxis', { visible: this.xAxis.visible });
         } else {
           this.complexOptionAssignment(updateOption, 'xAxis', { visible: xAxis });
         }
       }
 
-      if (typeof this.yAxis !== 'undefined') {
+      if (this.yAxis !== undefined) {
         if (this.yAxis.hasOwnProperty('visible')) {
-          this.complexOptionAssignment(updateOption, 'yAxis', { visible: this.yAxis['visible'] });
+          this.complexOptionAssignment(updateOption, 'yAxis', { visible: this.yAxis.visible });
         } else {
           this.complexOptionAssignment(updateOption, 'yAxis', { visible: yAxis });
         }
       }
 
-      if (typeof this.zAxis !== 'undefined') {
+      if (this.zAxis !== undefined) {
         if (this.zAxis.hasOwnProperty('visible')) {
-          this.complexOptionAssignment(updateOption, 'zAxis', { visible: this.zAxis['visible'] });
+          this.complexOptionAssignment(updateOption, 'zAxis', { visible: this.zAxis.visible });
         } else {
           this.complexOptionAssignment(updateOption, 'zAxis', { visible: zAxis });
         }
@@ -1129,7 +1129,7 @@ export class PixieHighChartsComponent implements OnInit, OnChanges {
   private arrayObjectAssignment(obj, option) {
     for (const key of Object.keys(option)) {
       const value = option[key];
-      if (typeof value === 'object') {
+      if (value === 'object') {
         obj[key] = {};
         this.arrayObjectAssignment(obj[key], value);
       } else {

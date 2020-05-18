@@ -28,10 +28,10 @@ export function createBaseOpts(chartCmp, seriesCmp, pointCmp, xAxisCmp, yAxisCmp
     plotOptions: { series: { events: {}, point: { events: {} } } }
   };
 
-  chartEvents.forEach(function(eventName) {
+  chartEvents.forEach(eventName => {
     opts.chart.events[eventName] = function(event: any) {
       if (eventName === 'click') {
-        chartCmp['chartClick'].emit(new ChartEvent(event, this));
+        chartCmp.chartClick.emit(new ChartEvent(event, this));
       } else {
         chartCmp[eventName].emit(new ChartEvent(event, this));
       }
@@ -39,14 +39,14 @@ export function createBaseOpts(chartCmp, seriesCmp, pointCmp, xAxisCmp, yAxisCmp
   });
 
   if (seriesCmp) {
-    seriesEvents.forEach(function(eventName) {
+    seriesEvents.forEach(eventName => {
       opts.plotOptions.series.events[eventName] = function(event: any) {
         seriesCmp[eventName].emit(new ChartEvent(event, this));
       };
     });
   }
   if (pointCmp) {
-    pointEvents.forEach(function(eventName) {
+    pointEvents.forEach(eventName => {
       opts.plotOptions.series.point.events[eventName] =
         opts.plotOptions.series.point.events[eventName] ||
         function(event: any) {
@@ -62,7 +62,7 @@ export function createBaseOpts(chartCmp, seriesCmp, pointCmp, xAxisCmp, yAxisCmp
     }
 
     opts.colorAxis = { events: {} };
-    colorAxisEvents.forEach(function(eventName) {
+    colorAxisEvents.forEach(eventName => {
       opts.colorAxis.events[eventName] = function(event: any) {
         colorAxisCmp[eventName].emit(new ChartEvent(event, this));
       };
@@ -75,7 +75,7 @@ export function createBaseOpts(chartCmp, seriesCmp, pointCmp, xAxisCmp, yAxisCmp
     }
 
     opts.navigation = { events: {} };
-    navigationEvents.forEach(function(eventName) {
+    navigationEvents.forEach(eventName => {
       opts.navigation.events[eventName] = function(event: any) {
         navigationCmp[eventName].emit(new ChartEvent(event, this));
       };
@@ -89,7 +89,7 @@ export function createBaseOpts(chartCmp, seriesCmp, pointCmp, xAxisCmp, yAxisCmp
     }
 
     opts.xAxis = { events: {} };
-    xAxisEvents.forEach(function(eventName) {
+    xAxisEvents.forEach(eventName => {
       opts.xAxis.events[eventName] = function(event: any) {
         xAxisCmp[eventName].emit(new ChartEvent(event, this));
       };
@@ -103,7 +103,7 @@ export function createBaseOpts(chartCmp, seriesCmp, pointCmp, xAxisCmp, yAxisCmp
     }
 
     opts.yAxis = { events: {} };
-    yAxisEvents.forEach(function(eventName) {
+    yAxisEvents.forEach(eventName => {
       opts.yAxis.events[eventName] = function(event: any) {
         yAxisCmp[eventName].emit(new ChartEvent(event, this));
       };
@@ -116,7 +116,7 @@ export function createBaseOpts(chartCmp, seriesCmp, pointCmp, xAxisCmp, yAxisCmp
     }
 
     opts.zAxis = { events: {} };
-    zAxisEvents.forEach(function(eventName) {
+    zAxisEvents.forEach(eventName => {
       opts.zAxis.events[eventName] = function(event: any) {
         zAxisCmp[eventName].emit(new ChartEvent(event, this));
       };
