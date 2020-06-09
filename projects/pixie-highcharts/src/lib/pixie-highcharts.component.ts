@@ -126,7 +126,7 @@ export class PixieHighchartsComponent implements OnInit, OnChanges {
     this.initConfiguration();
     this.localeInit(localeService.getCurrentLocale());
 
-    localeService.getLocale().subscribe(d => {
+    localeService.getLocale().subscribe((d) => {
       this.localeInit(d);
     });
   }
@@ -275,7 +275,7 @@ export class PixieHighchartsComponent implements OnInit, OnChanges {
     if (this.xAxis !== undefined) {
       if (Array.isArray(this.xAxis)) {
         opts.xAxis = [];
-        this.xAxis.forEach(d => {
+        this.xAxis.forEach((d) => {
           if (!d.hasOwnProperty('title')) {
             d.title = {};
             d.title.text = null;
@@ -315,7 +315,7 @@ export class PixieHighchartsComponent implements OnInit, OnChanges {
     if (this.yAxis !== undefined) {
       if (Array.isArray(this.yAxis)) {
         opts.yAxis = [];
-        this.yAxis.forEach(d => {
+        this.yAxis.forEach((d) => {
           if (!d.hasOwnProperty('title')) {
             d.title = {};
             d.title.text = null;
@@ -325,7 +325,7 @@ export class PixieHighchartsComponent implements OnInit, OnChanges {
             if (!d.hasOwnProperty('labels')) {
               d.labels = {};
             }
-            d.labels.formatter = function() {
+            d.labels.formatter = function () {
               return prefixConversion(this.value, axisFloat);
             };
           }
@@ -339,7 +339,7 @@ export class PixieHighchartsComponent implements OnInit, OnChanges {
             opts.yAxis.labels = {};
           }
 
-          opts.yAxis.labels.formatter = function() {
+          opts.yAxis.labels.formatter = function () {
             return prefixConversion(this.value, axisFloat);
           };
         }
@@ -354,7 +354,7 @@ export class PixieHighchartsComponent implements OnInit, OnChanges {
 
       if (this.isAxisPrefix) {
         opts.yAxis.labels = {};
-        opts.yAxis.labels.formatter = function() {
+        opts.yAxis.labels.formatter = function () {
           return prefixConversion(this.value, axisFloat);
         };
       }
@@ -391,15 +391,15 @@ export class PixieHighchartsComponent implements OnInit, OnChanges {
     }
 
     if (this.isTooltipMoved) {
-      opts.tooltip.positioner = function(labelWidth, labelHeight, point) {
+      opts.tooltip.positioner = function (labelWidth, labelHeight, point) {
         const leftHalf = point.plotX < this.chart.plotWidth / 2;
         return {
           x: leftHalf ? this.chart.plotLeft + this.chart.plotWidth - labelWidth : this.chart.plotLeft,
-          y: 1
+          y: 1,
         };
       };
     } else {
-      opts.tooltip.positioner = function() {
+      opts.tooltip.positioner = function () {
         return { x: 1, y: 1 };
       };
     }
@@ -602,7 +602,7 @@ export class PixieHighchartsComponent implements OnInit, OnChanges {
         if (this.isAxisPrefix) {
           this.complexOptionAssignment(updateOption, 'yAxis', {
             labels: {
-              formatter: function() {
+              formatter: function () {
                 return prefixConversion(this.value, axisFloat);
               }
             }
@@ -905,7 +905,7 @@ export class PixieHighchartsComponent implements OnInit, OnChanges {
       }
     }
 
-    Highcharts.SVGRenderer.prototype.symbols.cross = function(x, y, w, h) {
+    Highcharts['SVGRenderer'].prototype.symbols['cross'] = function (x, y, w, h) {
       return ['M', x, y, 'L', x + w, y + h, 'M', x + w, y, 'L', x, y + h, 'z'];
     };
   }
