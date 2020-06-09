@@ -33,11 +33,7 @@ const ChartDeclaration: any[] = [
   providers: [LocaleService, HighchartsStatic]
 })
 export class PixieHighchartsModule {
-  public static forRoot(highchartsStatic: HighchartsStatic, ...highchartsModules: Array<Function>): ModuleWithProviders {
-    highchartsModules.forEach(module => {
-      module(highchartsStatic);
-    });
-
+  public static forRoot(highchartsStatic: HighchartsStatic): ModuleWithProviders {
     return {
       ngModule: PixieHighchartsModule,
       providers: [{ provide: HighchartsStatic, useValue: highchartsStatic }]

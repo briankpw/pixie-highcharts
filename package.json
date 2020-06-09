@@ -1,6 +1,6 @@
 {
   "name": "pixie-highcharts-angular",
-  "version": "0.0.0",
+  "version": "0.0.0-development",
   "description": "Pixie Highcharts is a wrapper of the highcharts and apply two-way data-binding of the option like series, tooltip, color, xAxis, yAxis, navigator, range selector, and etc. pixie-highcharts is breaking down the option into data, type, xAxis, colors, navigator, tooltips as Input and events as EventEmitter.",
   "license": "MIT",
   "scripts": {
@@ -13,10 +13,7 @@
     "pack": "npm i dist/pixie-highcharts && npm start",
     "package": "npm run build && npm run pack",
     "cover": "ng test --code-coverage",
-    "travis-deploy-once": "travis-deploy-once --pro",
-    "semantic-release": "semantic-release",
-    "semantic-release-pre": "semantic-release pre",
-    "semantic-release-post": "semantic-release post"
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
@@ -71,9 +68,9 @@
     "@angular/cli": "~8.3.26",
     "@angular/compiler-cli": "~8.2.14",
     "@angular/language-service": "~8.2.14",
-    "@types/node": "~8.9.4",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
+    "@types/node": "~8.9.4",
     "codelyzer": "^5.0.0",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
@@ -84,6 +81,7 @@
     "karma-jasmine-html-reporter": "^1.4.0",
     "ng-packagr": "^5.4.0",
     "protractor": "~5.4.0",
+    "semantic-release": "^17.0.8",
     "ts-node": "~7.0.0",
     "tsickle": "^0.37.0",
     "tslint": "~5.15.0",

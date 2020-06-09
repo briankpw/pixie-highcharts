@@ -447,19 +447,6 @@ Don't forget, You need to update @NgModule in app.module.ts
 
 Don't forget, You need to update @NgModule in app.module.ts
 
-```javascript typescript
-// File: app.module.ts
-...
-@NgModule({
-  imports: [
-    PixieHighchartsModule.forRoot(
-    require('highcharts'),
-    require('highcharts/modules/map'))
-  ]
-})
-...
-```
-
 ## Highcharts Static API
 
 ```javascript typescript

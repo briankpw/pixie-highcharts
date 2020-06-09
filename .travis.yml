@@ -14,7 +14,6 @@ script:
   - npm run cp
   - npm run build
 after_success:
-  - npm run travis-deploy-once
   - npm run semantic-release
 branches:
   except:
