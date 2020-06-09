@@ -9,7 +9,7 @@
     "build": "ng build pixie-highcharts",
     "cp": "cp README.md projects/pixie-highcharts",
     "copy": "copy README.md projects\\pixie-highcharts",
-    "publish": "npm publish lib/dist --access=public",
+    "publish": "npm publish dist/pixie-highcharts --access=public",
     "pack": "npm i dist/pixie-highcharts && npm start",
     "package": "npm run build && npm run pack",
     "cover": "ng test --code-coverage",
