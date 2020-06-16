@@ -104,12 +104,12 @@ export class PixieHighchartsComponent implements OnInit, OnChanges {
   @Output() render = new EventEmitter<ChartEvent>();
   @Output() selection = new EventEmitter<ChartEvent>();
 
-  @ContentChild(ChartSeriesComponent, { static: false }) chartSeriesComponent: ChartSeriesComponent;
-  @ContentChild(ChartXAxisComponent, { static: false }) chartXAxisComponent: ChartXAxisComponent;
-  @ContentChild(ChartYAxisComponent, { static: false }) chartYAxisComponent: ChartYAxisComponent;
-  @ContentChild(ChartZAxisComponent, { static: false }) chartZAxisComponent: ChartZAxisComponent;
-  @ContentChild(ChartColorAxisComponent, { static: false }) chartColorAxisComponent: ChartColorAxisComponent;
-  @ContentChild(ChartNavigationComponent, { static: false }) chartNavigationComponent: ChartNavigationComponent;
+  @ContentChild(ChartSeriesComponent, { static: true }) chartSeriesComponent: ChartSeriesComponent;
+  @ContentChild(ChartXAxisComponent, { static: true }) chartXAxisComponent: ChartXAxisComponent;
+  @ContentChild(ChartYAxisComponent, { static: true }) chartYAxisComponent: ChartYAxisComponent;
+  @ContentChild(ChartZAxisComponent, { static: true }) chartZAxisComponent: ChartZAxisComponent;
+  @ContentChild(ChartColorAxisComponent, { static: true }) chartColorAxisComponent: ChartColorAxisComponent;
+  @ContentChild(ChartNavigationComponent, { static: true }) chartNavigationComponent: ChartNavigationComponent;
 
   public Highcharts: any;
   public constructorType = 'chart';

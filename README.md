@@ -81,7 +81,7 @@ export class AppModule {}
 
 Let Start With Basis Hello World's Highcharts Visualization
 
-📈 [Hello World Demo](https://codesandbox.io/s/0xrm47jvw0?codemirror=1&fontsize=14)
+📈 [Hello World Demo](https://codesandbox.io/s/pixie-highchartshello-world-rhu2g)
 
 HTML
 
@@ -140,7 +140,7 @@ export class AppComponent {
 }
 ```
 
-📊 [Live Demo](https://codesandbox.io/s/jv3r0lr6k5?autoresize=1&codemirror=1&fontsize=14)
+📊 [Live Demo](https://codesandbox.io/s/pixie-highchartshighcharts-mhvuu)
 
 ## Options
 
@@ -210,7 +210,7 @@ onChartSelection (e) {
 }
 ```
 
-📊 [Live Demo](https://codesandbox.io/s/py25qzv86q?codemirror=1&fontsize=14)
+📊 [Live Demo](https://codesandbox.io/s/pixie-highchartsselection-9gjsh)
 
 ### Series Events
 
@@ -230,7 +230,7 @@ onLegendClick (e) {
 }
 ```
 
-📊 [Live Demo](https://codesandbox.io/s/01plyp30o0?autoresize=1&fontsize=14)
+📊 [Live Demo](https://codesandbox.io/s/pixie-highchartsseries-nh4fs)
 
 ### Point Events
 
@@ -245,7 +245,7 @@ Similary you can use the `point` to access to [plotOptions.series.point.events](
 <p><b>{{point}}</b> is clicked</p>
 ```
 
-📊 [Live Demo](https://codesandbox.io/s/kk650l0qyv?codemirror=1&fontsize=14)
+📊 [Live Demo](https://codesandbox.io/s/pixie-highchartspoint-lvywc)
 
 ### Axis Events
 
@@ -279,7 +279,7 @@ onAfterSetExtremesZ (e) {
 }
 ```
 
-📊 [Live Demo](https://codesandbox.io/s/vj91625085?codemirror=1&fontsize=14)
+📊 [Live Demo](https://codesandbox.io/s/pixie-highchartsaxis-kkhtz)
 
 ### ColorAxis Events
 
@@ -292,7 +292,7 @@ Similary you can use the `colorAxis` to access to [colorAxis.events](https://api
 <p><b>{{colorLegend}}</b> is clicked</p>
 ```
 
-📊 [Live Demo](https://codesandbox.io/s/qvoo281qm6?autoresize=1&fontsize=14)
+📊 [Live Demo](https://codesandbox.io/s/pixie-highchartscoloraxis-dn3rr)
 
 ### Navigation Events
 
@@ -312,7 +312,7 @@ onLoad (e) {
 }
 ```
 
-📊 [Live Demo](https://codesandbox.io/s/ryqkz1vky4?autoresize=1&fontsize=14)
+📊 [Live Demo](https://codesandbox.io/s/pixie-highchartsload-30ifj)
 
 ## Localization
 
@@ -329,7 +329,7 @@ export class Component implements OnInit {
 }
 ```
 
-Current word support for localization is `resetZoom`, `noDataAvailable`, `months[]`, `shortMonths[]`, `weekdays[]` in [Localization File](https://github.com/briankpw/pixie-highcharts/blob/master/lib/src/pixie-highcharts/lib/locale.service.ts)
+Current word support for localization is `resetZoom`, `noDataAvailable`, `months[]`, `shortMonths[]`, `weekdays[]` in [Localization File](https://github.com/briankpw/pixie-highcharts/blob/master/projects/pixie-highcharts/src/lib/util/locale.service.ts)
 
 ## Global Variable and Class for Pixie Highcharts
 
@@ -445,7 +445,7 @@ Don't forget, You need to update @NgModule in app.module.ts
 ...
 ```
 
-📊 [Live Demo](https://codesandbox.io/s/k37zjxl7nr?codemirror=1&fontsize=14)
+📊 [Live Demo](https://codesandbox.io/s/pixie-highchartsstock-40fxg)
 
 ## Highmaps
 
