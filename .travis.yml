@@ -5,17 +5,25 @@ cache:
 notifications:
   email: false
 node_js:
-  - "11"
+  - "12.16.3"
 before_install:
-  - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
+  - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > ~/.npmrc
 install:
   - npm install
 script:
   - npm run cp
   - npm run build
+before_deploy:
+  - cd dist/pixie-highcharts
 after_success:
-  - npm run travis-deploy-once
   - npm run semantic-release
+deploy:
+  provider: npm
+  email: briankpw@gmail.com
+  skip_cleanup: true
+  api_key: ${NPM_TOKEN}
+  on:
+    branch: master
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
