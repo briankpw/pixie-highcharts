@@ -8,6 +8,7 @@ node_js:
   - "12.16.3"
 before_install:
   - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > ~/.npmrc
+  - travis encrypt ${NPM_TOKEN} --add deploy.api_key
 install:
   - npm install
 script:
