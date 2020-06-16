@@ -57,7 +57,7 @@ yarn add pixie-highcharts highcharts
 
 ## Environment
 
-Minimum Software Version Requirement
+Minimum Software Version Requirement for Angular 5
 
 - node v6.16.0+
 - npm 4.6.1+
