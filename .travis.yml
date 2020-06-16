@@ -22,7 +22,7 @@ deploy:
   api_key:
     secure: ${NPM_TOKEN}
   on:
-    branch: feature
+    all_branches: true
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
