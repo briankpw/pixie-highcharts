@@ -21,6 +21,8 @@ deploy:
   skip_cleanup: true
   api_key:
     secure: ${NPM_TOKEN}
+  on:
+    branch: feature
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
