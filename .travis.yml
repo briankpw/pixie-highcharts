@@ -23,7 +23,7 @@ deploy:
   skip_cleanup: true
   api_key: ${NPM_TOKEN}
   on:
-    all_branches: true
+    branch: master
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
