@@ -10,6 +10,7 @@
 
 ## Table of Contents
 
+- [Dependencies](#dependencies)
 - [Installation](#installation)
 - [Environment](#environment)
 - [Getting started](#getting-started)
@@ -32,6 +33,13 @@
 - [Highcharts Static API](#highcharts-static-api)
 - [Contributing](#contributing)
 - [License](#license)
+
+## Dependencies
+
+| pixie-highcharts | Angular |
+| ---------------- | ------- |
+| latest           | 8.x     |
+| 1.2.1            | 5.x     |
 
 ## Installation
 

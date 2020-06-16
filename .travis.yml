@@ -13,10 +13,10 @@ install:
 script:
   - npm run cp
   - npm run build
-after_success:
-  - npm run semantic-release
 before_deploy:
   - cd dist/pixie-highcharts
+after_success:
+  - npm run semantic-release
 deploy:
   provider: npm
   email: briankpw@gmail.com
