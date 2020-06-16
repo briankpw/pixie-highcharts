@@ -7,7 +7,7 @@ notifications:
 node_js:
   - "12.16.3"
 before_install:
-  - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
+  - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > ~/.npmrc
 install:
   - npm install
 script:
