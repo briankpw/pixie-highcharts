@@ -36,10 +36,10 @@
 
 ## Dependencies
 
-| pixie-highcharts | Angular |
-| ---------------- | ------- |
-| latest           | 8.x     |
-| 1.2.1            | 5.x     |
+| pixie-highcharts | Angular         |
+| ---------------- | --------------- |
+| latest           | 8.x / 7.x / 6.x |
+| 1.2.1            | 5.x             |
 
 ## Installation
 
