@@ -30,7 +30,6 @@
   - [Title](#title)
 - [Highstock](#highstock)
 - [Highmaps](#highmaps)
-- [Highcharts Static API](#highcharts-static-api)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -67,16 +66,36 @@ Minimum Software Version Requirement for Angular 5
 
 ### Setup App @NgModule
 
-Import PixieHighchartsModule into your @NgModule in app.module.ts
+Import PixieHighchartsModule & HighchartsStatic into your @NgModule in app.module.ts
 
 ```javascript typescript
 // File: app.module.ts
-import { PixieHighchartsModule } from 'pixie-highcharts';
+import { PixieHighchartsModule, HighchartsStatic } from 'pixie-highcharts';
 
+export function highchartsFactory() {
+  const hc = require('highcharts');
+  const hs = require('highcharts/modules/stock'); // for highstock
+  const exp = require('highcharts/modules/exporting'); // for export as image & pdf
+  const expd = require('highcharts/modules/export-data'); // for export data like csv
+
+  hs(hc);
+  exp(hc);
+  expd(hc);
+
+  return hc;
+}
+
+...
 @NgModule({
-  imports: [PixieHighchartsModule.forRoot(require('highcharts'))]
+  imports: [PixieHighchartsModule],
+  providers: [
+    {
+      provide: HighchartsStatic,
+      useFactory: highchartsFactory
+    }
+  ]
 })
-export class AppModule {}
+...
 ```
 
 Let Start With Basis Hello World's Highcharts Visualization
@@ -430,20 +449,7 @@ const defaultDateTime = {
 <pixie-highcharts [isStock]="true"></pixie-highcharts>
 ```
 
-Don't forget, You need to update @NgModule in app.module.ts
-
-```javascript typescript
-// File: app.module.ts
-...
-@NgModule({
-  imports: [
-    PixieHighchartsModule.forRoot(
-    require('highcharts'),
-    require('highcharts/modules/stock'))
-  ]
-})
-...
-```
+Don't forget, You need to include Highstock at @NgModule in app.module.ts
 
 📊 [Live Demo](https://codesandbox.io/s/pixie-highchartsstock-40fxg)
 
@@ -453,39 +459,8 @@ Don't forget, You need to update @NgModule in app.module.ts
 <pixie-highcharts [isMap]="true"></pixie-highcharts>
 ```
 
-Don't forget, You need to update @NgModule in app.module.ts
+Don't forget, You need to include Highmaps at @NgModule in app.module.ts
 
-## Highcharts Static API
-
-```javascript typescript
-import { PixieHighchartsModule, HighchartsStatic } from 'pixie-highcharts';
-
-...
-export function highchartsFactory() {
-  const hc = require('highcharts');
-  const hs = require('highcharts/modules/stock');
-  const exp = require('highcharts/modules/exporting');
-  const expd = require('highcharts/modules/export-data');
-
-  hs(hc);
-  exp(hc);
-  expd(hc);
-
-  return hc;
-}
-
-...
-@NgModule({
-  imports: [PixieHighchartsModule],
-  providers: [
-    {
-      provide: HighchartsStatic,
-      useFactory: highchartsFactory
-    }
-  ]
-})
-...
-```
 
 ## Contributing
 
