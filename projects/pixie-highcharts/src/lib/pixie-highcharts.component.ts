@@ -395,7 +395,7 @@ export class PixieHighchartsComponent implements OnInit, OnChanges {
         const leftHalf = point.plotX < this.chart.plotWidth / 2;
         return {
           x: leftHalf ? this.chart.plotLeft + this.chart.plotWidth - labelWidth : this.chart.plotLeft,
-          y: 1,
+          y: 1
         };
       };
     } else {
@@ -930,6 +930,7 @@ export class PixieHighchartsComponent implements OnInit, OnChanges {
       enabled: this.globalPXH.export.enabled,
       customExport: false,
       clearDefaultField: false,
+      args: this.globalPXH.export.args,
       fallbackToExportServer: this.globalPXH.export.fallbackToExportServer,
       sourceHeight: this.globalPXH.export.height,
       sourceWidth: this.globalPXH.export.width,
@@ -982,6 +983,10 @@ export class PixieHighchartsComponent implements OnInit, OnChanges {
 
       if (exportParam.clearDefaultField !== undefined) {
         standard.clearDefaultField = exportParam.clearDefaultField;
+      }
+
+      if (exportParam.args !== undefined) {
+        standard.args = exportParam.args;
       }
 
       if (exportParam.scale !== undefined) {

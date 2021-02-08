@@ -15,8 +15,10 @@ export interface Export {
 
   enabled?: boolean;
   fallbackToExportServer?: boolean;
+  // For Custom Export
   customExport?: boolean;
   clearDefaultField?: boolean;
+  args?: boolean;
 }
 
 export interface GlobalPXH {
