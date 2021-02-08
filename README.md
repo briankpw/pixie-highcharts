@@ -435,6 +435,7 @@ const defaultDateTime = {
 | fallbackToExportServer | Boolean | True          | T-Fallback to export server if offline exporting failure                               |
 | customExport           | Boolean | False         | Flag for custom Highcharts event, function, any (Custom Script)                        |
 | clearDefaultField      | Boolean | False         | Flag for clear default series rows/columns data (Custom Script)                        |
+| args                   |   Any   |               | Any value for custom exporting                                                         |
 
 ### Title
 
@@ -460,7 +461,6 @@ Don't forget, You need to include Highstock at @NgModule in app.module.ts
 ```
 
 Don't forget, You need to include Highmaps at @NgModule in app.module.ts
-
 
 ## Contributing
 
